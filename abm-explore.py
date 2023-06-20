@@ -185,8 +185,8 @@ model.step()
 report(model)
 model.update()
 report(model)
-
 results = model.run()
+
 def report(model):
     for community in model.communities:
         print(community, community.preferences, community.current_utility, community.platform, community.platform.policies, community.strategy)
