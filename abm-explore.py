@@ -179,6 +179,7 @@ parameters = {
 
 model = MiniTiebout(parameters)
 model.setup()
+model.update()
 results = model.run()
 list(model.network.nodes)[0].attribute = "test"
 list(model.network.nodes)[0].attribute
