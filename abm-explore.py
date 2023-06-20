@@ -123,7 +123,7 @@ class MiniTiebout(ap.Model):
     def satisfied(self):
         """ check state of communities for equlibrium """
         for community in self.communities:
-            if community.strategy != 'move':
+            if community.strategy == 'move':
                 return False
         return True
 
@@ -133,9 +133,24 @@ class MiniTiebout(ap.Model):
         for community in self.communities:
             community.update_utility()
             community.set_strategy()
+
+        # record community strategies, utilities, and platforms
+        for community in self.communities:
+            # location
+            self.record(f'{"loc_com"}{community.id}', 
+                community.platform)
+            # strategy
+            self.record(f'{"strat_com"}{community.id}',
+                community.strategy)
+            # utility
+            self.record(f'{"util_com"}{community.id}',
+                community.current_utility)
+        
+        # check if every community is happy
         if self.satisfied():
             self.stop()
-
+        
+        
 #         # Record share of agents with each condition
 #         for i, c in enumerate(('S', 'I', 'R')):
 #             n_agents = len(self.agents.select(self.agents.condition == i))
@@ -161,35 +176,32 @@ class MiniTiebout(ap.Model):
                 community.join_platform(platform)
                 platform.add_community(community)
 
-
-    def end(self):
-        """ Record evaluation measures at the end of the simulation. """
-        pass
-
 #         # Record final evaluation measures
 #         self.report('Total share infected', self.I + self.R)
 #         self.report('Peak share infected', max(self.log['I']))
 
 parameters = {
-    'n_comms': 10,
-    'n_plats': 2,
-    'p_space': 5,
-    'steps':20
+    'n_comms': 10000,
+    'n_plats': 100,
+    'p_space': 10,
+    'steps':50
 }
 
 model = MiniTiebout(parameters)
-model.setup()
-model.update()
-report(model)
-model.step()
-report(model)
-model.update()
-report(model)
 results = model.run()
+report(model)
 
-def report(model):
-    for community in model.communities:
-        print(community, community.preferences, community.current_utility, community.platform, community.platform.policies, community.strategy)
+# model.setup()
+# model.update()
+# report(model)
+# model.step()
+# report(model)
+# model.update()
+# report(model)
+
+# def report(model):
+#     for community in model.communities:
+#         print(community, community.preferences, community.current_utility, community.platform, community.platform.policies, community.strategy)
 
 # def animation_plot(m, axs):
 #     ax1, ax2 = axs
