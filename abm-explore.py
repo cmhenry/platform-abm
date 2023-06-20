@@ -27,7 +27,7 @@ class Community(ap.Agent):
         self.preferences = [random.choice([0, 1]) for _ in range(self.p.p_space)]
         # set initial vars
         self.current_utility = 0
-        self.platform = {}
+        self.platform = ''
         self.strategy = ''
 
     def utility(self,platform):
@@ -45,7 +45,7 @@ class Community(ap.Agent):
     
     def join_platform(self, platform):
         """ join a platform """
-        self.platform['platform'] = platform
+        self.platform = platform
     
     def find_new_platform(self):
         """ find candidate platforms """
@@ -54,7 +54,6 @@ class Community(ap.Agent):
             if self.utility(platform) > self.current_utility:
                 candidates.append(platform)
         return(candidates)
-
     
     def set_strategy(self):
         """ compare utilities and pick new platform """
@@ -62,6 +61,7 @@ class Community(ap.Agent):
         for platform in self.model.platforms:
             if self.utility(platform) > self.current_utility:
                 self.strategy = 'move'
+                return
             else:
                 self.strategy = 'stay'
 
@@ -174,14 +174,22 @@ parameters = {
     'n_comms': 10,
     'n_plats': 2,
     'p_space': 5,
-    'steps':10
+    'steps':20
 }
 
 model = MiniTiebout(parameters)
 model.setup()
+model.update()
+report(model)
+model.step()
+report(model)
+model.update()
+report(model)
+
 results = model.run()
-list(model.network.nodes)[0].attribute = "test"
-list(model.network.nodes)[0].attribute
+def report(model):
+    for community in model.communities:
+        print(community, community.preferences, community.current_utility, community.platform, community.platform.policies, community.strategy)
 
 # def animation_plot(m, axs):
 #     ax1, ax2 = axs
