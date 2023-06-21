@@ -24,7 +24,10 @@ class Community(ap.Agent):
     def setup(self):
         """ Initialize a new variable at agent creation. """
         # set preferences
-        self.preferences = [random.choice([0, 1]) for _ in range(self.p.p_space)]
+        if self.p.p_type == 'binary':
+            self.preferences = [random.choice([0, 1]) for _ in range(self.p.p_space)]
+        elif self.p.p_type == 'non-binary':
+            self.preferences = random.randrange(self.p.p_space)
         # set initial vars
         self.current_utility = 0
         self.platform = ''
@@ -33,10 +36,12 @@ class Community(ap.Agent):
     def utility(self,platform):
         """ calculate utility over a given platform from utility fn """
         # basic utility function, no sub-game
-        if len(self.preferences) != len(platform.policies):
-            raise ValueError("agent must have complete preferences over vector of platform policies")
-
-        utility = sum(pref == pol for pref,pol in zip(self.preferences, platform.policies))
+        if self.p.p_type == 'binary':
+            if len(self.preferences) != len(platform.policies):
+                raise ValueError("agent must have complete preferences over vector of platform policies")
+            utility = sum(pref == pol for pref,pol in zip(self.preferences, platform.policies))
+        elif self.p.p_type == 'non-binary':
+            utility = -np.square(self.preferences - platform.policies)
         return(utility)
 
     def update_utility(self):
@@ -73,7 +78,10 @@ class Platform(ap.Agent):
     def setup(self):
         """ initialize new variables at platform creation. """
         # set preferences
-        self.policies = [random.choice([0, 1]) for _ in range(self.p.p_space)]
+        if self.p.p_type == 'binary':
+            self.policies = [random.choice([0, 1]) for _ in range(self.p.p_space)]
+        elif self.p.p_type == 'non-binary':
+            self.policies = random.randrange(self.p.p_space)
         self.communities = []
         self.community_utilites = {}
     
@@ -184,12 +192,13 @@ parameters = {
     'n_comms': 10000,
     'n_plats': 100,
     'p_space': 10,
+    'p_type': 'non-binary',
     'steps':50
 }
 
 model = MiniTiebout(parameters)
 results = model.run()
-report(model)
+results
 
 # model.setup()
 # model.update()
