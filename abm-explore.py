@@ -83,7 +83,7 @@ class Platform(ap.Agent):
         elif self.p.p_type == 'non-binary':
             self.policies = random.randrange(self.p.p_space)
         self.communities = []
-        self.community_utilites = {}
+        self.ls_utilities = {}
     
     def add_community(self, community):
         """ add community to platform """
@@ -96,7 +96,7 @@ class Platform(ap.Agent):
     def community_utilities(self):
         """ obtain utilities for attached communities """
         for community in self.communities:
-            self.community_utilities[community.id] = community.utility(self)
+            self.ls_utilities[community.id] = community.utility(self)
         
 
 class MiniTiebout(ap.Model):
@@ -143,6 +143,13 @@ class MiniTiebout(ap.Model):
             community.set_strategy()
 
         # record community strategies, utilities, and platforms
+        for platform in self.platforms:
+            # average utility
+            platform.community_utilities()
+            avg_utility = sum(platform.ls_utilities) / len(platform.ls_utilities)
+            self.record(f'{"avg_util"}{platform.id}', 
+                avg_utility)
+
         for community in self.communities:
             # location
             self.record(f'{"loc_com"}{community.id}', 
@@ -198,8 +205,19 @@ parameters = {
 
 model = MiniTiebout(parameters)
 results = model.run()
-results
+results.variables.MiniTiebout
 
+def stackplot(data, ax):
+    """ stackplot of average utility by platform """
+
+
+def animation_plot(model, axs):
+    axs.set_title("average utility")
+
+    stackplot()
+
+fig, axs = plt.subplots(1, figsize=(8,8))
+animation = ap.animate(MiniTiebout(parameters), fig, axs, animation_plot)
 # model.setup()
 # model.update()
 # report(model)
