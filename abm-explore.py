@@ -146,7 +146,7 @@ class MiniTiebout(ap.Model):
         for platform in self.platforms:
             # average utility
             platform.community_utilities()
-            avg_utility = sum(platform.ls_utilities) / len(platform.ls_utilities)
+            avg_utility = sum(platform.ls_utilities.values()) / float(len(platform.ls_utilities))
             self.record(f'{"avg_util"}{platform.id}', 
                 avg_utility)
 
@@ -204,12 +204,13 @@ parameters = {
 }
 
 model = MiniTiebout(parameters)
+model.setup()
 results = model.run()
 results.variables.MiniTiebout
 
 def stackplot(data, ax):
     """ stackplot of average utility by platform """
-
+    
 
 def animation_plot(model, axs):
     axs.set_title("average utility")
