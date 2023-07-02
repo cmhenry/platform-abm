@@ -17,7 +17,24 @@ import random
 # import seaborn as sns
 # import IPython
 
+'''
+TIEBOUT CYCLE
+1. setup model: assign preferences, policies, communities to platforms
+2. communities: calculate utility, set strategies, gather platform candidates
+3. communities: relocate/stay
+4. platforms: aggregate preferences and recalibrate policies
+5. repeat 2-4 until communities exhaust strategies
+'''
+
+# to dos:
+# platform preference aggregation scheme
+
 class Community(ap.Agent):
+    '''
+    community characteristics:
+        preferences (binary [0,1,...] or continuous range(parameter p_space))
+        utility function -(community pref - platform policy)^2
+    '''
     
     kind = 'community'
 
@@ -72,17 +89,24 @@ class Community(ap.Agent):
 
 
 class Platform(ap.Agent):
+    '''
+    platform characteristics:
+        policies
+        communities
+    '''
     
     kind = 'platform'
     
     def setup(self):
         """ initialize new variables at platform creation. """
-        # set preferences
+        # set policies
         if self.p.p_type == 'binary':
             self.policies = [random.choice([0, 1]) for _ in range(self.p.p_space)]
         elif self.p.p_type == 'non-binary':
             self.policies = random.randrange(self.p.p_space)
+
         self.communities = []
+        self.community_preferences = []
         self.ls_utilities = {}
     
     def add_community(self, community):
@@ -97,6 +121,63 @@ class Platform(ap.Agent):
         """ obtain utilities for attached communities """
         for community in self.communities:
             self.ls_utilities[community.id] = community.utility(self)
+    
+    def aggregate_preferences(self):
+        """ build an array of community preferences """
+        for community in self.communities:
+            self.community_preferences.append(community.preferences)
+
+    def direct_vote(self):
+        """ survey communities and aggregate preferences with direct votes """
+
+        self.aggregate_preferences()
+
+        aggregated_votes = []
+        num_policies = len(self.policies)
+        num_communities = len(self.communities)
+
+        for i in range(num_policies):
+            votes = 0
+
+            for j in range(num_communities):
+
+                if self.policies[i] == self.community_preferences[j][i]:
+                    votes += 1
+
+            aggregated_votes.append(votes)
+
+        return aggregated_votes
+
+    def indirect_vote(self):
+        """ survey communities and aggregate preferences with indirect votes """
+
+        self.aggregate_preferences()
+
+
+
+
+    def election(self):
+        """ election mechanism """
+
+        if(self.p.institution == 'direct'):
+            ## gather votes
+            votes = self.direct_vote()
+
+            ## set threshold
+            threshold = np.ceil(len(self.communities))
+            num_policies = len(self.policies)
+
+            ## count votes
+            for i in range(num_policies):
+                if self.votes[i] < threshold:
+                    ## invert policy if it's below the threshold
+                    self.policies[i] = self.polices[i] ^ 1
+
+        if(self.p.institution == 'platform'):
+            ## gather votes
+            votes = self.indirect_vote()
+
+
         
 
 class MiniTiebout(ap.Model):
@@ -164,21 +245,6 @@ class MiniTiebout(ap.Model):
         # check if every community is happy
         if self.satisfied():
             self.stop()
-        
-        
-#         # Record share of agents with each condition
-#         for i, c in enumerate(('S', 'I', 'R')):
-#             n_agents = len(self.agents.select(self.agents.condition == i))
-#             self[c] = n_agents / self.p.population
-#             self.record(c)
-
-#         # Stop simulation if disease is gone
-#         if self.I == 0:
-#             self.stop()
-    
-    # def get_agent(self, agent_node):
-    #     agent = list(agent_node)[0]
-    #     return agent
                 
     def step(self):
         """ Define the models' events per simulation step. """
@@ -191,20 +257,22 @@ class MiniTiebout(ap.Model):
                 community.join_platform(platform)
                 platform.add_community(community)
 
-#         # Record final evaluation measures
-#         self.report('Total share infected', self.I + self.R)
-#         self.report('Peak share infected', max(self.log['I']))
+
 
 parameters = {
-    'n_comms': 10000,
+    'n_comms': 1000,
     'n_plats': 100,
     'p_space': 10,
-    'p_type': 'non-binary',
+    'p_type': 'binary',
     'steps':50
 }
 
 model = MiniTiebout(parameters)
 model.setup()
+
+ptest = model.platforms[0]
+ptest.aggregate_preferences()
+
 results = model.run()
 results.variables.MiniTiebout
 
