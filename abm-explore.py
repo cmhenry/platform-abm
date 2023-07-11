@@ -93,6 +93,7 @@ class Platform(ap.Agent):
     platform characteristics:
         policies
         communities
+        preference aggregation mechanisms
     '''
     
     kind = 'platform'
@@ -148,12 +149,10 @@ class Platform(ap.Agent):
 
         return aggregated_votes
 
-    def indirect_vote(self):
-        """ survey communities and aggregate preferences with indirect votes """
+    def movement_formation(self):
+        """ survey communities, construct movements, aggregate preferences """
 
-        self.aggregate_preferences()
-
-
+        
 
 
     def election(self):
@@ -287,6 +286,15 @@ def animation_plot(model, axs):
 
 fig, axs = plt.subplots(1, figsize=(8,8))
 animation = ap.animate(MiniTiebout(parameters), fig, axs, animation_plot)
+
+T = np.array([
+  [[1,2,3],    [4,5,6],    [7,8,9]],
+  [[11,12,13], [14,15,16], [17,18,19]],
+  [[21,22,23], [24,25,26], [27,28,29]],
+  ])
+print(T.shape)
+print(T)
+
 # model.setup()
 # model.update()
 # report(model)
