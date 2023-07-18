@@ -152,6 +152,21 @@ class Platform(ap.Agent):
     def movement_formation(self):
         """ survey communities, construct movements, aggregate preferences """
 
+        model.setup()
+        testPlatform = model.platforms[0]
+        testPlatform.aggregate_preferences()
+        testPlatform.community_preferences
+
+        testComm = testPlatform.communities[0]
+
+        # generate random movements
+        movement = [random.choice([0, 1]) for _ in range(model.p.p_space)]
+
+        # compute fitness
+        fitness = sum(pref == pol for pref,pol in zip(testComm.preferences, movement))
+
+        # hill cimb
+        
         
 
 
