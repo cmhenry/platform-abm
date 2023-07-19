@@ -128,13 +128,13 @@ class Platform(ap.Agent):
         for community in self.communities:
             self.community_preferences.append(community.preferences)
 
-    def direct_vote(self):
+    def direct_vote(self, policies):
         """ survey communities and aggregate preferences with direct votes """
 
         self.aggregate_preferences()
 
         aggregated_votes = []
-        num_policies = len(self.policies)
+        num_policies = len(policies)
         num_communities = len(self.communities)
 
         for i in range(num_policies):
@@ -142,32 +142,62 @@ class Platform(ap.Agent):
 
             for j in range(num_communities):
 
-                if self.policies[i] == self.community_preferences[j][i]:
+                if policies[i] == self.community_preferences[j][i]:
                     votes += 1
 
             aggregated_votes.append(votes)
 
         return aggregated_votes
 
-    def movement_formation(self):
-        """ survey communities, construct movements, aggregate preferences """
+    def create_coalitions(self):
+        """ initiate coalitions """
 
-        model.setup()
-        testPlatform = model.platforms[0]
-        testPlatform.aggregate_preferences()
-        testPlatform.community_preferences
+        # generate random coalitions
+        self.coalitions = []
+        for _ in range(self.p.coalitions):
+            self.coalitions.append([random.choice([0, 1]) for _ in range(self.p.p_space)])
 
-        testComm = testPlatform.communities[0]
+    def update_coalitions(self):
+        """ survey communities, hill climb to find new coalitions """
 
-        # generate random movements
-        movement = [random.choice([0, 1]) for _ in range(model.p.p_space)]
+        # self-catch for empty coalitions
+        if not self.coalitions:
+            print("ERROR: coalitions not initiated")
+            return
 
-        # compute fitness
-        fitness = sum(pref == pol for pref,pol in zip(testComm.preferences, movement))
+        # perturb coalition
+        for i in range(len(self.coalitions)):
+            self.coalitions[i] = self.perturb_coalition(self.coalitions[i])
 
-        # hill cimb
-        
-        
+    def perturb_coalition(self, coalition):
+        # iterations paramater = self.p.search_steps
+        # perturbations parameter = self.p.perturbations
+
+        # assess initial fitness
+        fitness = self.direct_vote(coalition)
+
+        for i in range(self.p.search_steps):
+            # create new coalition
+            new_coalition = coalition
+
+            # randomly select variables to flip
+            variables_to_flip = np.random.choice(new_coalition, 
+                                                 self.p.perturbations, 
+                                                 replace = False)
+
+            # flip variables inline
+            new_coalition = [new_coalition[index] ^ 1 if index in variables_to_flip 
+                else value for index, value in enumerate(new_coalition) ]
+
+            # assess fitness
+            new_fitness = self.direct_vote(new_coalition)
+
+            # determine new coalition
+            if new_fitness > fitness:
+                coalition = new_coalition
+
+        # return new coalition after iterations
+        return coalition     
 
 
     def election(self):
@@ -175,7 +205,7 @@ class Platform(ap.Agent):
 
         if(self.p.institution == 'direct'):
             ## gather votes
-            votes = self.direct_vote()
+            votes = self.direct_vote(self.policies)
 
             ## set threshold
             threshold = np.ceil(len(self.communities))
@@ -187,9 +217,23 @@ class Platform(ap.Agent):
                     ## invert policy if it's below the threshold
                     self.policies[i] = self.polices[i] ^ 1
 
-        if(self.p.institution == 'platform'):
+        if(self.p.institution == 'movement'):
+            ## generate coaltions
+            self.create_coalitions()
+
+            ## adapt coaltions
+            self.update_coalitions()
+
             ## gather votes
-            votes = self.indirect_vote()
+            votes = []
+            for i in range(len(self.coalitions)):
+                votes.append(self.direct_vote(self.coalitions[i]))
+
+            test = model.platforms[0]
+            test.direct_vote()
+            test.direct_vote(test.policies)
+
+
 
 
         
