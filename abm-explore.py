@@ -1,11 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # exploring tiebout abm with python agentpy
-
-# In[51]:
-
-
 # Model design
 import agentpy as ap
 import networkx as nx
@@ -36,7 +31,7 @@ class Community(ap.Agent):
         utility function -(community pref - platform policy)^2
     '''
     
-    kind = 'community'
+    _kind = 'community'
 
     def setup(self):
         """ Initialize a new variable at agent creation. """
@@ -96,7 +91,7 @@ class Platform(ap.Agent):
         preference aggregation mechanisms
     '''
     
-    kind = 'platform'
+    _kind = 'platform'
     
     def setup(self):
         """ initialize new variables at platform creation. """
@@ -127,6 +122,34 @@ class Platform(ap.Agent):
         """ build an array of community preferences """
         for community in self.communities:
             self.community_preferences.append(community.preferences)
+
+    def direct_poll(self, policies):
+        """ poll individual policies """
+
+        num_policies = len(p.policies)
+        num_communities = len(p.communities)
+
+        p = model.platforms[0]
+        p.aggregate_preferences()
+
+        # generate empty array to assign community prefs
+        cp = np.zeros(shape=(num_policies,num_communities))
+
+        # assign community prefs in array
+        for idx,community in enumerate(p.communities):
+            cp[idx] = community.preferences
+
+        # generate empty list for votes
+        votes = [0] * num_policies
+
+        # compile votes
+        for col_idx in range(num_policies):
+            votes[col_idx] = np.sum(cp[:, col_idx] == 0)
+
+        # return utlity of community to platform
+        c = p.communities[0]
+        c.utility(p) ### TODO: revise utility function to respond to platform policy list, not platform object
+        c.utility(p.policies)
 
     def direct_vote(self, policies):
         """ survey communities and aggregate preferences with direct votes """
@@ -232,10 +255,6 @@ class Platform(ap.Agent):
             test = model.platforms[0]
             test.direct_vote()
             test.direct_vote(test.policies)
-
-
-
-
         
 
 class MiniTiebout(ap.Model):
