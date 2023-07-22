@@ -133,7 +133,7 @@ class Platform(ap.Agent):
         p.aggregate_preferences()
 
         # generate empty array to assign community prefs
-        cp = np.zeros(shape=(num_policies,num_communities))
+        cp = np.zeros(shape=(num_communities,num_policies))
 
         # assign community prefs in array
         for idx,community in enumerate(p.communities):
@@ -145,6 +145,8 @@ class Platform(ap.Agent):
         # compile votes
         for col_idx in range(num_policies):
             votes[col_idx] = np.sum(cp[:, col_idx] == 0)
+        
+        
 
         # return utlity of community to platform
         c = p.communities[0]
