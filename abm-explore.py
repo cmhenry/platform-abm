@@ -184,13 +184,19 @@ class Platform(ap.Agent):
 
         # generate random coalitions
         self.coalitions = []
-        for _ in range(self.p.coalitions):
+        for i in range(self.p.coalitions):
             self.coalitions.append([random.choice([0, 1]) for _ in range(self.p.p_space)])
             
         self.community_preferences = np.zeros(shape=(len(self.communities),len(self.policies)))
         
         for idx,community in enumerate(self.communities):
             self.community_preferences[idx] = community.preferences
+
+        test = model.platforms[0]
+
+        test.coalitions=[]
+        for i in range(3):
+            test.coalitions.append([np.random.choice([0,1]) for _ in range(10)])
 
     def update_coalitions(self):
         """ survey communities, hill climb to find new coalitions """
