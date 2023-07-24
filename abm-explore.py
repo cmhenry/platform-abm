@@ -3,9 +3,10 @@
 
 # Model design
 import agentpy as ap
-import networkx as nx
+# import networkx as nx
 import numpy as np
 import random
+from collections import Counter
 
 # Visualization
 # import matplotlib.pyplot as plt
@@ -146,7 +147,7 @@ class Platform(ap.Agent):
         """ initiate coalitions """
 
         # generate random coalitions
-        self.coalitions=np.zeros(shape=(3,10))
+        self.coalitions=np.zeros(shape=(self.p.coalitions,self.p.p_space))
         for idx, coalition in enumerate(self.coalitions):
             self.coalitions[idx] = [np.random.choice([0,1]) for _ in range(self.p.p_space)]
     
@@ -167,12 +168,13 @@ class Platform(ap.Agent):
     def coalition_mutate(self, coalition):
         # iterations paramater = self.p.search_steps
         # perturbations parameter = self.p.perturbations
+        p = model.platforms[0]
 
         # aggregate preferences
         self.aggregate_preferences()
 
         # assess initial fitness
-        fitness = self.fitness(coalition)
+        fitness = self.fitness(coalition)\
 
         for i in range(self.p.search_steps):
             # create new coalition
@@ -180,8 +182,8 @@ class Platform(ap.Agent):
 
             # randomly select variables to flip
             variables_to_flip = np.random.choice(new_coalition, 
-                                                 self.p.perturbations, 
-                                                 replace = False)
+                                                 self.p.mutations, 
+                                                 replace = False)\
 
             # flip variables inline
             new_coalition = [new_coalition[index] ^ 1 if index in variables_to_flip 
@@ -200,8 +202,8 @@ class Platform(ap.Agent):
     def coalition_poll(self):
         """ gather coalition votes """
         
-        communities = p.communities
-        coalitions = p.coalitions
+        communities = self.communities
+        coalitions = self.coalitions
         
         votes = []
         
@@ -211,12 +213,13 @@ class Platform(ap.Agent):
             
             for idx, coalition in enumerate(coalitions):
                 utility = sum(community.preferences == coalition)
-                # utility = community.utility(coalition)
                 if utility < min_utility:
                     min_utility = utility
                     vote_index = idx
                     
             votes.append(vote_index)
+        
+        return(votes)
                                       
 
     def election(self):
@@ -239,20 +242,19 @@ class Platform(ap.Agent):
         if(self.p.institution == 'coalition'):
             ## generate coaltions
             self.create_coalitions()
-
+            
             ## adapt coaltions
             for coalition in self.coalitions:
                 coalition = self.coalition_mutate(coalition)
 
             ## gather votes
-            votes = []
-            for i in range(len(self.coalitions)):
-                votes.append(self.direct_vote(self.coalitions[i]))
+            votes = self.coalition_poll()
+            
+            ## count votes and reset policy
+            count = Counter(votes)
+            winners = [item for item, freq in count.items() if freq == max(count.values())]
+            self.policies = random.choice(winners)
 
-            test = model.platforms[0]
-            test.direct_vote()
-            test.direct_vote(test.policies)
-        
 
 class MiniTiebout(ap.Model):
 
@@ -338,100 +340,15 @@ parameters = {
     'n_plats': 100,
     'p_space': 10,
     'p_type': 'binary',
-    'steps':50
+    'steps':50,
+    'institution': 'coalition',
+    'coalitions': 3,
+    'mutations': 2,
+    'search_steps': 10
 }
 
 model = MiniTiebout(parameters)
 model.setup()
 
-ptest = model.platforms[0]
-ptest.aggregate_preferences()
-
-results = model.run()
-results.variables.MiniTiebout
-
-def stackplot(data, ax):
-    """ stackplot of average utility by platform """
-    
-
-def animation_plot(model, axs):
-    axs.set_title("average utility")
-
-    stackplot()
-
-fig, axs = plt.subplots(1, figsize=(8,8))
-animation = ap.animate(MiniTiebout(parameters), fig, axs, animation_plot)
-
-T = np.array([
-  [[1,2,3],    [4,5,6],    [7,8,9]],
-  [[11,12,13], [14,15,16], [17,18,19]],
-  [[21,22,23], [24,25,26], [27,28,29]],
-  ])
-print(T.shape)
-print(T)
-
-# model.setup()
-# model.update()
-# report(model)
-# model.step()
-# report(model)
-# model.update()
-# report(model)
-
-# def report(model):
-#     for community in model.communities:
-#         print(community, community.preferences, community.current_utility, community.platform, community.platform.policies, community.strategy)
-
-# def animation_plot(m, axs):
-#     ax1, ax2 = axs
-#     ax1.set_title("Virus spread")
-#     ax2.set_title(f"Share infected: {m.I}")
-
-#     # Plot stackplot on first axis
-#     virus_stackplot(m.output.variables.VirusModel, ax1)
-#     color_dict = {0:'b', 1:'r', 2:'g'}
-#     colors = [color_dict[c] for c in m.agents.condition]
-#     nx.draw_circular(m.network.graph, node_color=colors,
-#                      node_size=50)
-
-# fig, axs = plt.subplots(1, 2, figsize=(8, 4)) # Prepare figure
-# animation = ap.animate(VirusModel(parameters), fig, axs, animation_plot)
-
-# def virus_stackplot(data, ax):
-#     """ Stackplot of people's condition over time. """
-#     x = data.index.get_level_values('t')
-#     y = [data[var] for var in ['I', 'S', 'R']]
-
-#     sns.set()
-#     ax.stackplot(x, y, labels=['Infected', 'Susceptible', 'Recovered'],
-#                  colors = ['r', 'b', 'g'])
-
-#     ax.legend()
-#     ax.set_xlim(0, max(1, len(x)-1))
-#     ax.set_ylim(0, 1)
-#     ax.set_xlabel("Time steps")
-#     ax.set_ylabel("Percentage of population")
-
-# fig, ax = plt.subplots()
-# virus_stackplot(results.variables.VirusModel, ax)
-
-# def animation_plot(m, axs):
-#     ax1, ax2 = axs
-#     ax1.set_title("Virus spread")
-#     ax2.set_title(f"Share infected: {m.I}")
-
-#     # Plot stackplot on first axis
-#     virus_stackplot(m.output.variables.VirusModel, ax1)
-
-#     # Plot network on second axis
-#     color_dict = {0:'b', 1:'r', 2:'g'}
-#     colors = [color_dict[c] for c in m.agents.condition]
-#     nx.draw_circular(m.network.graph, node_color=colors,
-#                      node_size=50, ax=ax2)
-
-# fig, axs = plt.subplots(1, 2, figsize=(8, 4)) # Prepare figure
-# parameters['population'] = 50 # Lower population for better visibility
-# animation = ap.animate(VirusModel(parameters), fig, axs, animation_plot)
-
-# IPython.display.HTML(animation.to_jshtml())
-
+model.platforms[0].policies
+model.platforms[0].election()
