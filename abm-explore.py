@@ -370,4 +370,4 @@ sample = ap.Sample(
 )
 
 exp = ap.Experiment(MiniTiebout, sample, iterations=10)
-results = exp.run()
+results = exp.run(n_jobs = -1, verbose=10)
