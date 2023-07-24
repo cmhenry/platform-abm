@@ -69,7 +69,7 @@ class Community(ap.Agent):
         """ find candidate platforms """
         candidates = []
         for platform in self.model.platforms:
-            if self.utility(platform) > self.current_utility:
+            if self.utility(platform.policies) > self.current_utility:
                 candidates.append(platform)
         return(candidates)
     
@@ -77,7 +77,7 @@ class Community(ap.Agent):
         """ compare utilities and pick new platform """
         # current_utility = self.update_utility(self.platform)
         for platform in self.model.platforms:
-            if self.utility(platform) > self.current_utility:
+            if self.utility(platform.policies) > self.current_utility:
                 self.strategy = 'move'
                 return
             else:
@@ -165,7 +165,6 @@ class Platform(ap.Agent):
     def coalition_mutate(self, coalition):
         # iterations paramater = self.p.search_steps
         # perturbations parameter = self.p.perturbations
-        p = model.platforms[0]
 
         # aggregate preferences
         self.aggregate_preferences()
@@ -299,12 +298,12 @@ class MiniTiebout(ap.Model):
             community.set_strategy()
 
         # record community strategies, utilities, and platforms
-        for platform in self.platforms:
-            # average utility
-            platform.community_utilities()
-            avg_utility = sum(platform.ls_utilities.values()) / float(len(platform.ls_utilities))
-            self.record(f'{"avg_util"}{platform.id}', 
-                avg_utility)
+        # for platform in self.platforms:
+        #     # average utility
+        #     platform.community_utilities()
+        #     avg_utility = sum(platform.ls_utilities.values()) / float(len(platform.ls_utilities))
+        #     self.record(f'{"avg_util"}{platform.id}', 
+        #         avg_utility)
 
         for community in self.communities:
             # location
@@ -337,7 +336,7 @@ class MiniTiebout(ap.Model):
 parameters = {
     'n_comms': 1000,
     'n_plats': 100,
-    'p_space': 10,
+    'p_space': 50,
     'p_type': 'binary',
     'steps':50,
     'institution': 'coalition',
@@ -347,7 +346,5 @@ parameters = {
 }
 
 model = MiniTiebout(parameters)
-model.setup()
-
-model.platforms[0].policies
-model.platforms[0].election()
+results = model.run()
+# model.setup()
