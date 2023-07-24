@@ -45,20 +45,20 @@ class Community(ap.Agent):
         self.platform = ''
         self.strategy = ''
 
-    def utility(self,platform):
+    def utility(self,policies):
         """ calculate utility over a given platform from utility fn """
         # basic utility function, no sub-game
         if self.p.p_type == 'binary':
-            if len(self.preferences) != len(platform.policies):
+            if len(self.preferences) != len(policies):
                 raise ValueError("agent must have complete preferences over vector of platform policies")
-            utility = sum(pref == pol for pref,pol in zip(self.preferences, platform.policies))
+            utility = sum(pref == pol for pref,pol in zip(self.preferences, policies))
         elif self.p.p_type == 'non-binary':
-            utility = -np.square(self.preferences - platform.policies)
+            utility = -np.square(self.preferences - policies)
         return(utility)
 
     def update_utility(self):
         """ updated utility from current platform """
-        self.current_utility = self.utility(self.platform)
+        self.current_utility = self.utility(self.platform.policies)
     
     def join_platform(self, platform):
         """ join a platform """
@@ -141,81 +141,38 @@ class Platform(ap.Agent):
         
         return votes
     
-        p = model.platforms[0]
-        n_policies = len(p.policies)
-        votes = [0] * n_policies
-        
-        p.community_preferences = np.zeros(shape=(len(p.communities),len(p.policies)))
-        for idx,community in enumerate(p.communities):
-            p.community_preferences[idx] = community.preferences
-        
-        for col_idx in range(n_policies):
-            votes[col_idx] = np.sum(p.community_preferences[:, col_idx] == 0)
-        
-
-        # # return utlity of community to platform
-        # c = p.communities[0]
-        # c.utility(p) ### TODO: revise utility function to respond to platform policy list, not platform object
-        # c.utility(p.policies)
-
-    # def direct_vote(self, policies):
-    #     """ survey communities and aggregate preferences with direct votes """
-
-    #     self.aggregate_preferences()
-
-    #     aggregated_votes = []
-    #     num_policies = len(policies)
-    #     num_communities = len(self.communities)
-
-    #     for i in range(num_policies):
-    #         votes = 0
-
-    #         for j in range(num_communities):
-
-    #             if policies[i] == self.community_preferences[j][i]:
-    #                 votes += 1
-
-    #         aggregated_votes.append(votes)
-
-    #     return aggregated_votes
 
     def create_coalitions(self):
         """ initiate coalitions """
 
         # generate random coalitions
-        self.coalitions = []
-        for i in range(self.p.coalitions):
-            self.coalitions.append([random.choice([0, 1]) for _ in range(self.p.p_space)])
-            
-        self.community_preferences = np.zeros(shape=(len(self.communities),len(self.policies)))
+        self.coalitions=np.zeros(shape=(3,10))
+        for idx, coalition in enumerate(self.coalitions):
+            self.coalitions[idx] = [np.random.choice([0,1]) for _ in range(self.p.p_space)]
+    
+    def fitness(self, coalition):
+        """ check retrieve fitness for each coalition """
+        ## fitness: sum of utility gained each from communities
+        ## coalitions attempt to maximize community utility
         
-        for idx,community in enumerate(self.communities):
-            self.community_preferences[idx] = community.preferences
+        fitness = 0
+        
+        # iterate over communities & obtain utility
+        for community in self.communities:
+            utility = community.utility(coalition)
+            fitness = fitness + utility
+            
+        return(fitness)
 
-        test = model.platforms[0]
-
-        test.coalitions=[]
-        for i in range(3):
-            test.coalitions.append([np.random.choice([0,1]) for _ in range(10)])
-
-    def update_coalitions(self):
-        """ survey communities, hill climb to find new coalitions """
-
-        # self-catch for empty coalitions
-        if not self.coalitions:
-            print("ERROR: coalitions not initiated")
-            return
-
-        # perturb coalition
-        for i in range(len(self.coalitions)):
-            self.coalitions[i] = self.perturb_coalition(self.coalitions[i])
-
-    def perturb_coalition(self, coalition):
+    def coalition_mutate(self, coalition):
         # iterations paramater = self.p.search_steps
         # perturbations parameter = self.p.perturbations
 
+        # aggregate preferences
+        self.aggregate_preferences()
+
         # assess initial fitness
-        fitness = self.direct_vote(coalition)
+        fitness = self.fitness(coalition)
 
         for i in range(self.p.search_steps):
             # create new coalition
@@ -231,15 +188,36 @@ class Platform(ap.Agent):
                 else value for index, value in enumerate(new_coalition) ]
 
             # assess fitness
-            new_fitness = self.direct_vote(new_coalition)
+            new_fitness = self.fitness(new_coalition)
 
             # determine new coalition
             if new_fitness > fitness:
                 coalition = new_coalition
 
         # return new coalition after iterations
-        return coalition     
-
+        return coalition    
+    
+    def coalition_poll(self):
+        """ gather coalition votes """
+        
+        communities = p.communities
+        coalitions = p.coalitions
+        
+        votes = []
+        
+        for community in communities:
+            min_utility = float('inf')
+            vote_index = None
+            
+            for idx, coalition in enumerate(coalitions):
+                utility = sum(community.preferences == coalition)
+                # utility = community.utility(coalition)
+                if utility < min_utility:
+                    min_utility = utility
+                    vote_index = idx
+                    
+            votes.append(vote_index)
+                                      
 
     def election(self):
         """ election mechanism """
@@ -252,24 +230,19 @@ class Platform(ap.Agent):
             threshold = np.floor(0.5 * len(self.communities))
             num_policies = len(self.policies)
 
-            ## count votes
+            ## count votes & modify policies
             for i in range(num_policies):
                 if votes[i] < threshold:
                     ## invert policy if it's below the threshold
                     self.policies[i] = self.policies[i] ^ 1
 
         if(self.p.institution == 'coalition'):
-            # coalition process ---
-            # build coalitions according to parameters p.coalitions
-            # randomly assign coalition policies according to size p.policies
-            # hill climb over n_iterations
-            # hold vote
-            
             ## generate coaltions
             self.create_coalitions()
 
             ## adapt coaltions
-            self.update_coalitions()
+            for coalition in self.coalitions:
+                coalition = self.coalition_mutate(coalition)
 
             ## gather votes
             votes = []
