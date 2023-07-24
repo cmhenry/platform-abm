@@ -38,9 +38,9 @@ class Community(ap.Agent):
         """ Initialize a new variable at agent creation. """
         # set preferences
         if self.p.p_type == 'binary':
-            self.preferences = [random.choice([0, 1]) for _ in range(self.p.p_space)]
+            self.preferences = np.array([random.choice([0, 1]) for _ in range(self.p.p_space)]) # int
         elif self.p.p_type == 'non-binary':
-            self.preferences = random.randrange(self.p.p_space)
+            self.preferences = random.randrange(self.p.p_space) # int
         # set initial vars
         self.current_utility = 0
         self.platform = ''
@@ -98,7 +98,7 @@ class Platform(ap.Agent):
         """ initialize new variables at platform creation. """
         # set policies
         if self.p.p_type == 'binary':
-            self.policies = [random.choice([0, 1]) for _ in range(self.p.p_space)]
+            self.policies = np.array([random.choice([0, 1]) for _ in range(self.p.p_space)]) # int
         elif self.p.p_type == 'non-binary':
             self.policies = random.randrange(self.p.p_space)
 
@@ -114,14 +114,9 @@ class Platform(ap.Agent):
         """ rm community from platform """
         self.communities.remove(community)
 
-    # def community_utilities(self):
-    #     """ obtain utilities for attached communities """
-    #     for community in self.communities:
-    #         self.ls_utilities[community.id] = community.utility(self)
-    
     def aggregate_preferences(self):
         """ build an array of community preferences """
-        self.community_preferences = np.zeros(shape=(len(self.communities),len(self.policies)))
+        self.community_preferences = np.zeros(shape=(len(self.communities),len(self.policies)), dtype=int)
         
         for idx,community in enumerate(self.communities):
             self.community_preferences[idx] = community.preferences
@@ -147,9 +142,10 @@ class Platform(ap.Agent):
         """ initiate coalitions """
 
         # generate random coalitions
-        self.coalitions=np.zeros(shape=(self.p.coalitions,self.p.p_space))
+        self.coalitions=np.zeros(shape=(self.p.coalitions,self.p.p_space), dtype=int)
         for idx, coalition in enumerate(self.coalitions):
             self.coalitions[idx] = [np.random.choice([0,1]) for _ in range(self.p.p_space)]
+    
     
     def fitness(self, coalition):
         """ check retrieve fitness for each coalition """
@@ -165,6 +161,7 @@ class Platform(ap.Agent):
             
         return(fitness)
 
+
     def coalition_mutate(self, coalition):
         # iterations paramater = self.p.search_steps
         # perturbations parameter = self.p.perturbations
@@ -174,7 +171,7 @@ class Platform(ap.Agent):
         self.aggregate_preferences()
 
         # assess initial fitness
-        fitness = self.fitness(coalition)\
+        fitness = self.fitness(coalition)
 
         for i in range(self.p.search_steps):
             # create new coalition
@@ -197,7 +194,8 @@ class Platform(ap.Agent):
                 coalition = new_coalition
 
         # return new coalition after iterations
-        return coalition    
+        return coalition  
+  
     
     def coalition_poll(self):
         """ gather coalition votes """
@@ -253,7 +251,8 @@ class Platform(ap.Agent):
             ## count votes and reset policy
             count = Counter(votes)
             winners = [item for item, freq in count.items() if freq == max(count.values())]
-            self.policies = random.choice(winners)
+            new_policies = self.coalitions[random.choice(winners)]
+            self.policies = new_policies
 
 
 class MiniTiebout(ap.Model):
