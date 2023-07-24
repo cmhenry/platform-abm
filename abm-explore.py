@@ -325,10 +325,15 @@ class MiniTiebout(ap.Model):
         # search for new platforms
         for community in self.communities:
             if community.strategy == 'move':
+                # remove from platform
                 community.platform.rm_community(community)
+                # search for candidate platforms
                 candidates = community.find_new_platform()
+                # randomly choose from candidates
                 platform = self.random.choice(candidates)
+                # join new platforms
                 community.join_platform(platform)
+                # add communities to platform
                 platform.add_community(community)
 
 
@@ -345,6 +350,24 @@ parameters = {
     'search_steps': 10
 }
 
-model = MiniTiebout(parameters)
-results = model.run()
-# model.setup()
+exp_parameters = {
+    'n_comms': ap.IntRange(100,1000),
+    'n_plats': ap.IntRange(10, 100),
+    'p_space': ap.IntRange(10, 100),
+    'p_type': 'binary',
+    'steps': 50,
+    'institution': 'coalition',
+    'coalitions': ap.IntRange(2,10),
+    'mutations': 2,
+    'search_steps': 10
+}
+
+sample = ap.Sample(
+    exp_parameters,
+    n=128,
+    method='saltelli',
+    calc_second_order=False
+)
+
+exp = ap.Experiment(MiniTiebout, sample, iterations=10)
+results = exp.run()
