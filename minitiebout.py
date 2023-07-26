@@ -350,24 +350,24 @@ parameters = {
     'search_steps': 10
 }
 
-exp_parameters = {
-    'n_comms': ap.IntRange(100,1000),
-    'n_plats': ap.IntRange(10, 100),
-    'p_space': ap.IntRange(10, 100),
-    'p_type': 'binary',
-    'steps': 50,
-    'institution': 'coalition',
-    'coalitions': ap.IntRange(2,10),
-    'mutations': 2,
-    'search_steps': 10
-}
+# exp_parameters = {
+#     'n_comms': ap.IntRange(100,1000),
+#     'n_plats': ap.IntRange(10, 100),
+#     'p_space': ap.IntRange(10, 100),
+#     'p_type': 'binary',
+#     'steps': 50,
+#     'institution': 'coalition',
+#     'coalitions': ap.IntRange(2,10),
+#     'mutations': 2,
+#     'search_steps': 10
+# }
 
-sample = ap.Sample(
-    exp_parameters,
-    n=128,
-    method='saltelli',
-    calc_second_order=False
-)
+# sample = ap.Sample(
+#     exp_parameters,
+#     n=100,
+#     method='saltelli',
+#     calc_second_order=False
+# )
 
-exp = ap.Experiment(MiniTiebout, sample, iterations=10)
-results = exp.run(n_jobs = -1, verbose=10)
+# exp = ap.Experiment(MiniTiebout, sample, iterations=10)
+# results = exp.run(n_jobs = -1, verbose=10)
