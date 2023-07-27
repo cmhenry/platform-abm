@@ -121,6 +121,8 @@ class Platform(ap.Agent):
         for idx,community in enumerate(self.communities):
             self.community_preferences[idx] = community.preferences
 
+### DIRECT VOTING INSTITUTION ###
+
     def direct_poll(self):
         """ poll individual policies """
         n_policies = len(self.policies)
@@ -137,6 +139,7 @@ class Platform(ap.Agent):
         
         return votes
     
+### MOVEMENT/COALITION INSTITUTION ###
 
     def create_coalitions(self):
         """ initiate coalitions """
@@ -218,6 +221,9 @@ class Platform(ap.Agent):
         
         return(votes)
                                       
+### ALGORITHMIC INSTITUTION ###
+
+    
 
     def election(self):
         """ election mechanism """
@@ -237,7 +243,7 @@ class Platform(ap.Agent):
                     self.policies[i] = self.policies[i] ^ 1
 
         if(self.p.institution == 'coalition'):
-            ## generate coaltions
+            ## generate coalitions
             self.create_coalitions()
             
             ## adapt coaltions
@@ -252,6 +258,10 @@ class Platform(ap.Agent):
             winners = [item for item, freq in count.items() if freq == max(count.values())]
             new_policies = self.coalitions[random.choice(winners)]
             self.policies = new_policies
+
+        if(self.p.institution == 'algorithmic'):
+            ## generate recommendations
+            return(self)
 
 
 class MiniTiebout(ap.Model):
