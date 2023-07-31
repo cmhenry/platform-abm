@@ -5,6 +5,7 @@
 import agentpy as ap
 # import networkx as nx
 import numpy as np
+from sklearn.cluster import KMeans
 import random
 from collections import Counter
 
@@ -21,9 +22,6 @@ TIEBOUT CYCLE
 4. platforms: aggregate preferences and recalibrate policies
 5. repeat 2-4 until communities exhaust strategies
 '''
-
-# to dos:
-# platform preference aggregation scheme
 
 class Community(ap.Agent):
     '''
@@ -223,8 +221,47 @@ class Platform(ap.Agent):
                                       
 ### ALGORITHMIC INSTITUTION ###
 
-    
+# outlining SVD cycle
+# 1. sort agents into groups
+# 2. agents in each group rate list of node policies
+# 2b. groups recieve node policy rated highest
+# 3. produces item-user matrix per group [agent, bundle, rating]
+# 4. SVD on each group item-user matrix
+# 5. new agents join node
+# 6. new agents are sorted into groups
 
+    def sort_communities(self):
+        """ sort communities into groups """
+        self.aggregate_preferences()
+
+        kmeans = KMeans(n_clusters=self.p.svd_groups, random_state=0)
+
+        groups = kmeans.fit_predict(self.community_preferences)
+
+        self.sorted_communities = [[] for _ in range(self.p.svd_groups)]
+        for i, group_id in enumerate(groups):
+            self.sorted_communities[group_id].append(self.communities[i])
+
+    
+    def cold_start_policies(self):
+        """ construct policy bundles """
+        bundle = np.array(np.random.randint(2, size=(5,self.p.p_space))) # int
+        return bundle
+    
+    def construct_community_bundle_mat(self):
+        """ serve policy bundldes to community groups """
+        bundle = self.cold_start_policies()
+
+        if not self.ui_mat:
+            self.ui_mat = []
+
+        for group_idx, community in enumerate(self.sorted_communities):
+            for bundle in bundles:
+                fitness = community.utility(bundle)
+                ui_mat.append([community, community.id, group_idx, bundle, fitness])
+
+
+    
     def election(self):
         """ election mechanism """
 

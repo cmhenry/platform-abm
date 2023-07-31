@@ -121,7 +121,7 @@ class Node:
     def predict_best_policies(self, latent_factors):
         predicted_policies = []
         for idx, group in enumerate(groups):
-            predicted_policies[idx] = np.dot(latent_factors[idx], self.Vt[idx])
+            predicted_policies.append(np.dot(latent_factors[idx], node.Vt[idx]))
         return predicted_policies
 
     def new_agents_join(self, num_new_agents=5):
@@ -129,8 +129,9 @@ class Node:
         self.agent_list.extend(new_agents)
 
     def sort_new_agents_into_groups(self, new_agents, latent_factors):
-        groups = [[] for _ in range(self.num_policies)]
+        groups = [[] for _ in range(self.groups)]
         for agent in new_agents:
+            agent = new_agents[0]
             group_index = np.argmax(np.dot(agent.preferences, latent_factors.T))
             groups[group_index].append(agent)
         return groups
@@ -173,3 +174,12 @@ def perform_cycle(node):
 agent_list = [Agent(np.random.randint(2, size=10)) for _ in range(1000)]
 node = Node(agent_list)
 perform_cycle(node)
+
+
+similar_lists = []
+initial_list = np.array([random.choice([0, 1]) for _ in range(10)])
+distance_range = (1,10)
+
+for _ in range(10):
+    new_list = initial_list.copy()
+    hamming_distance = random.randint(*distance_range)
