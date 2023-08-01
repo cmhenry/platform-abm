@@ -231,45 +231,55 @@ class Platform(ap.Agent):
 # 5. new agents join node
 # 6. new agents are sorted into groups
 
-    def sort_communities(self):
-        """ sort communities into groups """
-        self.aggregate_preferences()
+    # def sort_communities(self):
+    #     """ sort communities into groups """
+    #     self.aggregate_preferences()
 
-        kmeans = KMeans(n_clusters=self.p.svd_groups, random_state=0)
+    #     kmeans = KMeans(n_clusters=self.p.svd_groups, random_state=0)
 
-        groups = kmeans.fit_predict(self.community_preferences)
+    #     groups = kmeans.fit_predict(self.community_preferences)
 
-        self.sorted_communities = [[] for _ in range(self.p.svd_groups)]
-        for i, group_id in enumerate(groups):
-            self.sorted_communities[group_id].append(self.communities[i])
+    #     self.sorted_communities = [[] for _ in range(self.p.svd_groups)]
+    #     for i, group_id in enumerate(groups):
+    #         self.sorted_communities[group_id].append(self.communities[i])
 
     
-    def cold_start_policies(self):
-        """ construct policy bundles """
-        bundles = np.array(np.random.randint(2, size=(5,self.p.p_space))) # int
-        return bundles
+    # def cold_start_policies(self):
+    #     """ construct policy bundles """
+    #     bundles = np.array(np.random.randint(2, size=(5,self.p.p_space))) # int
+    #     return bundles
     
-    def construct_community_bundle_mat(self):
-        """ serve policy bundldes to community groups """
-        bundles = self.cold_start_policies()
+    # def construct_community_bundle_mat(self):
+    #     """ serve policy bundldes to community groups """
+    #     bundles = self.cold_start_policies()
 
-        if not self.ui_array:
-            self.ui_array = []
+    #     if not self.ui_array:
+    #         self.ui_array = []
 
-        for group_idx, group in enumerate(self.sorted_communities):
-            for community in group:
-                for bundle_idx, bundle in enumerate(bundles):
-                    fitness = community.utility(bundle)
-                    self.ui_array.append([community, community.id, group_idx, bundle_idx, fitness])
+    #     for group_idx, group in enumerate(self.sorted_communities):
+    #         for community in group:
+    #             for bundle_idx, bundle in enumerate(bundles):
+    #                 fitness = community.utility(bundle)
+    #                 self.ui_array.append([community, community.id, group_idx, bundle_idx, fitness])
                     
-    def decomp_ui_mat(self):
-        """ svd for each group """
+    # def decomp_ui_mat(self):
+    #     """ svd for each group """
         
-        ptest.ui_df = pd.DataFrame(ptest.ui_mat, columns = ['community','community_id','group_id','bundle_id','fitness'])
-        ptest.ui_mat = ptest.ui_df.pivot(index='community_id', columns='bundle_id', values='fitness')
-            
-            
-    
+    #     # conver to dataframe to make pivot easier
+    #     self.ui_df = pd.DataFrame(self.ui_array, columns = ['community','community_id','group_id','bundle_id','fitness'])
+    #     self.ui_mat = self.ui_df.pivot(index='community_id', columns='bundle_id', values='fitness')
+        
+    #     # svd
+    #     u, s, vh = np.linalg.svd(self.ui_mat.values, full_matrices=False)
+
+    #     return(u,s,vh)
+
+    # def recommmender(self):
+    #     """ use svd to recommend new bundle """
+
+                
+
+
     def election(self):
         """ election mechanism """
 
@@ -304,8 +314,14 @@ class Platform(ap.Agent):
             new_policies = self.coalitions[random.choice(winners)]
             self.policies = new_policies
 
-        if(self.p.institution == 'algorithmic'):
-            ## generate recommendations
+        # if(self.p.institution == 'algorithmic'):
+        #     ## sort communities into groups
+        #     self.sort_communities()
+
+        #     ## serve communities new bundles
+        #     self.construct_community_bundle_mat()
+
+
             return(self)
 
 
@@ -402,7 +418,8 @@ parameters = {
     'institution': 'coalition',
     'coalitions': 3,
     'mutations': 2,
-    'search_steps': 10
+    'search_steps': 10,
+    'svd_groups':3
 }
 
 # exp_parameters = {
