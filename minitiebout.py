@@ -5,6 +5,7 @@
 import agentpy as ap
 # import networkx as nx
 import numpy as np
+import pandas as pd
 from sklearn.cluster import KMeans
 import random
 from collections import Counter
@@ -252,14 +253,21 @@ class Platform(ap.Agent):
         """ serve policy bundldes to community groups """
         bundles = self.cold_start_policies()
 
-        if not self.ui_mat:
-            self.ui_mat = []
+        if not self.ui_array:
+            self.ui_array = []
 
         for group_idx, group in enumerate(self.sorted_communities):
             for community in group:
-                for bundle in bundles:
+                for bundle_idx, bundle in enumerate(bundles):
                     fitness = community.utility(bundle)
-                    self.ui_mat.append([community, community.id, group_idx, bundle, fitness])
+                    self.ui_array.append([community, community.id, group_idx, bundle_idx, fitness])
+                    
+    def decomp_ui_mat(self):
+        """ svd for each group """
+        
+        ptest.ui_df = pd.DataFrame(ptest.ui_mat, columns = ['community','community_id','group_id','bundle_id','fitness'])
+        ptest.ui_mat = ptest.ui_df.pivot(index='community_id', columns='bundle_id', values='fitness')
+            
             
     
     def election(self):
