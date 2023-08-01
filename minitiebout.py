@@ -245,22 +245,22 @@ class Platform(ap.Agent):
     
     def cold_start_policies(self):
         """ construct policy bundles """
-        bundle = np.array(np.random.randint(2, size=(5,self.p.p_space))) # int
-        return bundle
+        bundles = np.array(np.random.randint(2, size=(5,self.p.p_space))) # int
+        return bundles
     
     def construct_community_bundle_mat(self):
         """ serve policy bundldes to community groups """
-        bundle = self.cold_start_policies()
+        bundles = self.cold_start_policies()
 
         if not self.ui_mat:
             self.ui_mat = []
 
-        for group_idx, community in enumerate(self.sorted_communities):
-            for bundle in bundles:
-                fitness = community.utility(bundle)
-                ui_mat.append([community, community.id, group_idx, bundle, fitness])
-
-
+        for group_idx, group in enumerate(self.sorted_communities):
+            for community in group:
+                for bundle in bundles:
+                    fitness = community.utility(bundle)
+                    self.ui_mat.append([community, community.id, group_idx, bundle, fitness])
+            
     
     def election(self):
         """ election mechanism """
