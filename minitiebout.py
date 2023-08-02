@@ -36,14 +36,12 @@ class Community(ap.Agent):
     def setup(self):
         """ Initialize a new variable at agent creation. """
         # set preferences
-        if self.p.p_type == 'binary':
-            self.preferences = np.array([random.choice([0, 1]) for _ in range(self.p.p_space)]) # int
-        elif self.p.p_type == 'non-binary':
-            self.preferences = random.randrange(self.p.p_space) # int
+        self.preferences = np.array([random.choice([0, 1]) for _ in range(self.p.p_space)]) # int
         # set initial vars
         self.current_utility = 0
         self.platform = ''
         self.strategy = ''
+        self.candidates =[]
 
     def utility(self,policies):
         """ calculate utility over a given platform from utility fn """
@@ -60,17 +58,15 @@ class Community(ap.Agent):
         """ updated utility from current platform """
         self.current_utility = self.utility(self.platform.policies)
     
-    def join_platform(self, platform):
+    def join_platform(self,platform):
         """ join a platform """
         self.platform = platform
     
     def find_new_platform(self):
         """ find candidate platforms """
-        candidates = []
         for platform in self.model.platforms:
             if self.utility(platform.policies) > self.current_utility:
-                candidates.append(platform)
-        return(candidates)
+                self.candidates.append(platform)
     
     def set_strategy(self):
         """ compare utilities and pick new platform """
@@ -96,10 +92,16 @@ class Platform(ap.Agent):
     def setup(self):
         """ initialize new variables at platform creation. """
         # set policies
-        if self.p.p_type == 'binary':
+        if self.p.institution != 'algorithmic':
+            # generate random single policy slate
             self.policies = np.array([random.choice([0, 1]) for _ in range(self.p.p_space)]) # int
-        elif self.p.p_type == 'non-binary':
-            self.policies = random.randrange(self.p.p_space)
+        else:
+            # generate random policy slates
+            self.policies = self.cold_start_policies()
+            # generate community-content ratings
+            self.rate_policies()
+            # group communities based on knn
+            self.group_communities()
 
         self.communities = []
         self.community_preferences = []
@@ -231,38 +233,41 @@ class Platform(ap.Agent):
 # 5. new agents join node
 # 6. new agents are sorted into groups
 
-    # def sort_communities(self):
-    #     """ sort communities into groups """
-    #     self.aggregate_preferences()
+    def group_communities(self):
+        """ sort communities into groups """
+        self.aggregate_preferences()
 
-    #     kmeans = KMeans(n_clusters=self.p.svd_groups, random_state=0)
+        kmeans = KMeans(n_clusters=self.p.svd_groups, random_state=0)
 
-    #     groups = kmeans.fit_predict(self.community_preferences)
+        groups = kmeans.fit_predict(self.community_preferences)
 
-    #     self.sorted_communities = [[] for _ in range(self.p.svd_groups)]
-    #     for i, group_id in enumerate(groups):
-    #         self.sorted_communities[group_id].append(self.communities[i])
+        self.grouped_communities = [[] for _ in range(self.p.svd_groups)]
+        for i, group_id in enumerate(groups):
+            self.grouped_communities[group_id].append(self.communities[i])
 
     
-    # def cold_start_policies(self):
-    #     """ construct policy bundles """
-    #     bundles = np.array(np.random.randint(2, size=(5,self.p.p_space))) # int
-    #     return bundles
+    def cold_start_policies(self):
+        """ construct policy bundles """
+        bundles = np.array(np.random.randint(2, size=(5,self.p.p_space))) # int
+        return bundles
     
-    # def construct_community_bundle_mat(self):
-    #     """ serve policy bundldes to community groups """
-    #     bundles = self.cold_start_policies()
+    def rate_policies(self):
+        """ serve policy bundldes to community groups """
 
-    #     if not self.ui_array:
-    #         self.ui_array = []
+        if not self.ui_array:
+            self.ui_array = []
 
-    #     for group_idx, group in enumerate(self.sorted_communities):
-    #         for community in group:
-    #             for bundle_idx, bundle in enumerate(bundles):
-    #                 fitness = community.utility(bundle)
-    #                 self.ui_array.append([community, community.id, group_idx, bundle_idx, fitness])
-                    
-    # def decomp_ui_mat(self):
+        for group_idx, group in enumerate(self.sorted_communities):
+            for community in group:
+                for bundle_idx, bundle in enumerate(self.policies):
+                    fitness = community.utility(bundle)
+                    self.ui_array.append([community, community.id, group_idx, bundle_idx, fitness])
+    
+    def set_group_policies(self):
+        """ set group policies so communities can retrieve utilities """
+
+
+    # def svd_groups(self):
     #     """ svd for each group """
         
     #     # conver to dataframe to make pivot easier
@@ -314,12 +319,30 @@ class Platform(ap.Agent):
             new_policies = self.coalitions[random.choice(winners)]
             self.policies = new_policies
 
-        # if(self.p.institution == 'algorithmic'):
-        #     ## sort communities into groups
-        #     self.sort_communities()
+        if(self.p.institution == 'algorithmic'):
+            ## produce new content slate
+            self.policies = self.cold_start_policies()
 
-        #     ## serve communities new bundles
-        #     self.construct_community_bundle_mat()
+            ## generate community-content ratings
+            self.rate_policies()
+
+            ## group communities based on knn
+            self.group_communities()
+
+            ## set group slates
+            self.set_group_policies()
+
+            ## SVD by group
+
+            ## produce new content slate
+
+            ## predict ratings by group
+
+            ## sort communities into groups
+            self.sort_communities()
+
+            ## serve communities new bundles
+            self.construct_community_bundle_mat()
 
 
             return(self)
@@ -353,20 +376,9 @@ class MiniTiebout(ap.Model):
         self.agents = self.communities + self.platforms
         # self.network = self.agents.network = ap.Network(self, graph)
         # self.network.add_agents(self.agents, self.network.nodes)
-    
-    def satisfied(self):
-        """ check state of communities for equlibrium """
-        for community in self.communities:
-            if community.strategy == 'move':
-                return False
-        return True
 
     def update(self):
         """ Record variables after setup and each step. """
-        # update utilities for current platform-community relationships
-        for community in self.communities:
-            community.update_utility()
-            community.set_strategy()
 
         # record community strategies, utilities, and platforms
         # for platform in self.platforms:
@@ -388,24 +400,51 @@ class MiniTiebout(ap.Model):
                 community.current_utility)
         
         # check if every community is happy
-        if self.satisfied():
+        if self.update_satisfied():
             self.stop()
+    
+    def update_satisfied(self):
+        """ check state of communities for equlibrium """
+        for community in self.communities:
+            if community.strategy == 'move':
+                return False
+        return True
                 
     def step(self):
         """ Define the models' events per simulation step. """
-        # search for new platforms
+        # relocation: update utility
+        self.step_update_utility()
+        # relocation: search for new platforms
+        self.step_relocation()
+
+        # elections: platforms aggregate institutions
+        self.step_elections()
+
+    def step_update_utility(self):
+        """ function to update all community agent utilities """
+        for community in self.communities:
+            community.update_utility()
+            community.set_strategy()
+    
+    def step_relocation(self):
+        """ function to relocate communities """
         for community in self.communities:
             if community.strategy == 'move':
-                # remove from platform
-                community.platform.rm_community(community)
-                # search for candidate platforms
-                candidates = community.find_new_platform()
-                # randomly choose from candidates
-                platform = self.random.choice(candidates)
-                # join new platforms
-                community.join_platform(platform)
-                # add communities to platform
+                # generate list of candidates
+                community.find_new_platform()
+                # community joins new platform
+                community.join_platform(random.choice(community.candidates))
+                # add community to platform
                 platform.add_community(community)
+
+    def step_elections(self):
+        """ function to hold elections """
+        if self.p.institution == 'none':
+            return(self)
+        else:
+            for platform in self.platforms:
+                platform.election()
+        
 
 
 
