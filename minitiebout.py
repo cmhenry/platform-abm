@@ -42,16 +42,17 @@ class Community(ap.Agent):
         self.platform = ''
         self.strategy = ''
         self.candidates =[]
+        self.group = ''
 
     def utility(self,policies):
         """ calculate utility over a given platform from utility fn """
         # basic utility function, no sub-game
-        if self.p.p_type == 'binary':
+        if self.platform.institution != 'algorithmic':
             if len(self.preferences) != len(policies):
                 raise ValueError("agent must have complete preferences over vector of platform policies")
             utility = sum(pref == pol for pref,pol in zip(self.preferences, policies))
-        elif self.p.p_type == 'non-binary':
-            utility = -np.square(self.preferences - policies)
+        else:
+            utility = self.platform.group_policies[self.group]
         return(utility)
 
     def update_utility(self):
@@ -244,6 +245,7 @@ class Platform(ap.Agent):
         self.grouped_communities = [[] for _ in range(self.p.svd_groups)]
         for i, group_id in enumerate(groups):
             self.grouped_communities[group_id].append(self.communities[i])
+            self.communities[i].group = group_id
 
     
     def cold_start_policies(self):
@@ -253,19 +255,28 @@ class Platform(ap.Agent):
     
     def rate_policies(self):
         """ serve policy bundldes to community groups """
+        self.ui_array = []
 
-        if not self.ui_array:
-            self.ui_array = []
-
-        for group_idx, group in enumerate(self.sorted_communities):
+        for group_idx, group in enumerate(self.grouped_communities):
             for community in group:
                 for bundle_idx, bundle in enumerate(self.policies):
                     fitness = community.utility(bundle)
-                    self.ui_array.append([community, community.id, group_idx, bundle_idx, fitness])
+                    ptest.ui_array.append([community, group_idx, fitness])
     
     def set_group_policies(self):
         """ set group policies so communities can retrieve utilities """
+        highest_ratings = {}
 
+        for community, group, rating in self.ui_array:
+            if group not in highest_ratings:
+                highest_ratings[group] = rating
+            else:
+                current_rating = highest_ratings[group]
+                if rating > current_rating:
+                    highest_ratings[group] = rating
+        
+        self.group_policies = highest_ratings
+                    
 
     # def svd_groups(self):
     #     """ svd for each group """
@@ -337,12 +348,6 @@ class Platform(ap.Agent):
             ## produce new content slate
 
             ## predict ratings by group
-
-            ## sort communities into groups
-            self.sort_communities()
-
-            ## serve communities new bundles
-            self.construct_community_bundle_mat()
 
 
             return(self)
@@ -460,6 +465,14 @@ parameters = {
     'search_steps': 10,
     'svd_groups':3
 }
+
+model = MiniTiebout(parameters)
+model.setup()
+
+ptest = model.platforms[0]
+ptest.group_communities()
+ptest.policies = ptest.cold_start_policies()
+ptest.rate_policies()
 
 # exp_parameters = {
 #     'n_comms': ap.IntRange(100,1000),
