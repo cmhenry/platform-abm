@@ -31,7 +31,7 @@ class Community(ap.Agent):
         utility function -(community pref - platform policy)^2
     '''
     
-    _kind = 'community'
+    _type = 'community'
 
     def setup(self):
         """ Initialize a new variable at agent creation. """
@@ -88,7 +88,7 @@ class Platform(ap.Agent):
         preference aggregation mechanisms
     '''
     
-    _kind = 'platform'
+    _type = 'platform'
     
     def setup(self):
         """ initialize new variables at platform creation. """
@@ -103,9 +103,12 @@ class Platform(ap.Agent):
             self.rate_policies()
             # group communities based on knn
             self.group_communities()
+            # do initial SVD
+            self.svd_group()
 
         self.communities = []
         self.community_preferences = []
+        self.institution = self.p.institution
         # self.ls_utilities = {}
     
     def add_community(self, community):
@@ -226,13 +229,8 @@ class Platform(ap.Agent):
 ### ALGORITHMIC INSTITUTION ###
 
 # outlining SVD cycle
-# 1. sort agents into groups
-# 2. agents in each group rate list of node policies
-# 2b. groups recieve node policy rated highest
-# 3. produces item-user matrix per group [agent, bundle, rating]
-# 4. SVD on each group item-user matrix
-# 5. new agents join node
-# 6. new agents are sorted into groups
+# 0. sort initial communities into groups, rate policies, produce SVD
+# 1. new communities join, sort into groups, predict policy ratings w/ SVD
 
     def group_communities(self):
         """ sort communities into groups """
@@ -261,13 +259,13 @@ class Platform(ap.Agent):
             for community in group:
                 for bundle_idx, bundle in enumerate(self.policies):
                     fitness = community.utility(bundle)
-                    ptest.ui_array.append([community, group_idx, fitness])
+                    ptest.ui_array.append([community, group_idx, bundle_idx, fitness])
     
     def set_group_policies(self):
         """ set group policies so communities can retrieve utilities """
         highest_ratings = {}
 
-        for community, group, rating in self.ui_array:
+        for community, group, bundle, rating in self.ui_array:
             if group not in highest_ratings:
                 highest_ratings[group] = rating
             else:
@@ -278,17 +276,25 @@ class Platform(ap.Agent):
         self.group_policies = highest_ratings
                     
 
-    # def svd_groups(self):
-    #     """ svd for each group """
+    def svd_group(self):
+        """ svd for each group """
         
-    #     # conver to dataframe to make pivot easier
-    #     self.ui_df = pd.DataFrame(self.ui_array, columns = ['community','community_id','group_id','bundle_id','fitness'])
-    #     self.ui_mat = self.ui_df.pivot(index='community_id', columns='bundle_id', values='fitness')
+        # conver to dataframe to make pivot easier
+        self.ui_df = pd.DataFrame(self.ui_array, columns = ['community','group_id','bundle_id','fitness'])
         
-    #     # svd
-    #     u, s, vh = np.linalg.svd(self.ui_mat.values, full_matrices=False)
-
-    #     return(u,s,vh)
+        # build ui_mats for each group
+        pivoted_ui_mat = {}
+        groups = self.ui_df['group_id'].unique()
+        
+        for group in groups:
+            group_df = self.ui_df[self.ui_df['group_id'] == group]
+            group_mat = group_df.pivot(index='community',columns='bundle_id',values='fitness')
+            pivoted_ui_mat[group] = group_mat
+        
+        # svd for each group
+        self.group_svd = {}
+        for group in groups:
+            self.group_svd[0] = np.linalg.svd(pivoted_ui_mat[0], full_matrices=False)
 
     # def recommmender(self):
     #     """ use svd to recommend new bundle """
@@ -334,23 +340,12 @@ class Platform(ap.Agent):
             ## produce new content slate
             self.policies = self.cold_start_policies()
 
-            ## generate community-content ratings
-            self.rate_policies()
-
-            ## group communities based on knn
-            self.group_communities()
-
+            ## predict new policy ratings by SVD
+            self.recommender()
+            
             ## set group slates
             self.set_group_policies()
-
-            ## SVD by group
-
-            ## produce new content slate
-
-            ## predict ratings by group
-
-
-            return(self)
+        
 
 
 class MiniTiebout(ap.Model):
