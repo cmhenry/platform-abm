@@ -6,9 +6,9 @@ import agentpy as ap
 # import networkx as nx
 import numpy as np
 import pandas as pd
-from surprise import SVD
-from surprise import Dataset
-from surprise import Reader
+# from surprise import SVD
+# from surprise import Dataset
+# from surprise import Reader
 from sklearn.cluster import KMeans
 import random
 from collections import Counter
@@ -383,6 +383,11 @@ class MiniTiebout(ap.Model):
         # prepare network
         # graph = nx.Graph()
         
+        model = MiniTiebout(parameters)
+        model.setup()
+        model.platforms.test = ap.AttrIter(['1','2'])
+        model.platforms.random(n=2)
+        
         # add communities to network
         self.communities = ap.AgentList(self, self.p.n_comms, Community)
         # for community in self.communities:
@@ -390,6 +395,10 @@ class MiniTiebout(ap.Model):
         
         # add platforms to network
         self.platforms = ap.AgentList(self, self.p.n_plats, Platform)
+        if self.p.institution == 'mixed':
+            sub_platforms = self.setup_mix_agents(self.platforms,3)
+            
+            
         # for platform in self.platforms:
         #     graph.add_node(platform)
         
@@ -417,6 +426,35 @@ class MiniTiebout(ap.Model):
         self.agents = self.communities + self.platforms
         # self.network = self.agents.network = ap.Network(self, graph)
         # self.network.add_agents(self.agents, self.network.nodes)
+        
+    def setup_mix_agents(self, agentlist, split):
+        # generate primitives to mix list
+        agentlist = model.platforms
+        split = 3
+        remaining = agentlist.copy()
+        total = len(remaining)
+        sublist_size = total // split
+        remainder = total % split
+        sublists = []
+        
+        # begin mixing
+        for _ in range(split):
+            sublist = []
+            for _ in range(sublist_size):
+                if remaining:
+                    item = random.choice(remaining)
+                    remaining.remove(item)
+                    sublist.append(item)
+            sublists.append(sublist)
+        
+        # ensure remainder are sorted
+        for _ in range(remainder):
+            if remaining:
+                item = random.choice(remaining)
+                remaining.remove(item)
+                sublists[_].append(item)
+        
+        return(sublists)
 
 ### UPDATE ###
 
@@ -489,9 +527,10 @@ class MiniTiebout(ap.Model):
                 # generate list of candidates
                 community.find_new_platform()
                 # community joins new platform
-                community.join_platform(random.choice(community.candidates))
+                new_platform = random.choice(community.candidates)
+                community.join_platform(new_platform)
                 # add community to platform
-                platform.add_community(community)
+                new_platform.add_community(community)
         for platform in self.platforms:
             if platform.institution == 'algorithmic': platform.group_communities()
 
@@ -511,15 +550,18 @@ class MiniTiebout(ap.Model):
                     sum(self.communities.moves) / len(self.communities))
         self.report('average_utility', 
                     sum(self.communities.current_utility) / len(self.communities))
+        
+    # def end_utility_per_platform_type(self):
+        
 
         
 
 
 
 parameters = {
-    'n_comms': 1000,
-    'n_plats': 100,
-    'p_space': 50,
+    'n_comms': 100,
+    'n_plats': 10,
+    'p_space': 10,
     'p_type': 'binary',
     'steps':50,
     'institution': 'algorithmic',
