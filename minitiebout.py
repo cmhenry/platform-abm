@@ -6,6 +6,9 @@ import agentpy as ap
 # import networkx as nx
 import numpy as np
 import pandas as pd
+from surprise import SVD
+from surprise import Dataset
+from surprise import Reader
 from sklearn.cluster import KMeans
 import random
 from collections import Counter
@@ -43,37 +46,57 @@ class Community(ap.Agent):
         self.strategy = ''
         self.candidates =[]
         self.group = ''
+        self.moves = 0
 
     def utility(self,policies):
         """ calculate utility over a given platform from utility fn """
         # basic utility function, no sub-game
-        if self.platform.institution != 'algorithmic':
-            if len(self.preferences) != len(policies):
-                raise ValueError("agent must have complete preferences over vector of platform policies")
-            utility = sum(pref == pol for pref,pol in zip(self.preferences, policies))
-        else:
-            utility = self.platform.group_policies[self.group]
+        if len(self.preferences) != len(policies):
+            raise ValueError("agent must have complete preferences over vector of platform policies")
+        utility = sum(pref == pol for pref,pol in zip(self.preferences, policies))
+        # else:
+        #     utility = sum(pref == pol for pref,pol in zip(self.preferences, 
+        #         self.platform.group_policies[self.group]))
         return(utility)
 
     def update_utility(self):
         """ updated utility from current platform """
-        self.current_utility = self.utility(self.platform.policies)
+        # obtain utility from current platform
+        if self.platform.institution == "algorithmic":
+            c_util = self.utility(self.platform.group_policies[self.group][1])
+        else:
+            c_util = self.utility(self.platform.policies)
+        self.current_utility = c_util
     
     def join_platform(self,platform):
         """ join a platform """
+        self.moves += 1
         self.platform = platform
     
     def find_new_platform(self):
         """ find candidate platforms """
         for platform in self.model.platforms:
-            if self.utility(platform.policies) > self.current_utility:
-                self.candidates.append(platform)
+            if platform.institution == 'algorithmic':
+                for group_policy in platform.group_policies.values():
+                    new_policy = group_policy[1]
+                    if self.utility(new_policy) > self.current_utility:
+                        self.candidates.append(platform)
+            else:
+                new_policy = platform.policies
+                if self.utility(new_policy) > self.current_utility:
+                        self.candidates.append(platform)
+            
     
     def set_strategy(self):
         """ compare utilities and pick new platform """
         # current_utility = self.update_utility(self.platform)
         for platform in self.model.platforms:
-            if self.utility(platform.policies) > self.current_utility:
+            if platform.institution == 'algorithmic':
+                new_policy = platform.group_policies[random.choice(list(platform.group_policies.keys()))][1]
+            else:
+                new_policy = platform.policies
+            
+            if self.utility(new_policy) > self.current_utility:
                 self.strategy = 'move'
                 return
             else:
@@ -92,23 +115,19 @@ class Platform(ap.Agent):
     
     def setup(self):
         """ initialize new variables at platform creation. """
+
+        self.institution = self.p.institution
         # set policies
-        if self.p.institution != 'algorithmic':
+        if self.institution != 'algorithmic':
             # generate random single policy slate
             self.policies = np.array([random.choice([0, 1]) for _ in range(self.p.p_space)]) # int
         else:
             # generate random policy slates
             self.policies = self.cold_start_policies()
-            # generate community-content ratings
-            self.rate_policies()
-            # group communities based on knn
-            self.group_communities()
-            # do initial SVD
-            self.svd_group()
 
         self.communities = []
         self.community_preferences = []
-        self.institution = self.p.institution
+        
         # self.ls_utilities = {}
     
     def add_community(self, community):
@@ -121,7 +140,7 @@ class Platform(ap.Agent):
 
     def aggregate_preferences(self):
         """ build an array of community preferences """
-        self.community_preferences = np.zeros(shape=(len(self.communities),len(self.policies)), dtype=int)
+        self.community_preferences = np.zeros(shape=(len(self.communities),self.p.p_space), dtype=int)
         
         for idx,community in enumerate(self.communities):
             self.community_preferences[idx] = community.preferences
@@ -228,19 +247,21 @@ class Platform(ap.Agent):
                                       
 ### ALGORITHMIC INSTITUTION ###
 
-# outlining SVD cycle
-# 0. sort initial communities into groups, rate policies, produce SVD
-# 1. new communities join, sort into groups, predict policy ratings w/ SVD
-
     def group_communities(self):
         """ sort communities into groups """
         self.aggregate_preferences()
 
-        kmeans = KMeans(n_clusters=self.p.svd_groups, random_state=0)
-
+        # check if platform has enough communities
+        if len(self.communities) <= self.p.svd_groups:
+            svd_groups = len(self.communities)
+        else:
+            svd_groups = self.p.svd_groups
+        # generate kmeans
+        kmeans = KMeans(n_clusters=svd_groups, random_state=0,n_init=2)
+        # apply kmeans
         groups = kmeans.fit_predict(self.community_preferences)
 
-        self.grouped_communities = [[] for _ in range(self.p.svd_groups)]
+        self.grouped_communities = [[] for _ in range(svd_groups)]
         for i, group_id in enumerate(groups):
             self.grouped_communities[group_id].append(self.communities[i])
             self.communities[i].group = group_id
@@ -259,7 +280,7 @@ class Platform(ap.Agent):
             for community in group:
                 for bundle_idx, bundle in enumerate(self.policies):
                     fitness = community.utility(bundle)
-                    ptest.ui_array.append([community, group_idx, bundle_idx, fitness])
+                    self.ui_array.append([community.id, group_idx, bundle, fitness])
     
     def set_group_policies(self):
         """ set group policies so communities can retrieve utilities """
@@ -267,40 +288,44 @@ class Platform(ap.Agent):
 
         for community, group, bundle, rating in self.ui_array:
             if group not in highest_ratings:
-                highest_ratings[group] = rating
+                highest_ratings[group] = rating,bundle
             else:
-                current_rating = highest_ratings[group]
+                current_rating = highest_ratings[group][0]
                 if rating > current_rating:
-                    highest_ratings[group] = rating
+                    highest_ratings[group] = rating,bundle
         
         self.group_policies = highest_ratings
                     
 
-    def svd_group(self):
-        """ svd for each group """
+    # def svd_group(self):
+    #     """ svd for each group """
         
-        # conver to dataframe to make pivot easier
-        self.ui_df = pd.DataFrame(self.ui_array, columns = ['community','group_id','bundle_id','fitness'])
+    #     # conver to dataframe to make pivot easier
+    #     self.ui_df = pd.DataFrame(self.ui_array, columns = ['community','group_id','bundle_id','fitness'])
         
-        # build ui_mats for each group
-        pivoted_ui_mat = {}
-        groups = self.ui_df['group_id'].unique()
+    #     # build ui_mats for each group
+    #     pivoted_ui_mat = {}
+    #     groups = self.ui_df['group_id'].unique()
         
-        for group in groups:
-            group_df = self.ui_df[self.ui_df['group_id'] == group]
-            group_mat = group_df.pivot(index='community',columns='bundle_id',values='fitness')
-            pivoted_ui_mat[group] = group_mat
+    #     # svd for ui_mats
+    #     self.group_svd = {}
+    #     for group in groups:
+    #         group_df = self.ui_df[self.ui_df['group_id'] == group]
+    #         group_mat = group_df.pivot(index='community',columns='bundle_id',values='fitness')
+    #         pivoted_ui_mat[group] = group_mat
+    #         self.group_svd[group] = np.linalg.svd(pivoted_ui_mat[group], full_matrices=False)
         
-        # svd for each group
-        self.group_svd = {}
-        for group in groups:
-            self.group_svd[0] = np.linalg.svd(pivoted_ui_mat[0], full_matrices=False)
+    #     reader = Reader(rating_scale=(0,50))
+    #     dataset = Dataset.load_from_df(ptest.ui_df[['community','bundle_id','fitness']], reader)
+    #     trainset = dataset.build_full_trainset()
+    #     algo = SVD()
+    #     algo.fit(trainset)
+    #     algo.predict(uid = str(679), iid = str(0), r_ui=34.0, verbose = True)
 
+    #     dataset.raw_ratings
+        
     # def recommmender(self):
     #     """ use svd to recommend new bundle """
-
-                
-
 
     def election(self):
         """ election mechanism """
@@ -341,14 +366,17 @@ class Platform(ap.Agent):
             self.policies = self.cold_start_policies()
 
             ## predict new policy ratings by SVD
-            self.recommender()
-            
+            self.group_communities()
+            self.rate_policies()
+
             ## set group slates
             self.set_group_policies()
         
 
 
 class MiniTiebout(ap.Model):
+
+### SETUP ###
 
     def setup(self):
         """ Initialize the agents and network of the model. """
@@ -371,11 +399,26 @@ class MiniTiebout(ap.Model):
             community.join_platform(platform)
             platform.add_community(community)
             # graph.add_edge(community, platform)
+
+        # setup algorithmic platforms
+        for platform in self.platforms:
+            if platform.institution == 'algorithmic':
+                # group communities based on knn
+                platform.grouped_communities = []
+                platform.group_communities()
+                # generate community-content ratings
+                platform.rate_policies()
+                ## set group slates
+                platform.set_group_policies()
+                # # do initial SVD
+                # self.svd_group()
         
         # combine into agentlist & register network
         self.agents = self.communities + self.platforms
         # self.network = self.agents.network = ap.Network(self, graph)
         # self.network.add_agents(self.agents, self.network.nodes)
+
+### UPDATE ###
 
     def update(self):
         """ Record variables after setup and each step. """
@@ -388,35 +431,48 @@ class MiniTiebout(ap.Model):
         #     self.record(f'{"avg_util"}{platform.id}', 
         #         avg_utility)
 
-        for community in self.communities:
-            # location
-            self.record(f'{"loc_com"}{community.id}', 
-                community.platform)
-            # strategy
-            self.record(f'{"strat_com"}{community.id}',
-                community.strategy)
-            # utility
-            self.record(f'{"util_com"}{community.id}',
-                community.current_utility)
+        # for community in self.communities:
+        #     # utility
+        #     self.record()
+
+        #     # location
+        #     self.record(f'{"loc_com"}{community.id}', 
+        #         community.platform)
+        #     # strategy
+        #     self.record(f'{"strat_com"}{community.id}',
+        #         community.strategy)
+        #     # utility
+        #     self.record(f'{"util_com"}{community.id}',
+        #         community.current_utility)
+        
+        ### OUTCOMES OF INTEREST ###
+        # 1. history of platform policies
+        # 2. history of community utilities
+        # 3. history of community locations
+
+        # platform policies
+
         
         # check if every community is happy
-        if self.update_satisfied():
-            self.stop()
+        if self.p.stop_condition == 'satisficed':
+            if self.update_satisficed():
+                self.end()
     
-    def update_satisfied(self):
+    def update_satisficed(self):
         """ check state of communities for equlibrium """
         for community in self.communities:
             if community.strategy == 'move':
                 return False
         return True
-                
+
+### STEP ###
+
     def step(self):
         """ Define the models' events per simulation step. """
         # relocation: update utility
         self.step_update_utility()
         # relocation: search for new platforms
         self.step_relocation()
-
         # elections: platforms aggregate institutions
         self.step_elections()
 
@@ -436,6 +492,8 @@ class MiniTiebout(ap.Model):
                 community.join_platform(random.choice(community.candidates))
                 # add community to platform
                 platform.add_community(community)
+        for platform in self.platforms:
+            if platform.institution == 'algorithmic': platform.group_communities()
 
     def step_elections(self):
         """ function to hold elections """
@@ -444,6 +502,16 @@ class MiniTiebout(ap.Model):
         else:
             for platform in self.platforms:
                 platform.election()
+
+### END ###
+
+    def end(self):
+        # reporters
+        self.report('average_moves', 
+                    sum(self.communities.moves) / len(self.communities))
+        self.report('average_utility', 
+                    sum(self.communities.current_utility) / len(self.communities))
+
         
 
 
@@ -454,20 +522,17 @@ parameters = {
     'p_space': 50,
     'p_type': 'binary',
     'steps':50,
-    'institution': 'coalition',
+    'institution': 'algorithmic',
     'coalitions': 3,
     'mutations': 2,
     'search_steps': 10,
-    'svd_groups':3
+    'svd_groups': 3,
+    'stop_condition': 'steps'
 }
 
 model = MiniTiebout(parameters)
-model.setup()
+results = model.run()
 
-ptest = model.platforms[0]
-ptest.group_communities()
-ptest.policies = ptest.cold_start_policies()
-ptest.rate_policies()
 
 # exp_parameters = {
 #     'n_comms': ap.IntRange(100,1000),
