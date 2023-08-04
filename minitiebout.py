@@ -34,13 +34,14 @@ class Community(ap.Agent):
         utility function -(community pref - platform policy)^2
     '''
     
-    _type = 'community'
+    # _type = 'community'
 
     def setup(self):
         """ Initialize a new variable at agent creation. """
         # set preferences
         self.preferences = np.array([random.choice([0, 1]) for _ in range(self.p.p_space)]) # int
         # set initial vars
+        self.type = 'mainstream'
         self.current_utility = 0
         self.platform = ''
         self.strategy = ''
@@ -115,16 +116,8 @@ class Platform(ap.Agent):
     
     def setup(self):
         """ initialize new variables at platform creation. """
-
-        self.institution = self.p.institution
-        # set policies
-        if self.institution != 'algorithmic':
-            # generate random single policy slate
-            self.policies = np.array([random.choice([0, 1]) for _ in range(self.p.p_space)]) # int
-        else:
-            # generate random policy slates
-            self.policies = self.cold_start_policies()
-
+        self.institution = ''
+        self.policies = []
         self.communities = []
         self.community_preferences = []
         
@@ -383,20 +376,29 @@ class MiniTiebout(ap.Model):
         # prepare network
         # graph = nx.Graph()
         
-        model = MiniTiebout(parameters)
-        model.setup()
-        model.platforms.test = ap.AttrIter(['1','2'])
-        model.platforms.random(n=2)
+        # model = MiniTiebout(parameters)
+        # model.setup()
+        # model.platforms.test = ap.AttrIter(['1','2'])
+        # model.platforms.random(n=2)
         
         # add communities to network
         self.communities = ap.AgentList(self, self.p.n_comms, Community)
         # for community in self.communities:
         #     graph.add_node(community)
+        # mix communities if necessary
+        if self.p.extremists == "yes":
+            extremists, mainstream = self.setup_mix_agents_by_percentage(self.communities,self.p.percent_extremists)
+            self.setup_community_types(extremists)
+            
         
         # add platforms to network
         self.platforms = ap.AgentList(self, self.p.n_plats, Platform)
+        # mix platforms if necessary
         if self.p.institution == 'mixed':
-            sub_platforms = self.setup_mix_agents(self.platforms,3)
+            sub_platforms = self.setup_mix_agents_by_split(self.platforms,3)
+            self.setup_platform_types(sub_platforms)
+        else: self.platforms.institution = self.p.institution  
+        self.setup_platform_policies()    
             
             
         # for platform in self.platforms:
@@ -427,10 +429,8 @@ class MiniTiebout(ap.Model):
         # self.network = self.agents.network = ap.Network(self, graph)
         # self.network.add_agents(self.agents, self.network.nodes)
         
-    def setup_mix_agents(self, agentlist, split):
+    def setup_mix_agents_by_split(self, agentlist, split):
         # generate primitives to mix list
-        agentlist = model.platforms
-        split = 3
         remaining = agentlist.copy()
         total = len(remaining)
         sublist_size = total // split
@@ -444,7 +444,7 @@ class MiniTiebout(ap.Model):
                 if remaining:
                     item = random.choice(remaining)
                     remaining.remove(item)
-                    sublist.append(item)
+                    sublist.append(item.id)
             sublists.append(sublist)
         
         # ensure remainder are sorted
@@ -452,9 +452,45 @@ class MiniTiebout(ap.Model):
             if remaining:
                 item = random.choice(remaining)
                 remaining.remove(item)
-                sublists[_].append(item)
+                sublists[_].append(item.id)
         
         return(sublists)
+    
+    def setup_mix_agents_by_percentage(self, agentlist, percentage):
+        # sanity check
+        if percentage <= 0 or percentage > 100:
+            raise ValueError("percentage must be between 0 and 100")
+        # generate primitives to mix list
+        num_items_to_select = int(len(agentlist) * (percentage / 100))
+        selected_items = random.sample(agentlist.id, num_items_to_select)
+        unselected_items = [item for item in agentlist.id if item not in selected_items]
+        
+        return(selected_items, unselected_items)
+        
+    
+    def setup_platform_types(self, sub_platforms):
+        """ assign platform types """
+        instlist = ['algorithmic','direct','coalition']
+        for sublist_idx, sublist in enumerate(sub_platforms):
+                for item in sublist:
+                    self.platforms.select(self.platforms.id == item).institution = instlist[sublist_idx]
+    
+    def setup_platform_policies(self):
+        """ set platform policies """
+        for platform in self.platforms:
+            # set policies
+            if platform.institution != 'algorithmic':
+            # generate random single policy slate
+                platform.policies = np.array([random.choice([0, 1]) for _ in range(self.p.p_space)]) # int
+            else:
+            # generate random policy slates
+                platform.policies = platform.cold_start_policies() 
+    
+    def setup_community_types(self, extremists):
+        """ assign community types """      
+        for id in extremists:
+            self.communities.select(self.communities.id == id).type = "extremist"
+            
 
 ### UPDATE ###
 
@@ -564,7 +600,9 @@ parameters = {
     'p_space': 10,
     'p_type': 'binary',
     'steps':50,
-    'institution': 'algorithmic',
+    'institution': 'mixed',
+    'extremists': 'no',
+    'percent_extremists': 0,
     'coalitions': 3,
     'mutations': 2,
     'search_steps': 10,
