@@ -67,7 +67,17 @@ class Community(ap.Agent):
             c_util = self.utility(self.platform.group_policies[self.group][1])
         else:
             c_util = self.utility(self.platform.policies)
-        self.current_utility = c_util
+
+        # extremist vampirism!
+        e_util = 0
+        if self.type == 'extremist':
+            for neighbor in self.platform.communities:
+                if neighbor.type == 'mainstream': e_util += (0.10 * self.p.p_space // 1)
+        elif self.type == 'mainstream':
+            for neighbor in self.platform.communities:
+                if neighbor.type == 'extremist': e_util -= (0.10 * self.p.p_space // 1)
+        
+        self.current_utility = c_util + e_util
     
     def join_platform(self,platform):
         """ join a platform """
@@ -582,56 +592,67 @@ class MiniTiebout(ap.Model):
 
     def end(self):
         # reporters
+        # stability
         self.report('average_moves', 
-                    sum(self.communities.moves) / len(self.communities))
+                    sum(self.communities.moves) / self.p.n_comms)
+        # per capita utility
         self.report('average_utility', 
-                    sum(self.communities.current_utility) / len(self.communities))
+                    sum(self.communities.current_utility) / self.p.n_comms)
+        # dealing with extremists
+        if self.p.extremists == 'yes':
+            # per capita utility extremists
+            extremists = self.communities.select(self.communities.type == 'extremist')
+            self.report('average_extremist_utility',
+                        sum(extremists.current_utility) / len(extremists))
+            # per capita utility mainstream
+            mainstream = self.communities.select(self.communities.type == 'mainstream')
+            self.report('average_mainstream_utility',
+                        sum(mainstream.current_utility) / len(mainstream))
         
     # def end_utility_per_platform_type(self):
         
+# parameters = {
+#     'n_comms': 1000,
+#     'n_plats': 10,
+#     'p_space': 10,
+#     'p_type': 'binary',
+#     'steps':50,
+#     'institution': 'mixed',
+#     'extremists': 'yes',
+#     'percent_extremists': 10,
+#     'coalitions': 3,
+#     'mutations': 2,
+#     'search_steps': 10,
+#     'svd_groups': 3,
+#     'stop_condition': 'steps'
+# }
 
-        
+# model = MiniTiebout(parameters)
+# results = model.run()
 
 
-
-parameters = {
-    'n_comms': 100,
-    'n_plats': 10,
-    'p_space': 10,
+exp_parameters = {
+    'n_comms': ap.IntRange(100,1000),
+    'n_plats': ap.IntRange(10, 100),
+    'p_space': ap.IntRange(10, 100),
     'p_type': 'binary',
-    'steps':50,
-    'institution': 'mixed',
-    'extremists': 'no',
-    'percent_extremists': 0,
-    'coalitions': 3,
+    'steps': 50,
+    'institution': ap.Values('mixed','algorithmic','direct','coalition'),
+    'extremists': ap.Values('yes','no'),
+    'percent_extremists': ap.Values(5,10,20,30),
+    'coalitions': ap.IntRange(2,10),
     'mutations': 2,
     'search_steps': 10,
     'svd_groups': 3,
     'stop_condition': 'steps'
 }
 
-model = MiniTiebout(parameters)
-results = model.run()
+sample = ap.Sample(
+    exp_parameters,
+    n=100,
+    method='saltelli',
+    calc_second_order=False
+)
 
-
-# exp_parameters = {
-#     'n_comms': ap.IntRange(100,1000),
-#     'n_plats': ap.IntRange(10, 100),
-#     'p_space': ap.IntRange(10, 100),
-#     'p_type': 'binary',
-#     'steps': 50,
-#     'institution': 'coalition',
-#     'coalitions': ap.IntRange(2,10),
-#     'mutations': 2,
-#     'search_steps': 10
-# }
-
-# sample = ap.Sample(
-#     exp_parameters,
-#     n=100,
-#     method='saltelli',
-#     calc_second_order=False
-# )
-
-# exp = ap.Experiment(MiniTiebout, sample, iterations=10)
-# results = exp.run(n_jobs = -1, verbose=10)
+exp = ap.Experiment(MiniTiebout, sample, iterations=10)
+results = exp.run(n_jobs = -1, verbose=10)
