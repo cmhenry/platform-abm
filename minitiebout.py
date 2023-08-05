@@ -105,6 +105,9 @@ class Community(ap.Agent):
         # current_utility = self.update_utility(self.platform)
         for platform in self.model.platforms:
             if platform.institution == 'algorithmic':
+                # if platform has no group policies bc it is empty, force it to kickstart
+                if not platform.group_policies:
+                    platform.policies = platform.cold_start_policies()
                 new_policy = platform.group_policies[random.choice(list(platform.group_policies.keys()))][1]
             else:
                 new_policy = platform.policies
@@ -254,6 +257,10 @@ class Platform(ap.Agent):
 
     def group_communities(self):
         """ sort communities into groups """
+        # fallback conditions if platform is empty
+        if len(self.communities) == 0:
+            return
+        # aggregate preferences
         self.aggregate_preferences()
 
         # check if platform has enough communities
@@ -335,7 +342,7 @@ class Platform(ap.Agent):
     def election(self):
         """ election mechanism """
 
-        if(self.p.institution == 'direct'):
+        if(self.institution == 'direct'):
             ## gather votes
             votes = self.direct_poll()
 
@@ -349,7 +356,7 @@ class Platform(ap.Agent):
                     ## invert policy if it's below the threshold
                     self.policies[i] = self.policies[i] ^ 1
 
-        if(self.p.institution == 'coalition'):
+        if(self.institution == 'coalition'):
             ## generate coalitions
             self.create_coalitions()
             
@@ -366,7 +373,7 @@ class Platform(ap.Agent):
             new_policies = self.coalitions[random.choice(winners)]
             self.policies = new_policies
 
-        if(self.p.institution == 'algorithmic'):
+        if(self.institution == 'algorithmic'):
             ## produce new content slate
             self.policies = self.cold_start_policies()
 
@@ -595,10 +602,7 @@ class MiniTiebout(ap.Model):
 
     def step_elections(self):
         """ function to hold elections """
-        if self.p.institution == 'none':
-            return(self)
-        else:
-            for platform in self.platforms:
+        for platform in self.platforms:
                 platform.election()
 
 ### END ###
@@ -626,14 +630,14 @@ class MiniTiebout(ap.Model):
         
 # parameters = {
 #     'n_comms': 1000,
-#     'n_plats': 100,
+#     'n_plats': 10,
 #     'p_space': 10,
 #     'p_type': 'binary',
 #     'steps':50,
-#     'institution': 'direct',
+#     'institution': 'mixed',
 #     'extremists': 'yes',
-#     'percent_extremists': 10,
-#     'coalitions': 3,
+#     'percent_extremists': 5,
+#     'coalitions': 2,
 #     'mutations': 2,
 #     'search_steps': 10,
 #     'svd_groups': 3,
@@ -667,5 +671,5 @@ sample = ap.Sample(
     calc_second_order=False
 )
 
-exp = ap.Experiment(MiniTiebout, sample, iterations=10)
+exp = ap.Experiment(MiniTiebout, sample, iterations=10, record=True)
 results = exp.run(n_jobs = -1, verbose=10)
