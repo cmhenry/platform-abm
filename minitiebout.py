@@ -105,6 +105,7 @@ class Community(ap.Agent):
                 new_policy = platform.policies
                 if self.utility(new_policy) > self.current_utility:
                         self.candidates.append(platform)
+        if not self.candidates: self.candidates.append(self.platform)
             
     
     def set_strategy(self):
