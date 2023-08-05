@@ -379,7 +379,9 @@ class Platform(ap.Agent):
             ## count votes and reset policy
             count = Counter(votes)
             winners = [item for item, freq in count.items() if freq == max(count.values())]
-            new_policies = self.coalitions[random.choice(winners)]
+            if not winners:
+                new_policies = np.array([random.choice([0, 1]) for _ in range(self.p.p_space)])
+            else: new_policies = self.coalitions[random.choice(winners)]
             self.policies = new_policies
 
         if(self.institution == 'algorithmic'):
