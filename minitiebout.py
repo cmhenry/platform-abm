@@ -51,9 +51,9 @@ class Community(ap.Agent):
 
     def utility(self,policies):
         """ calculate utility over a given platform from utility fn """
-        # basic utility function, no sub-game
-        if len(self.preferences) != len(policies):
-            raise ValueError("agent must have complete preferences over vector of platform policies")
+        # # basic utility function, no sub-game
+        # if len(self.preferences) != len(policies):
+        #     raise ValueError("agent must have complete preferences over vector of platform policies")
         utility = sum(pref == pol for pref,pol in zip(self.preferences, policies))
         # else:
         #     utility = sum(pref == pol for pref,pol in zip(self.preferences, 
@@ -641,15 +641,15 @@ class MiniTiebout(ap.Model):
     # def end_utility_per_platform_type(self):
         
 # parameters = {
-#     'n_comms': 1000,
-#     'n_plats': 10,
-#     'p_space': 10,
+#     'n_comms': 905,
+#     'n_plats': 18,
+#     'p_space': 56,
 #     'p_type': 'binary',
 #     'steps':50,
-#     'institution': 'mixed',
+#     'institution': 'algorithmic',
 #     'extremists': 'yes',
 #     'percent_extremists': 5,
-#     'coalitions': 2,
+#     'coalitions': 5,
 #     'mutations': 2,
 #     'search_steps': 10,
 #     'svd_groups': 3,
@@ -678,7 +678,7 @@ exp_parameters = {
 
 sample = ap.Sample(
     exp_parameters,
-    n=100,
+    n=10,
     method='saltelli',
     calc_second_order=False
 )
