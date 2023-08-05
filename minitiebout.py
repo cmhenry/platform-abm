@@ -88,12 +88,19 @@ class Community(ap.Agent):
     
     def find_new_platform(self):
         """ find candidate platforms """
+        self.candidates = []
         for platform in self.model.platforms:
             if platform.institution == 'algorithmic':
-                for group_policy in platform.group_policies.values():
-                    new_policy = group_policy[1]
+                if not platform.group_policies:
+                    platform.policies = platform.cold_start_policies()
+                    new_policy = random.choice(platform.policies)
                     if self.utility(new_policy) > self.current_utility:
                         self.candidates.append(platform)
+                else:
+                    for group_policy in platform.group_policies.values():
+                        new_policy = group_policy[1]
+                        if self.utility(new_policy) > self.current_utility:
+                            self.candidates.append(platform)
             else:
                 new_policy = platform.policies
                 if self.utility(new_policy) > self.current_utility:
