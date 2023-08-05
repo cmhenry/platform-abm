@@ -38,10 +38,10 @@ class Community(ap.Agent):
 
     def setup(self):
         """ Initialize a new variable at agent creation. """
+        self.type = 'mainstream'
         # set preferences
         self.preferences = np.array([random.choice([0, 1]) for _ in range(self.p.p_space)]) # int
         # set initial vars
-        self.type = 'mainstream'
         self.current_utility = 0
         self.platform = ''
         self.strategy = ''
@@ -72,10 +72,12 @@ class Community(ap.Agent):
         e_util = 0
         if self.type == 'extremist':
             for neighbor in self.platform.communities:
-                if neighbor.type == 'mainstream': e_util += (0.10 * self.p.p_space // 1)
+                # if neighbor.type == 'mainstream': e_util += (0.10 * self.p.p_space // 1)
+                if neighbor.type == 'mainstream': e_util += 1
         elif self.type == 'mainstream':
             for neighbor in self.platform.communities:
-                if neighbor.type == 'extremist': e_util -= (0.10 * self.p.p_space // 1)
+                # if neighbor.type == 'extremist': e_util -= (0.10 * self.p.p_space // 1)
+                if neighbor.type == 'extremist': e_util -= 1
         
         self.current_utility = c_util + e_util
     
@@ -406,9 +408,13 @@ class MiniTiebout(ap.Model):
         # mix platforms if necessary
         if self.p.institution == 'mixed':
             sub_platforms = self.setup_mix_agents_by_split(self.platforms,3)
-            self.setup_platform_types(sub_platforms)
+            self.setup_platform_institutions(sub_platforms)
         else: self.platforms.institution = self.p.institution  
-        self.setup_platform_policies()    
+        self.setup_platform_policies()
+        # mix platforms for extremism if necessary
+        if self.p.extremists == 'yes':
+            extremists, mainstream = self.setup_mix_agents_by_percentage(self.platforms, self.p.percent_extremists)
+            self.setup_platform_types(extremists)
             
             
         # for platform in self.platforms:
@@ -478,12 +484,18 @@ class MiniTiebout(ap.Model):
         return(selected_items, unselected_items)
         
     
-    def setup_platform_types(self, sub_platforms):
-        """ assign platform types """
+    def setup_platform_institutions(self, sub_platforms):
+        """ assign platform institutions """
         instlist = ['algorithmic','direct','coalition']
         for sublist_idx, sublist in enumerate(sub_platforms):
-                for item in sublist:
-                    self.platforms.select(self.platforms.id == item).institution = instlist[sublist_idx]
+            for item in sublist:
+                self.platforms.select(self.platforms.id == item).institution = instlist[sublist_idx]
+
+    def setup_platform_types(self, sub_platforms):
+        """ assign platform types """
+        for id in sub_platforms:
+            if self.platforms.select(self.platforms.id == id).institution != 'algorithmic':
+                self.platforms.select(self.platforms.id == id).policies = [0 for _ in range(self.p.p_space)]
     
     def setup_platform_policies(self):
         """ set platform policies """
@@ -500,6 +512,7 @@ class MiniTiebout(ap.Model):
         """ assign community types """      
         for id in extremists:
             self.communities.select(self.communities.id == id).type = "extremist"
+            self.communities.select(self.communities.id == id).preferences = [0 for _ in range(self.p.p_space)]
             
 
 ### UPDATE ###
@@ -613,11 +626,11 @@ class MiniTiebout(ap.Model):
         
 # parameters = {
 #     'n_comms': 1000,
-#     'n_plats': 10,
+#     'n_plats': 100,
 #     'p_space': 10,
 #     'p_type': 'binary',
 #     'steps':50,
-#     'institution': 'mixed',
+#     'institution': 'direct',
 #     'extremists': 'yes',
 #     'percent_extremists': 10,
 #     'coalitions': 3,
