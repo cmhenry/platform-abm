@@ -108,7 +108,9 @@ class Community(ap.Agent):
                 # if platform has no group policies bc it is empty, force it to kickstart
                 if not platform.group_policies:
                     platform.policies = platform.cold_start_policies()
-                new_policy = platform.group_policies[random.choice(list(platform.group_policies.keys()))][1]
+                    new_policy = random.choice(platform.policies)
+                else:
+                    new_policy = platform.group_policies[random.choice(list(platform.group_policies.keys()))][1]
             else:
                 new_policy = platform.policies
             
