@@ -268,8 +268,8 @@ class Platform(ap.Agent):
     def group_communities(self):
         """ sort communities into groups """
         # fallback conditions if platform is empty
-        if len(self.communities) == 0:
-            return
+        # if len(self.communities) == 0:
+        #     return
         # aggregate preferences
         self.aggregate_preferences()
 
@@ -291,7 +291,7 @@ class Platform(ap.Agent):
     
     def cold_start_policies(self):
         """ construct policy bundles """
-        bundles = np.array(np.random.randint(2, size=(5,self.p.p_space))) # int
+        bundles = np.random.randint(2, size=(5,self.p.p_space)) # int
         return bundles
     
     def rate_policies(self):
@@ -429,7 +429,9 @@ class MiniTiebout(ap.Model):
             sub_platforms = self.setup_mix_agents_by_split(self.platforms,3)
             self.setup_platform_institutions(sub_platforms)
         else: self.platforms.institution = self.p.institution  
+
         self.setup_platform_policies()
+
         # mix platforms for extremism if necessary
         if self.p.extremists == 'yes':
             extremists, mainstream = self.setup_mix_agents_by_percentage(self.platforms, self.p.percent_extremists)
@@ -514,24 +516,23 @@ class MiniTiebout(ap.Model):
         """ assign platform types """
         for id in sub_platforms:
             if self.platforms.select(self.platforms.id == id).institution != 'algorithmic':
-                self.platforms.select(self.platforms.id == id).policies = [0 for _ in range(self.p.p_space)]
+                self.platforms.select(self.platforms.id == id).policies = np.array([0 for _ in range(self.p.p_space)])
     
     def setup_platform_policies(self):
         """ set platform policies """
         for platform in self.platforms:
             # set policies
             if platform.institution != 'algorithmic':
-            # generate random single policy slate
+                # generate random single policy slate
                 platform.policies = np.array([random.choice([0, 1]) for _ in range(self.p.p_space)]) # int
             else:
-            # generate random policy slates
                 platform.policies = platform.cold_start_policies() 
     
     def setup_community_types(self, extremists):
         """ assign community types """      
         for id in extremists:
             self.communities.select(self.communities.id == id).type = "extremist"
-            self.communities.select(self.communities.id == id).preferences = [0 for _ in range(self.p.p_space)]
+            self.communities.select(self.communities.id == id).preferences = np.array([0 for _ in range(self.p.p_space)])
             
 
 ### UPDATE ###
@@ -606,6 +607,7 @@ class MiniTiebout(ap.Model):
                 community.find_new_platform()
                 # community joins new platform
                 new_platform = random.choice(community.candidates)
+                community.platform.rm_community(community)
                 community.join_platform(new_platform)
                 # add community to platform
                 new_platform.add_community(community)
@@ -641,47 +643,63 @@ class MiniTiebout(ap.Model):
     # def end_utility_per_platform_type(self):
         
 # parameters = {
-#     'n_comms': 905,
-#     'n_plats': 18,
-#     'p_space': 56,
+#     'n_comms': 100,
+#     'n_plats': 50,
+#     'p_space': 35,
 #     'p_type': 'binary',
 #     'steps':50,
-#     'institution': 'algorithmic',
-#     'extremists': 'yes',
+#     'institution': 'mixed',
+#     'extremists': 'no',
 #     'percent_extremists': 5,
 #     'coalitions': 5,
 #     'mutations': 2,
 #     'search_steps': 10,
-#     'svd_groups': 3,
-#     'stop_condition': 'steps'
+#     'svd_groups': 2,
+#     'stop_condition': 'steps',
+#     'seed': 1999
 # }
 
 # model = MiniTiebout(parameters)
 # results = model.run()
 
 
-exp_parameters = {
-    'n_comms': ap.IntRange(100,1000),
-    'n_plats': ap.IntRange(10, 100),
-    'p_space': ap.IntRange(10, 100),
+# exp_parameters = {
+#     'n_comms': ap.IntRange(100,1000),
+#     'n_plats': ap.IntRange(10, 100),
+#     'p_space': ap.IntRange(10, 100),
+#     'p_type': 'binary',
+#     'steps': 50,
+#     'institution': ap.Values('mixed','algorithmic','direct','coalition'),
+#     'extremists': ap.Values('yes','no'),
+#     'percent_extremists': ap.Values(5,10,20,30),
+#     'coalitions': ap.IntRange(2,10),
+#     'mutations': 2,
+#     'search_steps': 10,
+#     'svd_groups': 3,
+#     'stop_condition': 'steps'
+# }
+
+exp_parameters1 = {
+    'n_comms': ap.Values(100,200,300,400,500,600,700,800,900,1000),
+    'n_plats': ap.Values(10, 20,30,40,50,60,70,80,90,100),
+    'p_space': ap.Values(10, 20,30,40,50,60,70,80,90,100),
     'p_type': 'binary',
     'steps': 50,
-    'institution': ap.Values('mixed','algorithmic','direct','coalition'),
-    'extremists': ap.Values('yes','no'),
-    'percent_extremists': ap.Values(5,10,20,30),
+    'institution': ap.Values('algorithmic','direct','coalition'),
+    'extremists': 'no',
+    'percent_extremists': 10,
     'coalitions': ap.IntRange(2,10),
     'mutations': 2,
     'search_steps': 10,
     'svd_groups': 3,
-    'stop_condition': 'steps'
+    'stop_condition': 'steps',
+    'seed': 1999
 }
 
-sample = ap.Sample(
-    exp_parameters,
-    n=10,
-    method='saltelli',
-    calc_second_order=False
+sample1 = ap.Sample(
+    exp_parameters1,
+    method='linspace'
 )
 
-exp = ap.Experiment(MiniTiebout, sample, iterations=10, record=True)
-results = exp.run(n_jobs = -1, verbose=10)
+exp1 = ap.Experiment(MiniTiebout, sample1, iterations=10, record=True)
+results1 = exp.run(n_jobs = -1, verbose=10)
