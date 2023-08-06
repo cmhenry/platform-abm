@@ -629,34 +629,46 @@ class MiniTiebout(ap.Model):
         # per capita utility
         self.report('average_utility', 
                     sum(self.communities.current_utility) / self.p.n_comms)
-        self.report('test', 1)
         # breaking down mixed cohorts
         if self.p.institution == 'mixed':
-            # grab counts
+            # count: number of platforms in each type
             n_direct = sum(1 for plat in self.platforms if plat.institution == 'direct')
             n_coalition = sum(1 for plat in self.platforms if plat.institution == 'coalition')
             n_algo = sum(1 for plat in self.platforms if plat.institution == 'algorithmic')
-            # sum utilities & counts by platform type
-            n_direct_comms = 0
-            n_coalition_comms = 0
-            n_algo_comms = 0
-            for platform in self.platforms.select(self.platforms.institution == 'direct'):
-                n_direct_comms += len(platform.communities)
-            for platform in self.platforms.select(self.platforms.institution == 'coalition'):
-                n_coalition_comms += len(platform.communities)
-            for platform in self.platforms.select(self.platforms.institution == 'algorithmic'):
-                n_algo_comms += len(platform.communities) 
-            # per capita utility
-            self.report('avg_utility_direct',
-                        n_direct_comms / n_direct)
-            self.report('avg_utility_coalition',
-                        n_coalition_comms / n_coalition)
-            self.report('avg_utility_algo',
-                        n_algo_comms / n_algo)
-            # number of communities
+
+            # count: number of communities in each platform type
+            n_direct_comms = len(self.communities.select(
+                self.communities.platform.institution == 'direct'))
+            n_coalition_comms = len(self.communities.select(
+                self.communities.platform.institution == 'coalition'))
+            n_algo_comms = len(self.communities.select(
+                self.communities.platform.institution == 'algorithmic'))         
+
+            # number of communities per platform type
             self.report('n_direct_comms', n_direct_comms)
             self.report('n_coalition_comms', n_coalition_comms)
             self.report('n_algo_comms', n_algo_comms)
+
+            # ratio of communities per platform type
+            self.report('ratio_direct', n_direct_comms / self.p.n_comms)
+            self.report('ratio_coalition', n_coalition_comms / self.p.n_comms)
+            self.report('ratio_algo', n_algo_comms / self.p.n_comms)
+
+            # summed utility per platform type
+            util_direct = sum(self.communities.select(
+                self.communities.platform.institution == 'direct').current_utility)
+            util_coalition = util_direct = sum(self.communities.select(
+                self.communities.platform.institution == 'coalition').current_utility)
+            util_algo = util_direct = sum(self.communities.select(
+                self.communities.platform.institution == 'algorithmic').current_utility)
+
+            # per capita utility
+            self.report('avg_utility_direct',
+                        util_direct / n_direct_comms)
+            self.report('avg_utility_coalition',
+                        util_coalition / n_coalition_comms)
+            self.report('avg_utility_algo',
+                        util_algo / n_algo_comms)
             # # per capita if there are extremists
             # if self.p.extremists == 'yes':
             #     extremists = self.communities.select(self.communities.type == 'extremist')
@@ -665,7 +677,8 @@ class MiniTiebout(ap.Model):
             #     # per capita utility mainstream
             #     mainstream = self.communities.select(self.communities.type == 'mainstream')
             #     self.report('average_mainstream_utility',
-            #             sum(mainstream.current_utility) / len(mainstream))    
+            #             sum(mainstream.current_utility) / len(mainstream))
+            
         # dealing with extremists
         if self.p.extremists == 'yes':
             # per capita utility extremists

@@ -173,13 +173,144 @@ param_2_mixed = {
 
 model_2 = minitiebout.MiniTiebout(param_2_mixed)
 
-n_algo_comms = 0
-for platform in model_2.platforms.select(model_2.platforms.institution == 'algorithmic'):
-                n_algo_comms += len(platform.communities) 
-n_algo = sum(1 for plat in model_2.platforms if plat.institution == 'algorithmic')
-
-n_algo_comms / n_algo
-
 results_2 = model_2.run()
 
 results_2.reporters
+
+# >>> print(results_2.reporters)
+#    seed  average_moves  average_utility  n_direct_comms  n_coalition_comms  n_algo_comms  ratio_direct  ratio_coalition  ratio_algo  \
+# 0  1999          38.28             5.54              58                 55           187      0.193333         0.183333    0.623333   
+
+#    avg_utility_direct  avg_utility_coalition  avg_utility_algo  
+# 0           18.051724               5.054545           5.59893
+
+### Experiment 3 trial 1: multiple platform institutional comparisons + extremists
+
+param_3a_t1_direct = {
+    'n_comms': 100,
+    'n_plats': 5,
+    'p_space': 10,
+    'p_type': 'binary',
+    'steps':50,
+    'institution': 'direct',
+    'extremists': 'yes',
+    'percent_extremists': 15,
+    'coalitions': 5,
+    'mutations': 2,
+    'search_steps': 10,
+    'svd_groups': 2,
+    'stop_condition': 'steps',
+    'seed': 1999
+}
+
+param_3b_t1_coalition = {
+    'n_comms': 100,
+    'n_plats': 5,
+    'p_space': 10,
+    'p_type': 'binary',
+    'steps':50,
+    'institution': 'coalition',
+    'extremists': 'yes',
+    'percent_extremists': 15,
+    'coalitions': 3,
+    'mutations': 2,
+    'search_steps': 10,
+    'svd_groups': 2,
+    'stop_condition': 'steps',
+    'seed': 1999
+}
+
+param_3c_t1_algorithm = {
+    'n_comms': 100,
+    'n_plats': 5,
+    'p_space': 10,
+    'p_type': 'binary',
+    'steps':50,
+    'institution': 'algorithm',
+    'extremists': 'yes',
+    'percent_extremists': 15,
+    'coalitions': 3,
+    'mutations': 2,
+    'search_steps': 10,
+    'svd_groups': 3,
+    'stop_condition': 'steps',
+    'seed': 1999
+}
+
+model_3a_t1 = minitiebout.MiniTiebout(param_3a_t1_direct)
+model_3b_t1 = minitiebout.MiniTiebout(param_3b_t1_coalition)
+model_3c_t1 = minitiebout.MiniTiebout(param_3c_t1_algorithm)
+
+results_3a_t1 = model_3a_t1.run()
+results_3b_t1 = model_3b_t1.run()
+results_3c_t1 = model_3c_t1.run()
+
+results_3a_t1.reporters 
+results_3b_t1.reporters 
+results_3c_t1.reporters 
+
+### with 5 percent extremists
+# >>> results_3a_t1.reporters 
+#    seed  average_moves  average_utility  average_extremist_utility  average_mainstream_utility
+# 0  1999          37.44             5.88                       26.4                         4.8
+# >>> results_3b_t1.reporters 
+#    seed  average_moves  average_utility  average_extremist_utility  average_mainstream_utility
+# 0  1999          44.77             4.71                       23.8                    3.705263
+# >>> results_3c_t1.reporters 
+#    seed  average_moves  average_utility  average_extremist_utility  average_mainstream_utility
+# 0  1999          29.84             6.56                       17.8                    5.968421
+
+### with 10 percent extremists
+# >>> results_3a_t1.reporters 
+#    seed  average_moves  average_utility  average_extremist_utility  average_mainstream_utility
+# 0  1999          40.69             5.65                       23.0                    3.722222
+# >>> results_3b_t1.reporters 
+#    seed  average_moves  average_utility  average_extremist_utility  average_mainstream_utility
+# 0  1999          44.13             4.91                       20.5                    3.177778
+# >>> results_3c_t1.reporters 
+#    seed  average_moves  average_utility  average_extremist_utility  average_mainstream_utility
+# 0  1999          34.72             6.43                       20.4                    4.877778
+
+### with 15 percent extremists
+# >>> results_3a_t1.reporters 
+#    seed  average_moves  average_utility  average_extremist_utility  average_mainstream_utility
+# 0  1999           43.5             5.65                  24.666667                    2.294118
+# >>> results_3b_t1.reporters 
+#    seed  average_moves  average_utility  average_extremist_utility  average_mainstream_utility
+# 0  1999           43.5             4.32                       20.6                    1.447059
+# >>> results_3c_t1.reporters 
+#    seed  average_moves  average_utility  average_extremist_utility  average_mainstream_utility
+# 0  1999           43.5             5.42                  18.333333                    3.141176
+
+### Experiment 3b: mixed institutions, multiple platforms + extremists
+
+param_3b_mixed = {
+    'n_comms': 300,
+    'n_plats': 15,
+    'p_space': 10,
+    'p_type': 'binary',
+    'steps':50,
+    'institution': 'mixed',
+    'extremists': 'yes',
+    'percent_extremists': 5,
+    'coalitions': 3,
+    'mutations': 2,
+    'search_steps': 10,
+    'svd_groups': 3,
+    'stop_condition': 'steps',
+    'seed': 1999
+}
+
+model_3b = minitiebout.MiniTiebout(param_3b_mixed)
+
+results_3b = model_3b.run()
+
+results_3b.reporters
+
+### with 5 percent extremists
+# >>> results_3b.reporters
+#    seed  average_moves  average_utility  n_direct_comms  n_coalition_comms  n_algo_comms  ratio_direct  ratio_coalition  ratio_algo  \
+# 0  1999      44.546667         5.746667              62                 52           186      0.206667         0.173333        0.62   
+
+#    avg_utility_direct  avg_utility_coalition  avg_utility_algo  average_extremist_utility  average_mainstream_utility  
+# 0           17.967742               4.153846          5.989247                  29.066667                    4.519298
