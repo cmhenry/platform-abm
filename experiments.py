@@ -307,10 +307,108 @@ results_3b = model_3b.run()
 
 results_3b.reporters
 
-### with 5 percent extremists
+### with 5 percent extremists + 15 platforms
 # >>> results_3b.reporters
 #    seed  average_moves  average_utility  n_direct_comms  n_coalition_comms  n_algo_comms  ratio_direct  ratio_coalition  ratio_algo  \
 # 0  1999      44.546667         5.746667              62                 52           186      0.206667         0.173333        0.62   
 
 #    avg_utility_direct  avg_utility_coalition  avg_utility_algo  average_extremist_utility  average_mainstream_utility  
 # 0           17.967742               4.153846          5.989247                  29.066667                    4.519298
+
+param_3b_t2_mixed = {
+    'n_comms': 300,
+    'n_plats': 3,
+    'p_space': 10,
+    'p_type': 'binary',
+    'steps':50,
+    'institution': 'mixed',
+    'extremists': 'yes',
+    'percent_extremists': 5,
+    'coalitions': 6,
+    'mutations': 2,
+    'search_steps': 10,
+    'svd_groups': 3,
+    'stop_condition': 'steps',
+    'seed': 1999
+}
+
+model_3b_t2 = minitiebout.MiniTiebout(param_3b_t2_mixed)
+
+results_3b_t2 = model_3b_t2.run()
+
+results_3b_t2.reporters
+
+### with 5 percent extremists + 6 platforms
+# >>> results_3b_t2.reporters
+#    seed  average_moves  average_utility  n_direct_comms  n_coalition_comms  n_algo_comms  ratio_direct  ratio_coalition  ratio_algo  \
+# 0  1999      46.736667         5.636667              60                 67           173           0.2         0.223333    0.576667   
+
+#    avg_utility_direct  avg_utility_coalition  avg_utility_algo  average_extremist_utility  average_mainstream_utility  
+# 0           16.583333                5.61194          5.751445                       48.0                    3.407018  
+
+param_3b_t3_mixed = {
+    'n_comms': 300,
+    'n_plats': 6,
+    'p_space': 10,
+    'p_type': 'binary',
+    'steps':50,
+    'institution': 'mixed',
+    'extremists': 'yes',
+    'percent_extremists': 5,
+    'coalitions': 6,
+    'mutations': 2,
+    'search_steps': 10,
+    'svd_groups': 3,
+    'stop_condition': 'steps',
+    'seed': 1999
+}
+
+model_3b_t3 = minitiebout.MiniTiebout(param_3b_t3_mixed)
+
+results_3b_t3 = model_3b_t3.run()
+
+results_3b_t3.reporters
+
+### with 5 percent extremists + 6 platforms + 6 coalitions
+# >>> results_3b_t2.reporters
+#    seed  average_moves  average_utility  n_direct_comms  n_coalition_comms  n_algo_comms  ratio_direct  ratio_coalition  ratio_algo  \
+# 0  1999      47.703333         5.556667              77                 47           176      0.256667         0.156667    0.586667   
+
+#    avg_utility_direct  avg_utility_coalition  avg_utility_algo  average_extremist_utility  average_mainstream_utility  
+# 0           12.688312               7.212766          5.551136                  53.533333                    3.031579 
+
+param_3b_jumbo_mixed = {
+    'n_comms': 1500,
+    'n_plats': 6,
+    'p_space': 10,
+    'p_type': 'binary',
+    'steps':50,
+    'institution': 'mixed',
+    'extremists': 'yes',
+    'percent_extremists': 5,
+    'coalitions': 6,
+    'mutations': 2,
+    'search_steps': 10,
+    'svd_groups': 3,
+    'stop_condition': 'steps',
+    'seed': 1999
+}
+
+model_3b_jumbo = minitiebout.MiniTiebout(param_3b_jumbo_mixed)
+
+results_3b_jumbo = model_3b_jumbo.run()
+
+results_3b_jumbo.reporters
+
+### with 5 percent extremists + 6 platforms + 6 coalitions + 1500 communities
+# >>> results_3b_jumbo.reporters
+#    seed  average_moves  average_utility  n_direct_comms  n_coalition_comms  n_algo_comms  ratio_direct  ratio_coalition  ratio_algo  \
+# 0  1999           48.5         5.475333             307                290           903      0.204667         0.193333       0.602   
+
+#    avg_utility_direct  avg_utility_coalition  avg_utility_algo  average_extremist_utility  average_mainstream_utility  
+# 0           15.990228               3.106897          5.436323                 243.626667                   -7.058947 
+## QUICKTAKE: direct voting on policies -> more utility for communities, both types; coalition utility goes up when
+## there are more coalition slots available and communities can shrink; extremists netting higher overall utility
+## than mainstream; although some extremists end up on "extremist" platforms with favorable policies, big utility
+## gains for extremists are those who stick around non-extremist platforms with just-unfavorable policies &
+## steal utility from mainstream
