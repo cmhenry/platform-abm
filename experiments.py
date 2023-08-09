@@ -154,9 +154,9 @@ results_1c_t2.reporters
 
 ### Experiment 2: mixed institutions, multiple platforms
 
-param_2_mixed = {
-    'n_comms': 300,
-    'n_plats': 15,
+param_2_mixed_small = {
+    'n_comms': 100,
+    'n_plats': 3,
     'p_space': 10,
     'p_type': 'binary',
     'steps':50,
@@ -171,18 +171,75 @@ param_2_mixed = {
     'seed': 1999
 }
 
-model_2 = minitiebout.MiniTiebout(param_2_mixed)
+param_2_mixed_med = {
+    'n_comms': 300,
+    'n_plats': 9,
+    'p_space': 10,
+    'p_type': 'binary',
+    'steps':50,
+    'institution': 'mixed',
+    'extremists': 'no',
+    'percent_extremists': 5,
+    'coalitions': 3,
+    'mutations': 2,
+    'search_steps': 10,
+    'svd_groups': 3,
+    'stop_condition': 'steps',
+    'seed': 1999
+}
 
-results_2 = model_2.run()
+param_2_mixed_large = {
+    'n_comms': 900,
+    'n_plats': 27,
+    'p_space': 10,
+    'p_type': 'binary',
+    'steps':50,
+    'institution': 'mixed',
+    'extremists': 'no',
+    'percent_extremists': 5,
+    'coalitions': 3,
+    'mutations': 2,
+    'search_steps': 10,
+    'svd_groups': 3,
+    'stop_condition': 'steps',
+    'seed': 1999
+}
 
-results_2.reporters
+model_2_small = minitiebout.MiniTiebout(param_2_mixed_small)
+model_2_med = minitiebout.MiniTiebout(param_2_mixed_med)
+model_2_large = minitiebout.MiniTiebout(param_2_mixed_large)
 
-# >>> print(results_2.reporters)
-#    seed  average_moves  average_utility  n_direct_comms  n_coalition_comms  n_algo_comms  ratio_direct  ratio_coalition  ratio_algo  \
-# 0  1999          38.28             5.54              58                 55           187      0.193333         0.183333    0.623333   
 
-#    avg_utility_direct  avg_utility_coalition  avg_utility_algo  
-# 0           18.051724               5.054545           5.59893
+results_2_small = model_2_small.run()
+esults_2_med = model_2_med.run()
+results_2_large = model_2_large.run()
+
+
+results_2_small.reporters
+esults_2_med.reporters
+results_2_large.reporters
+
+# >>> results_2_small.reporters
+#    seed  average_moves  average_utility  n_direct_comms  n_coalition_comms  \
+# 0  1999         21.5            6.0               30              23
+#    n_algo_comms  ratio_direct  ratio_coalition  ratio_algo  \
+# 0           47           0.3          0.23            0.47
+#    avg_utility_direct  avg_utility_coalition  avg_utility_algo
+# 0          9.3            5.478261                5.93617
+# >>> esults_2_med.reporters
+#    seed  average_moves  average_utility  n_direct_comms  n_coalition_comms  \
+# 0  1999    35.663333       5.583333               69              70
+#    n_algo_comms  ratio_direct  ratio_coalition  ratio_algo  \
+# 0          161          0.23      0.233333        0.536667
+#    avg_utility_direct  avg_utility_coalition  avg_utility_algo
+# 0    12.927536            5.285714               5.540373
+# >>> results_2_large.reporters
+#    seed  average_moves  average_utility  n_direct_comms  n_coalition_comms  \
+# 0  1999    42.585556       5.551111              137             193
+#    n_algo_comms  ratio_direct  ratio_coalition  ratio_algo  \
+# 0          570      0.152222      0.214444        0.633333
+#    avg_utility_direct  avg_utility_coalition  avg_utility_algo
+# 0    23.437956            5.419689               5.633333
 
 ### Experiment 3 trial 1: multiple platform institutional comparisons + extremists
 
