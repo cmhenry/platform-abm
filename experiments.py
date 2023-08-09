@@ -215,31 +215,54 @@ esults_2_med = model_2_med.run()
 results_2_large = model_2_large.run()
 
 
-results_2_small.reporters
-esults_2_med.reporters
-results_2_large.reporters
+model_2_small.reporters
+model_2_med.reporters
+model_2_large.reporters
 
-# >>> results_2_small.reporters
-#    seed  average_moves  average_utility  n_direct_comms  n_coalition_comms  \
-# 0  1999         21.5            6.0               30              23
-#    n_algo_comms  ratio_direct  ratio_coalition  ratio_algo  \
-# 0           47           0.3          0.23            0.47
-#    avg_utility_direct  avg_utility_coalition  avg_utility_algo
-# 0          9.3            5.478261                5.93617
-# >>> esults_2_med.reporters
-#    seed  average_moves  average_utility  n_direct_comms  n_coalition_comms  \
-# 0  1999    35.663333       5.583333               69              70
-#    n_algo_comms  ratio_direct  ratio_coalition  ratio_algo  \
-# 0          161          0.23      0.233333        0.536667
-#    avg_utility_direct  avg_utility_coalition  avg_utility_algo
-# 0    12.927536            5.285714               5.540373
-# >>> results_2_large.reporters
-#    seed  average_moves  average_utility  n_direct_comms  n_coalition_comms  \
-# 0  1999    42.585556       5.551111              137             193
-#    n_algo_comms  ratio_direct  ratio_coalition  ratio_algo  \
-# 0          570      0.152222      0.214444        0.633333
-#    avg_utility_direct  avg_utility_coalition  avg_utility_algo
-# 0    23.437956            5.419689               5.633333
+direct_util = model_2_large.communities.select(
+    model_2_large.communities.platform.institution == 'direct').current_utility
+coal_util = model_2_large.communities.select(
+    model_2_large.communities.platform.institution == 'coalition').current_utility
+algo_util = model_2_large.communities.select(
+    model_2_large.communities.platform.institution == 'algorithmic').current_utility
+
+
+
+# # >>> results_2_small.reporters
+# >>> model_2_small.reporters
+# {'seed': 1999, 'average_moves': 21.97, 'average_utility': 6.0, 
+# 'n_direct_comms': 30, 'n_coalition_comms': 10, 'n_algo_comms': 60, 
+# 'ratio_direct': 0.3, 'ratio_coalition': 0.1, 'ratio_algo': 0.6, 
+# 'util_direct': 186, 'util_coalition': 54, 'util_algo': 360, 
+# 'avg_utility_direct': 6.2, 'avg_utility_coalition': 5.4, 
+# 'avg_utility_algo': 6.0}
+# >>> model_2_med.reporters
+# {'seed': 1999, 'average_moves': 34.35666666666667, 'average_utility': 5.69, 
+# 'n_direct_comms': 82, 'n_coalition_comms': 47, 'n_algo_comms': 171, 
+# 'ratio_direct': 0.2733333333333333, 'ratio_coalition': 0.15666666666666668, 
+# 'ratio_algo': 0.57, 'util_direct': 508, 'util_coalition': 245, 
+# 'util_algo': 954, 'avg_utility_direct': 6.195121951219512,
+#  'avg_utility_coalition': 5.212765957446808, 
+#  'avg_utility_algo': 5.578947368421052}
+# >>> model_2_large.reporters
+# {'seed': 1999, 'average_moves': 42.27111111111111, 
+# 'average_utility': 5.7877777777777775, 'n_direct_comms': 174, 
+# 'n_coalition_comms': 192, 'n_algo_comms': 534,
+#  'ratio_direct': 0.19333333333333333, 'ratio_coalition': 0.21333333333333335,
+#   'ratio_algo': 0.5933333333333334, 'util_direct': 1055, 'util_coalition': 1099,
+#    'util_algo': 3055, 'avg_utility_direct': 6.063218390804598, 
+#    'avg_utility_coalition': 5.723958333333333, 
+#    'avg_utility_algo': 5.7209737827715355}
+
+# kwargs = dict(alpha=0.9, bins=10, histtype = 'step', density=False, stacked=True, rwidth = 0.9)
+
+# plt.hist(np.array(algo_util), **kwargs, color='g', label = 'Algorithmic')
+# plt.hist(np.array(coal_util), **kwargs, color='b', label = 'Movement')
+# plt.hist(np.array(direct_util), **kwargs, color='r', label = 'Direct')
+# plt.grid(axis='y', alpha=0.75)
+# plt.gca().set(title='', ylabel='Community Count', xlabel = 'Utility')
+# plt.xticks(range(0,11))
+# plt.legend()
 
 ### Experiment 3 trial 1: multiple platform institutional comparisons + extremists
 

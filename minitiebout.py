@@ -657,18 +657,23 @@ class MiniTiebout(ap.Model):
             # summed utility per platform type
             util_direct = sum(self.communities.select(
                 self.communities.platform.institution == 'direct').current_utility)
-            util_coalition = util_direct = sum(self.communities.select(
+            util_coalition = sum(self.communities.select(
                 self.communities.platform.institution == 'coalition').current_utility)
-            util_algo = util_direct = sum(self.communities.select(
+            util_algo = sum(self.communities.select(
                 self.communities.platform.institution == 'algorithmic').current_utility)
+
+            # sum utility
+            self.report('util_direct', util_direct)
+            self.report('util_coalition', util_coalition)
+            self.report('util_algo', util_algo)
 
             # per capita utility
             self.report('avg_utility_direct',
-                        util_direct / n_direct_comms)
+                        (util_direct / n_direct_comms))
             self.report('avg_utility_coalition',
-                        util_coalition / n_coalition_comms)
+                        (util_coalition / n_coalition_comms))
             self.report('avg_utility_algo',
-                        util_algo / n_algo_comms)
+                        (util_algo / n_algo_comms))
             # # per capita if there are extremists
             # if self.p.extremists == 'yes':
             #     extremists = self.communities.select(self.communities.type == 'extremist')
