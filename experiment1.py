@@ -82,7 +82,7 @@ results_1a.reporters
 param_1b_direct = {
     'n_comms': 100,
     'n_plats': 5,
-    'p_space': 10,
+    'p_space': 25,
     'p_type': 'binary',
     'steps':50,
     'institution': 'direct',
@@ -99,7 +99,7 @@ param_1b_direct = {
 param_1b_coalition = {
     'n_comms': 100,
     'n_plats': 5,
-    'p_space': 10,
+    'p_space': 25,
     'p_type': 'binary',
     'steps':50,
     'institution': 'coalition',
@@ -116,7 +116,7 @@ param_1b_coalition = {
 param_1b_algorithm = {
     'n_comms': 100,
     'n_plats': 5,
-    'p_space': 10,
+    'p_space': 25,
     'p_type': 'binary',
     'steps':50,
     'institution': 'algorithm',
