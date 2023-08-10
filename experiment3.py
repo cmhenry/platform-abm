@@ -11,7 +11,7 @@ param_3a_t1_direct = {
     'steps':50,
     'institution': 'direct',
     'extremists': 'yes',
-    'percent_extremists': 15,
+    'percent_extremists': 5,
     'coalitions': 5,
     'mutations': 2,
     'search_steps': 10,
@@ -28,7 +28,7 @@ param_3b_t1_coalition = {
     'steps':50,
     'institution': 'coalition',
     'extremists': 'yes',
-    'percent_extremists': 15,
+    'percent_extremists': 5,
     'coalitions': 3,
     'mutations': 2,
     'search_steps': 10,
@@ -45,7 +45,7 @@ param_3c_t1_algorithm = {
     'steps':50,
     'institution': 'algorithm',
     'extremists': 'yes',
-    'percent_extremists': 15,
+    'percent_extremists': 5,
     'coalitions': 3,
     'mutations': 2,
     'search_steps': 10,
@@ -65,6 +65,16 @@ results_3c_t1 = model_3c_t1.run()
 results_3a_t1.reporters 
 results_3b_t1.reporters 
 results_3c_t1.reporters 
+
+extremists = model_3a_t1.communities.select(model_3a_t1.communities.type == 'extremist')
+# self.report('average_extremist_utility',
+#                         sum(extremists.current_utility) / len(extremists))
+# per capita utility mainstream
+mainstream = model_3a_t1.communities.select(model_3a_t1.communities.type == 'mainstream')
+# self.report('average_mainstream_utility',
+#                         sum(mainstream.current_utility) / len(mainstream))
+
+
 
 ### with 5 percent extremists
 # >>> results_3a_t1.reporters 
