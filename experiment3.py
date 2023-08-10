@@ -1,5 +1,6 @@
 import minitiebout
 
+
 ### Experiment 3 trial 1: multiple platform institutional comparisons + extremists
 
 param_3a_t1_direct = {
