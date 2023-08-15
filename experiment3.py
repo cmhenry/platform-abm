@@ -1,5 +1,6 @@
 import minitiebout
-
+import networkx as nx 
+import matplotlib.pyplot as plt
 
 ### Experiment 3 trial 1: multiple platform institutional comparisons + extremists
 
@@ -119,7 +120,7 @@ param_3b_mixed = {
     'steps':50,
     'institution': 'mixed',
     'extremists': 'yes',
-    'percent_extremists': 15,
+    'percent_extremists': 10,
     'coalitions': 3,
     'mutations': 2,
     'search_steps': 10,
@@ -246,7 +247,7 @@ param_3b_t3_mixed = {
     'steps':50,
     'institution': 'mixed',
     'extremists': 'yes',
-    'percent_extremists': 15,
+    'percent_extremists': 10,
     'coalitions': 3,
     'mutations': 2,
     'search_steps': 10,
@@ -265,6 +266,34 @@ directcomms = model_3b_t3.communities.select(model_3b_t3.communities.platform.in
 sum(directcomms.select(directcomms.type == 'extremist').current_utility) / len(directcomms.select(directcomms.type == 'extremist'))
 sum(directcomms.select(directcomms.type == 'mainstream').current_utility) / len(directcomms.select(directcomms.type == 'mainstream'))
 
+directplats = model_3b_t3.platforms.select(model_3b_t3.platforms.institution == 'direct')
+algoplats = model_3b_t3.platforms.select(model_3b_t3.platforms.institution == 'algorithmic')
+coalplats = model_3b_t3.platforms.select(model_3b_t3.platforms.institution == 'coalition')
+
+def draw_graph(platformlist, index=0):
+    """ draw networkgraphs of platform + communities """
+    platform = platformlist[index]
+    G = nx.Graph()
+    G.add_node(platform)
+    for community in platform.communities:
+        G.add_nodes_from([(community, {'type':community.type})])
+        G.add_edge(platform, community)
+
+    color_map=[]
+    for node in G:
+        if node.type == 'extremist':
+            color_map.append('red')
+        elif node.type == 'mainstream':
+            color_map.append('green')
+        else:
+            color_map.append('blue')
+
+    plt.clf()
+    nx.draw(G, with_labels=False, node_color=color_map)
+    plt.savefig("platform%s.png" % platform.id)
+    
+for idx in range(len(algoplats)):
+    draw_graph(algoplats,idx)
 
 ### mixed + 15 plats + 5 percent extremists
 # >>> model_3b_t3.reporters

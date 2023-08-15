@@ -183,3 +183,31 @@ distance_range = (1,10)
 for _ in range(10):
     new_list = initial_list.copy()
     hamming_distance = random.randint(*distance_range)
+    
+
+### NETWORK GRAPHS
+
+directplats = model_3b_t3.platforms.select(model_3b_t3.platforms.institution == 'direct')
+algoplats = model_3b_t3.platforms.select(model_3b_t3.platforms.institution == 'algorithmic')
+coalplats = model_3b_t3.platforms.select(model_3b_t3.platforms.institution == 'coalition')
+
+def draw_graph(platformlist, index=0):
+    """ draw networkgraphs of platform + communities """
+    platform = platformlist[index]
+    G = nx.Graph()
+    G.add_node(platform)
+    for community in platform.communities:
+        G.add_nodes_from([(community, {'type':community.type})])
+        G.add_edge(platform, community)
+
+    color_map=[]
+    for node in G:
+        if node.type == 'extremist':
+            color_map.append('red')
+        elif node.type == 'mainstream':
+            color_map.append('green')
+        else:
+            color_map.append('blue')
+
+    nx.draw(G, with_labels=False, node_color=color_map)
+    plt.show()
