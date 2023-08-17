@@ -241,13 +241,13 @@ sum(directcomms.select(directcomms.type == 'mainstream').current_utility) / len(
 
 param_3b_t3_mixed = {
     'n_comms': 900,
-    'n_plats': 15,
+    'n_plats': 27,
     'p_space': 10,
     'p_type': 'binary',
     'steps':50,
     'institution': 'mixed',
     'extremists': 'yes',
-    'percent_extremists': 10,
+    'percent_extremists': 5,
     'coalitions': 3,
     'mutations': 2,
     'search_steps': 10,
@@ -262,7 +262,7 @@ results_3b_t3 = model_3b_t3.run()
 
 model_3b_t3.reporters
 
-directcomms = model_3b_t3.communities.select(model_3b_t3.communities.platform.institution == 'direct')
+directcomms = model_3b_t3.communities.select(model_3b_t3.communities.platform.institution == 'coalition')
 sum(directcomms.select(directcomms.type == 'extremist').current_utility) / len(directcomms.select(directcomms.type == 'extremist'))
 sum(directcomms.select(directcomms.type == 'mainstream').current_utility) / len(directcomms.select(directcomms.type == 'mainstream'))
 
