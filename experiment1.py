@@ -54,16 +54,16 @@ param_1a_algorithm = {
 }
 
 model_1a = minitiebout.MiniTiebout(param_1a_direct)
-model_1a = minitiebout.MiniTiebout(param_1a_coalition)
-model_1a = minitiebout.MiniTiebout(param_1a_algorithm)
+model_1b = minitiebout.MiniTiebout(param_1a_coalition)
+model_1c = minitiebout.MiniTiebout(param_1a_algorithm)
 
 results_1a = model_1a.run()
-results_1a = model_1b.run()
-results_1a = model_1c.run()
+results_1b = model_1b.run()
+results_1c = model_1c.run()
 
 results_1a.reporters 
-results_1a.reporters 
-results_1a.reporters 
+results_1b.reporters 
+results_1c.reporters 
 
 ### Experiment 1 results:
 
