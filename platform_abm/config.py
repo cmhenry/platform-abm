@@ -55,6 +55,7 @@ class SimulationConfig(BaseModel):
     search_steps: int = 10
     svd_groups: int = 3
     stop_condition: StopCondition = StopCondition.STEPS
+    alpha: float = 1.0
     seed: int | None = None
 
     @field_validator("institution", mode="before")
@@ -102,5 +103,6 @@ class SimulationConfig(BaseModel):
             "search_steps": self.search_steps,
             "svd_groups": self.svd_groups,
             "stop_condition": self.stop_condition.value,
+            "alpha": self.alpha,
             **({"seed": self.seed} if self.seed is not None else {}),
         }

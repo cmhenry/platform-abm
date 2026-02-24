@@ -16,3 +16,8 @@ def generate_binary_preferences(rng: _random.Random, size: int) -> NDArray[np.in
 def generate_zero_preferences(size: int) -> NDArray[np.int_]:
     """Generate an all-zero preference vector (used for extremists)."""
     return np.zeros(size, dtype=int)
+
+
+def generate_ones_preferences(size: int) -> NDArray[np.int_]:
+    """Generate an all-ones preference vector (used for extremists)."""
+    return np.ones(size, dtype=int)

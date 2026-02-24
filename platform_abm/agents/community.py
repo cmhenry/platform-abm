@@ -8,13 +8,7 @@ import agentpy as ap
 import numpy as np
 from numpy.typing import NDArray
 
-from platform_abm.config import (
-    VAMPIRISM_GAIN,
-    VAMPIRISM_LOSS,
-    CommunityType,
-    InstitutionType,
-    Strategy,
-)
+from platform_abm.config import CommunityType, Strategy
 from platform_abm.utils import generate_binary_preferences
 
 if TYPE_CHECKING:
@@ -32,6 +26,7 @@ class Community(ap.Agent):
     candidates: list[Any]
     group: int | str
     moves: int
+    alpha: float
 
     def setup(self) -> None:
         """Initialize a new community agent."""
@@ -44,29 +39,17 @@ class Community(ap.Agent):
         self.candidates = []
         self.group = ""
         self.moves = 0
+        self.alpha = self.p.alpha if hasattr(self.p, 'alpha') else 1.0
 
     def utility(self, policies: NDArray[np.int_] | list[int]) -> int:
         """Calculate utility as preference-policy alignment."""
         return int(sum(pref == pol for pref, pol in zip(self.preferences, policies)))
 
     def update_utility(self) -> None:
-        """Update utility from current platform, including vampirism effects."""
-        if self.platform.institution == InstitutionType.ALGORITHMIC.value:
-            c_util = self.utility(self.platform.group_policies[self.group][1])
-        else:
-            c_util = self.utility(self.platform.policies)
+        """Update utility from current platform, including proportional vampirism."""
+        from platform_abm.utility import compute_utility
 
-        e_util = 0
-        if self.type == CommunityType.EXTREMIST.value:
-            for neighbor in self.platform.communities:
-                if neighbor.type == CommunityType.MAINSTREAM.value:
-                    e_util += VAMPIRISM_GAIN
-        elif self.type == CommunityType.MAINSTREAM.value:
-            for neighbor in self.platform.communities:
-                if neighbor.type == CommunityType.EXTREMIST.value:
-                    e_util -= VAMPIRISM_LOSS
-
-        self.current_utility = c_util + e_util
+        self.current_utility = compute_utility(self, self.platform)
 
     def join_platform(self, platform: Platform) -> None:
         """Join a platform."""
@@ -74,43 +57,23 @@ class Community(ap.Agent):
         self.platform = platform
 
     def find_new_platform(self) -> None:
-        """Find candidate platforms with higher utility."""
-        rng = self.model.random
-        self.candidates = []
-        for platform in self.model.platforms:
-            if platform.institution == InstitutionType.ALGORITHMIC.value:
-                if not platform.group_policies:
-                    platform.policies = platform.institution_strategy.cold_start_policies(platform)
-                    new_policy = platform.policies[rng.randrange(len(platform.policies))]
-                    if self.utility(new_policy) > self.current_utility:
-                        self.candidates.append(platform)
-                else:
-                    for group_policy in platform.group_policies.values():
-                        new_policy = group_policy[1]
-                        if self.utility(new_policy) > self.current_utility:
-                            self.candidates.append(platform)
-            else:
-                new_policy = platform.policies
-                if self.utility(new_policy) > self.current_utility:
-                    self.candidates.append(platform)
-        if not self.candidates:
-            self.candidates.append(self.platform)
+        """Use stored search result to populate candidates."""
+        if hasattr(self, "_search_destination") and self._search_destination is not None:
+            self.candidates = [self._search_destination]
+        else:
+            self.candidates = [self.platform]
 
     def set_strategy(self) -> None:
-        """Compare utilities and decide whether to move."""
-        rng = self.model.random
-        for platform in self.model.platforms:
-            if platform.institution == InstitutionType.ALGORITHMIC.value:
-                if not platform.group_policies:
-                    platform.policies = platform.institution_strategy.cold_start_policies(platform)
-                    new_policy = platform.policies[rng.randrange(len(platform.policies))]
-                else:
-                    keys = list(platform.group_policies.keys())
-                    new_policy = platform.group_policies[rng.choice(keys)][1]
-            else:
-                new_policy = platform.policies
+        """Delegate to asymmetric search and store the result."""
+        from platform_abm.search import search_and_select
 
-            if self.utility(new_policy) > self.current_utility:
-                self.strategy = Strategy.MOVE.value
-                return
-        self.strategy = Strategy.STAY.value
+        rng = self.model.random
+        decision, destination = search_and_select(
+            self, self.platform, list(self.model.platforms), rng
+        )
+        if decision == "move":
+            self.strategy = Strategy.MOVE.value
+            self._search_destination = destination
+        else:
+            self.strategy = Strategy.STAY.value
+            self._search_destination = None

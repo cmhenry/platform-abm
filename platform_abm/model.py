@@ -19,7 +19,11 @@ from platform_abm.metrics import (
     compute_extremist_metrics,
     compute_mixed_institution_metrics,
 )
-from platform_abm.utils import generate_binary_preferences, generate_zero_preferences
+from platform_abm.utils import (
+    generate_binary_preferences,
+    generate_ones_preferences,
+    generate_zero_preferences,
+)
 
 
 class MiniTiebout(ap.Model):
@@ -132,11 +136,14 @@ class MiniTiebout(ap.Model):
                 platform.policies = platform.institution_strategy.cold_start_policies(platform)
 
     def _setup_community_types(self, extremists: list[int]) -> None:
-        """Set extremist community types and preferences."""
+        """Set extremist community types and preferences (randomly all-zeros or all-ones)."""
         for comm_id in extremists:
             comm_sel = self.communities.select(self.communities.id == comm_id)
             comm_sel.type = CommunityType.EXTREMIST.value
-            comm_sel.preferences = generate_zero_preferences(self.p.p_space)
+            if self.random.random() < 0.5:
+                comm_sel.preferences = generate_zero_preferences(self.p.p_space)
+            else:
+                comm_sel.preferences = generate_ones_preferences(self.p.p_space)
 
     ### UPDATE ###
 

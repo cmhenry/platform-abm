@@ -80,13 +80,16 @@ class CoalitionInstitution(Institution):
             platform.coalitions[idx] = self.coalition_mutate(platform, platform.coalitions[idx])
 
         votes = self.coalition_poll(platform)
+        platform.coalition_votes = votes
         count = Counter(votes)
         winners = [item for item, freq in count.items() if freq == max(count.values())]
         if not winners:
             new_policies = generate_binary_preferences(rng, platform.p.p_space)
+            platform.winning_coalition_index = None
         else:
             winner = rng.choice(winners)
             new_policies = platform.coalitions[winner]
+            platform.winning_coalition_index = winner
         platform.policies = np.array(new_policies)
 
     def get_policy_for_community(self, platform: Platform, community: Community) -> Any:

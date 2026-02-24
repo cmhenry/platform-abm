@@ -21,6 +21,7 @@ def make_model(overrides: dict | None = None) -> MiniTiebout:
         "search_steps": 5,
         "svd_groups": 2,
         "stop_condition": "steps",
+        "alpha": 1.0,
         "seed": 42,
     }
     if overrides:

@@ -37,6 +37,8 @@ class Platform(ap.Agent):
         self.group_policies = {}
         self.grouped_communities = []
         self.institution_strategy = None  # type: ignore[assignment]
+        self.coalition_votes: list[int | None] = []
+        self.winning_coalition_index: int | None = None
 
     def set_institution(self, institution_name: str) -> None:
         """Set the institution type and strategy."""

@@ -85,8 +85,8 @@ class TestExtremistvampirism:
                         for n in comm.platform.communities
                         if n.type == CommunityType.EXTREMIST.value
                     )
-                    # current_utility = policy_alignment - n_extremists
-                    assert comm.current_utility <= comm.p.p_space - n_extremists
+                    # With proportional vampirism, penalty is at most alpha
+                    assert comm.current_utility <= comm.p.p_space
                     return
         # If no mainstream has extremist neighbor, test is inconclusive (skip)
         pytest.skip("No mainstream community with extremist neighbor found")

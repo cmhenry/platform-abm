@@ -20,6 +20,7 @@ def _run_model(institution: str, **extra) -> dict:
         "search_steps": 5,
         "svd_groups": 2,
         "stop_condition": "steps",
+        "alpha": 1.0,
         "seed": 42,
     }
     params.update(extra)
