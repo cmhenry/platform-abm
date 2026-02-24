@@ -61,11 +61,18 @@ class MiniTiebout(ap.Model):
             )
             self._setup_platform_types(extremists)
 
-        # Randomly assign communities to platforms
-        for community in self.communities:
-            platform = self.random.choice(self.platforms)
-            community.join_platform(platform)
-            platform.add_community(community)
+        # Assign communities to platforms
+        if getattr(self.p, 'initial_distribution', 'random') == 'equal':
+            platform_list = list(self.platforms)
+            for i, community in enumerate(self.communities):
+                platform = platform_list[i % len(platform_list)]
+                community.join_platform(platform)
+                platform.add_community(community)
+        else:
+            for community in self.communities:
+                platform = self.random.choice(self.platforms)
+                community.join_platform(platform)
+                platform.add_community(community)
 
         # Setup algorithmic platforms
         algo_inst = AlgorithmicInstitution()

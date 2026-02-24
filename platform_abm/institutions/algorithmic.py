@@ -23,6 +23,9 @@ class AlgorithmicInstitution(Institution):
         """Sort communities into groups using K-means."""
         platform.aggregate_preferences()
         n_communities = len(platform.communities)
+        if n_communities == 0:
+            platform.grouped_communities = []
+            return
         svd_groups = min(n_communities, platform.p.svd_groups)
 
         kmeans = KMeans(n_clusters=svd_groups, random_state=0, n_init=2)
@@ -67,6 +70,8 @@ class AlgorithmicInstitution(Institution):
 
     def run_election(self, platform: Platform) -> None:
         """Produce new content slate, cluster, rate, and set group policies."""
+        if len(platform.communities) == 0:
+            return
         platform.policies = self.cold_start_policies(platform)
         self.group_communities(platform)
         self.rate_policies(platform)
