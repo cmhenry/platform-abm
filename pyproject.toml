@@ -27,6 +27,9 @@ viz = [
     "networkx>=3.0",
     "matplotlib>=3.7",
 ]
+analysis = [
+    "statsmodels>=0.14",
+]
 
 [tool.setuptools.packages.find]
 include = ["platform_abm*"]

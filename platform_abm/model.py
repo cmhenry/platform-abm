@@ -33,6 +33,8 @@ class MiniTiebout(ap.Model):
 
     def setup(self) -> None:
         """Initialize the agents and network of the model."""
+        if not hasattr(self, "tracker"):
+            self.tracker = None
         self.communities = ap.AgentList(self, self.p.n_comms, Community)
 
         if self.p.extremists == "yes":
@@ -169,6 +171,8 @@ class MiniTiebout(ap.Model):
         Elections run first so governance state is fresh before utility computation.
         """
         self._step_elections()
+        if self.tracker is not None:
+            self.tracker.record_governance_state(self.t, self.platforms)
         self._step_update_utility()
         self._step_relocation()
 
@@ -199,7 +203,11 @@ class MiniTiebout(ap.Model):
         for community, old_platform, new_platform in moves:
             old_platform.rm_community(community)
             community.join_platform(new_platform)
+            community.last_move_step = self.t
             new_platform.add_community(community)
+
+        if self.tracker is not None:
+            self.tracker.record_step(self.t, moves)
 
     ### END ###
 

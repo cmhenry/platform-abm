@@ -26,6 +26,7 @@ class Community(ap.Agent):
     candidates: list[Any]
     group: int | str
     moves: int
+    last_move_step: int
     alpha: float
 
     def setup(self) -> None:
@@ -39,6 +40,7 @@ class Community(ap.Agent):
         self.candidates = []
         self.group = ""
         self.moves = 0
+        self.last_move_step = 0
         self.alpha = self.p.alpha if hasattr(self.p, 'alpha') else 1.0
 
     def utility(self, policies: NDArray[np.int_] | list[int]) -> int:
