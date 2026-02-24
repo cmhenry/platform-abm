@@ -163,10 +163,19 @@ class MiniTiebout(ap.Model):
     ### STEP ###
 
     def step(self) -> None:
-        """Define the model's events per simulation step."""
+        """Define the model's events per simulation step.
+
+        Order: elections → utility → relocation.
+        Elections run first so governance state is fresh before utility computation.
+        """
+        self._step_elections()
         self._step_update_utility()
         self._step_relocation()
-        self._step_elections()
+
+    def _step_elections(self) -> None:
+        """Hold elections on all platforms."""
+        for platform in self.platforms:
+            platform.election()
 
     def _step_update_utility(self) -> None:
         """Update all community agent utilities."""
@@ -175,24 +184,22 @@ class MiniTiebout(ap.Model):
             community.set_strategy()
 
     def _step_relocation(self) -> None:
-        """Relocate communities that want to move."""
+        """Batch-relocate communities that want to move.
+
+        Two-phase approach: collect all moves first, then execute them.
+        This ensures processing order doesn't affect outcomes.
+        """
+        moves = []
         for community in self.communities:
             if community.strategy == Strategy.MOVE.value:
                 community.find_new_platform()
                 new_platform = self.random.choice(community.candidates)
-                community.platform.rm_community(community)
-                community.join_platform(new_platform)
-                new_platform.add_community(community)
+                moves.append((community, community.platform, new_platform))
 
-        algo_inst = AlgorithmicInstitution()
-        for platform in self.platforms:
-            if platform.institution == InstitutionType.ALGORITHMIC.value:
-                algo_inst.group_communities(platform)
-
-    def _step_elections(self) -> None:
-        """Hold elections on all platforms."""
-        for platform in self.platforms:
-            platform.election()
+        for community, old_platform, new_platform in moves:
+            old_platform.rm_community(community)
+            community.join_platform(new_platform)
+            new_platform.add_community(community)
 
     ### END ###
 
