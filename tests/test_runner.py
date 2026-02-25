@@ -2,13 +2,19 @@
 
 import csv
 import json
+import os
 import tempfile
 from pathlib import Path
 
 import pytest
 
 from experiments.configs.experiment_config import ExperimentConfig
-from experiments.runner import ExperimentRunner
+from experiments.runner import (
+    ExperimentRunner,
+    _BLAS_THREAD_ENVS,
+    _limit_blas_threads,
+    _restore_blas_threads,
+)
 
 
 def _make_small_config(
@@ -224,3 +230,28 @@ def test_parallel_with_tracking():
 
         dynamics_dir = result.config_dir / "dynamics"
         assert dynamics_dir.exists()
+
+
+def test_parallel_blas_env_restored():
+    """BLAS env vars are set when pool is created and restored after shutdown."""
+    # Save original env state
+    orig = {k: os.environ.get(k) for k in _BLAS_THREAD_ENVS}
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        runner = ExperimentRunner(output_dir=tmpdir, max_workers=2)
+        config = _make_small_config(name="blas_test")
+
+        # Run a config (triggers pool creation which sets env vars)
+        runner.run_config(config)
+
+        # While pool is alive, env vars should be set to "1"
+        for k in _BLAS_THREAD_ENVS:
+            assert os.environ.get(k) == "1", f"{k} should be '1' while pool is active"
+
+        # Shutdown should restore env vars
+        runner.shutdown()
+
+        for k in _BLAS_THREAD_ENVS:
+            assert os.environ.get(k) == orig[k], (
+                f"{k} should be restored to {orig[k]!r} after shutdown"
+            )

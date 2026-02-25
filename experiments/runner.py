@@ -5,6 +5,7 @@ from __future__ import annotations
 import csv
 import json
 import logging
+import os
 import subprocess
 import time
 from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -21,6 +22,45 @@ from platform_abm.reporter import IterationResult, SimulationReporter
 from platform_abm.tracker import RelocationTracker
 
 logger = logging.getLogger(__name__)
+
+# --- BLAS thread control for parallel execution ---
+
+_BLAS_THREAD_ENVS = [
+    "OMP_NUM_THREADS",
+    "MKL_NUM_THREADS",
+    "OPENBLAS_NUM_THREADS",
+    "VECLIB_MAXIMUM_THREADS",  # Apple Accelerate
+]
+
+
+def _limit_blas_threads(n: int = 1) -> dict[str, str | None]:
+    """Set BLAS thread env vars, return old values for restoration."""
+    old = {k: os.environ.get(k) for k in _BLAS_THREAD_ENVS}
+    for k in _BLAS_THREAD_ENVS:
+        os.environ[k] = str(n)
+    return old
+
+
+def _restore_blas_threads(old: dict[str, str | None]) -> None:
+    """Restore BLAS thread env vars to previous values."""
+    for k, v in old.items():
+        if v is None:
+            os.environ.pop(k, None)
+        else:
+            os.environ[k] = v
+
+
+def _init_worker() -> None:
+    """ProcessPoolExecutor initializer — limit BLAS threads in each worker.
+
+    Env vars handle 'spawn' (macOS): numpy reads them at import time.
+    threadpoolctl handles 'fork' (Linux/HPC): reconfigures already-initialized BLAS.
+    """
+    try:
+        import threadpoolctl
+        threadpoolctl.threadpool_limits(1)
+    except ImportError:
+        pass
 
 # CSV columns for raw per-iteration output
 _RAW_COLUMNS = [
@@ -116,6 +156,27 @@ class ExperimentRunner:
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.git_hash = _get_git_hash()
         self.max_workers = max_workers
+        self._executor: ProcessPoolExecutor | None = None
+        self._old_blas_env: dict[str, str | None] | None = None
+
+    def _get_executor(self) -> ProcessPoolExecutor:
+        """Return a shared ProcessPoolExecutor, creating it lazily."""
+        if self._executor is None:
+            self._old_blas_env = _limit_blas_threads(1)
+            self._executor = ProcessPoolExecutor(
+                max_workers=self.max_workers,
+                initializer=_init_worker,
+            )
+        return self._executor
+
+    def shutdown(self) -> None:
+        """Shut down the shared executor and restore BLAS env vars."""
+        if self._executor is not None:
+            self._executor.shutdown(wait=True)
+            self._executor = None
+        if self._old_blas_env is not None:
+            _restore_blas_threads(self._old_blas_env)
+            self._old_blas_env = None
 
     def run_config(self, config: ExperimentConfig) -> ConfigResult:
         """Run all iterations for a single config.
@@ -247,13 +308,16 @@ class ExperimentRunner:
         logger.info("Starting experiment '%s' with %d configs", experiment_name, len(configs))
         results: list[ConfigResult] = []
 
-        for idx, config in enumerate(configs):
-            logger.info("[%d/%d] Running config: %s", idx + 1, len(configs), config.name)
-            result = self.run_config(config)
-            results.append(result)
+        try:
+            for idx, config in enumerate(configs):
+                logger.info("[%d/%d] Running config: %s", idx + 1, len(configs), config.name)
+                result = self.run_config(config)
+                results.append(result)
 
-        # Generate experiment-level summary
-        self._save_experiment_summary(experiment_dir, results)
+            # Generate experiment-level summary
+            self._save_experiment_summary(experiment_dir, results)
+        finally:
+            self.shutdown()
 
         logger.info("Experiment '%s' complete. Output: %s", experiment_name, experiment_dir)
         return experiment_dir
@@ -286,24 +350,24 @@ class ExperimentRunner:
         wall_start = time.time()
         total = len(iterations)
 
-        with ProcessPoolExecutor(max_workers=self.max_workers) as executor:
-            futures = {
-                executor.submit(_run_iteration_worker, config, i): i
-                for i in iterations
-            }
-            done_count = 0
-            for future in as_completed(futures):
-                iteration, result, dyn_scalar = future.result()
-                idx = iteration - start_iter
-                iteration_results[idx] = result
-                dynamics_scalars[idx] = dyn_scalar
-                done_count += 1
-                if done_count % 10 == 0:
-                    elapsed = time.time() - wall_start
-                    logger.info(
-                        "  %s: %d/%d iterations (%.1fs elapsed)",
-                        config.name, done_count, total, elapsed,
-                    )
+        executor = self._get_executor()
+        futures = {
+            executor.submit(_run_iteration_worker, config, i): i
+            for i in iterations
+        }
+        done_count = 0
+        for future in as_completed(futures):
+            iteration, result, dyn_scalar = future.result()
+            idx = iteration - start_iter
+            iteration_results[idx] = result
+            dynamics_scalars[idx] = dyn_scalar
+            done_count += 1
+            if done_count % 10 == 0:
+                elapsed = time.time() - wall_start
+                logger.info(
+                    "  %s: %d/%d iterations (%.1fs elapsed)",
+                    config.name, done_count, total, elapsed,
+                )
 
         return iteration_results, dynamics_scalars  # type: ignore[return-value]
 
