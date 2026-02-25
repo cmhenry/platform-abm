@@ -41,6 +41,9 @@ class StepRecord:
     step: int
     relocations: list[RelocationEvent] = field(default_factory=list)
     governance: list[GovernanceSnapshot] = field(default_factory=list)
+    avg_utility: float | None = None
+    n_relocations: int | None = None
+    per_governance_utilities: dict[str, float] = field(default_factory=dict)
 
 
 class RelocationTracker:
@@ -126,9 +129,66 @@ class RelocationTracker:
         """Return the full step-keyed log."""
         return self._log
 
+    def record_step_metrics(
+        self,
+        step: int,
+        communities: Any,
+        n_relocations: int,
+    ) -> None:
+        """Record per-step aggregate metrics.
+
+        Args:
+            step: The simulation step number.
+            communities: AgentList of communities with current_utility and platform attrs.
+            n_relocations: Number of relocations that occurred this step.
+        """
+        if not self.enabled:
+            return
+
+        n = len(communities)
+        avg_utility = sum(c.current_utility for c in communities) / n if n > 0 else 0.0
+
+        # Per-governance-type utility breakdown
+        by_institution: dict[str, list[float]] = {}
+        for c in communities:
+            inst = c.platform.institution
+            by_institution.setdefault(inst, []).append(c.current_utility)
+        per_governance_utilities = {
+            inst: sum(vals) / len(vals) for inst, vals in by_institution.items()
+        }
+
+        if step in self._log:
+            record = self._log[step]
+        else:
+            record = StepRecord(step=step)
+            self._log[step] = record
+
+        record.avg_utility = avg_utility
+        record.n_relocations = n_relocations
+        record.per_governance_utilities = per_governance_utilities
+
     def get_all_relocations(self) -> list[RelocationEvent]:
         """Return a flat list of all relocation events across all steps."""
         events: list[RelocationEvent] = []
         for step in sorted(self._log):
             events.extend(self._log[step].relocations)
         return events
+
+    def get_step_metrics(self) -> list[dict]:
+        """Return per-step metrics as a sorted list of dicts.
+
+        Only includes steps where metrics were recorded (avg_utility is not None).
+        """
+        results = []
+        for step in sorted(self._log):
+            record = self._log[step]
+            if record.avg_utility is not None:
+                results.append(
+                    {
+                        "step": record.step,
+                        "avg_utility": record.avg_utility,
+                        "n_relocations": record.n_relocations,
+                        "per_governance_utilities": record.per_governance_utilities,
+                    }
+                )
+        return results

@@ -35,6 +35,7 @@ class MiniTiebout(ap.Model):
         """Initialize the agents and network of the model."""
         if not hasattr(self, "tracker"):
             self.tracker = None
+        self._last_n_relocations = 0
         self.communities = ap.AgentList(self, self.p.n_comms, Community)
 
         if self.p.extremists == "yes":
@@ -183,6 +184,11 @@ class MiniTiebout(ap.Model):
         self._step_update_utility()
         self._step_relocation()
 
+        if self.tracker is not None:
+            self.tracker.record_step_metrics(
+                self.t, self.communities, self._last_n_relocations
+            )
+
     def _step_elections(self) -> None:
         """Hold elections on all platforms."""
         for platform in self.platforms:
@@ -212,6 +218,8 @@ class MiniTiebout(ap.Model):
             community.join_platform(new_platform)
             community.last_move_step = self.t
             new_platform.add_community(community)
+
+        self._last_n_relocations = len(moves)
 
         if self.tracker is not None:
             self.tracker.record_step(self.t, moves)

@@ -114,3 +114,76 @@ class TestTrackerWithModel:
             model_no_tracker.reporters["average_utility"]
             == model_with_tracker.reporters["average_utility"]
         )
+
+
+class TestStepMetrics:
+    def test_step_metrics_recorded(self):
+        """Every step should have avg_utility and n_relocations populated."""
+        model = make_model({"steps": 5})
+        tracker = RelocationTracker(enabled=True)
+        model.tracker = tracker
+        model.run()
+
+        log = tracker.get_log()
+        for record in log.values():
+            assert record.avg_utility is not None
+            assert record.avg_utility >= 0
+            assert record.n_relocations is not None
+            assert record.n_relocations >= 0
+
+    def test_step_metrics_accessor(self):
+        """get_step_metrics() returns correct count, sorted order, and expected keys."""
+        steps = 4
+        model = make_model({"steps": steps})
+        tracker = RelocationTracker(enabled=True)
+        model.tracker = tracker
+        model.run()
+
+        metrics = tracker.get_step_metrics()
+        assert len(metrics) == steps
+        # Sorted by step
+        step_nums = [m["step"] for m in metrics]
+        assert step_nums == sorted(step_nums)
+        # Expected keys
+        for m in metrics:
+            assert "step" in m
+            assert "avg_utility" in m
+            assert "n_relocations" in m
+            assert "per_governance_utilities" in m
+
+    def test_disabled_records_no_metrics(self):
+        """Disabled tracker produces empty metrics list."""
+        model = make_model({"steps": 3})
+        tracker = RelocationTracker(enabled=False)
+        model.tracker = tracker
+        model.run()
+
+        assert tracker.get_step_metrics() == []
+
+    def test_mixed_governance_utilities(self):
+        """Mixed institution model records per-type utility breakdown."""
+        model = make_model({"institution": "mixed", "n_plats": 3, "steps": 3})
+        tracker = RelocationTracker(enabled=True)
+        model.tracker = tracker
+        model.run()
+
+        metrics = tracker.get_step_metrics()
+        assert len(metrics) > 0
+        valid_institutions = {"direct", "coalition", "algorithmic"}
+        for m in metrics:
+            per_gov = m["per_governance_utilities"]
+            assert len(per_gov) > 0
+            for inst, util in per_gov.items():
+                assert inst in valid_institutions
+                assert isinstance(util, float)
+
+    def test_relocation_count_matches_events(self):
+        """n_relocations should equal len(relocations) for every step."""
+        model = make_model({"steps": 5})
+        tracker = RelocationTracker(enabled=True)
+        model.tracker = tracker
+        model.run()
+
+        log = tracker.get_log()
+        for record in log.values():
+            assert record.n_relocations == len(record.relocations)
