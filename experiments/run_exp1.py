@@ -24,15 +24,24 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run Experiment 1")
     parser.add_argument("--output-dir", default="results", help="Output directory")
     parser.add_argument("--dry-run", action="store_true", help="Print configs without running")
+    parser.add_argument("--smoke", action="store_true",
+                        help="Smoke test: 2 iterations, N_c=30, t_max=10")
     args = parser.parse_args()
 
     configs = build_exp1_configs()
-    logger.info("Experiment 1: %d configs", len(configs))
+
+    if args.smoke:
+        for cfg in configs:
+            cfg.n_iterations = 2
+            cfg.n_communities = 30
+            cfg.t_max = 10
+
+    logger.info("Experiment 1: %d configs%s", len(configs), " (smoke)" if args.smoke else "")
 
     if args.dry_run:
         for cfg in configs:
             print(f"  {cfg.name}: {cfg.n_communities}c, {cfg.n_platforms}p, "
-                  f"{cfg.institution}, {cfg.n_iterations}i")
+                  f"{cfg.institution}, t_max={cfg.t_max}, {cfg.n_iterations}i")
         return
 
     runner = ExperimentRunner(output_dir=args.output_dir)

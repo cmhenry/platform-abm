@@ -32,23 +32,38 @@ def _fmt(mean_str: str, sd_str: str) -> str:
 def format_exp1_table(experiment_dir: Path) -> str:
     """Experiment 1: rows=measures, cols=configs, cells=mean(SD).
 
-    Grouped by single-platform (N_p=1) and multi-platform (N_p=9).
+    6 columns: Direct(9), Coalition(9), Algorithmic(9), Mixed(3), Mixed(9), Mixed(27).
+    Includes mixed-specific sub-rows for per-institution utilities and proportions.
     """
-    configs_np1 = ["exp1_direct_np1", "exp1_coalition_np1", "exp1_algorithmic_np1"]
-    configs_np9 = ["exp1_direct_np9", "exp1_coalition_np9", "exp1_algorithmic_np9"]
-    all_configs = configs_np1 + configs_np9
-
-    measures = [
-        "avg_utility",
-        "total_relocations",
-        "avg_relocations_per_community",
-        "settling_time_90pct",
+    all_configs = [
+        "exp1_direct_np9",
+        "exp1_coalition_np9",
+        "exp1_algorithmic_np9",
+        "exp1_mixed_np3",
+        "exp1_mixed_np9",
+        "exp1_mixed_np27",
     ]
-    measure_labels = [
-        "Avg. Utility",
-        "Total Relocations",
-        "Avg. Reloc./Community",
-        "Settling Time (90\\%)",
+    col_labels = [
+        "Direct", "Coalition", "Algorithmic",
+        "Mixed (3)", "Mixed (9)", "Mixed (27)",
+    ]
+    mixed_configs = {"exp1_mixed_np3", "exp1_mixed_np9", "exp1_mixed_np27"}
+
+    # Core measures (all configs)
+    measures = [
+        ("avg_utility", "Avg. Utility"),
+        ("total_relocations", "Total Relocations"),
+        ("avg_relocations_per_community", "Avg. Reloc./Community"),
+        ("settling_time_90pct", "Settling Time (90\\%)"),
+    ]
+    # Mixed-only sub-rows (per-institution breakdown)
+    mixed_measures = [
+        ("avg_utility_gov_direct", "\\quad Utility (Direct plats.)"),
+        ("avg_utility_gov_coalition", "\\quad Utility (Coalition plats.)"),
+        ("avg_utility_gov_algorithmic", "\\quad Utility (Algo. plats.)"),
+        ("final_proportion_direct", "\\quad Prop. on Direct"),
+        ("final_proportion_coalition", "\\quad Prop. on Coalition"),
+        ("final_proportion_algorithmic", "\\quad Prop. on Algorithmic"),
     ]
 
     # Load summaries
@@ -58,25 +73,38 @@ def format_exp1_table(experiment_dir: Path) -> str:
         summaries[cfg_name] = _read_summary(summary_path)
 
     # Build table
-    n_cols = len(all_configs) + 1
     lines = [
         r"\begin{table}[htbp]",
         r"\centering",
         r"\small",
         rf"\begin{{tabular}}{{l{'c' * len(all_configs)}}}",
         r"\toprule",
-        r" & \multicolumn{3}{c}{Single Platform ($N_p=1$)} & \multicolumn{3}{c}{Multi-Platform ($N_p=9$)} \\",
+        r" & \multicolumn{3}{c}{Homogeneous ($N_p=9$)} & \multicolumn{3}{c}{Mixed Institution} \\",
         r"\cmidrule(lr){2-4} \cmidrule(lr){5-7}",
-        r"Measure & Direct & Coalition & Algorithmic & Direct & Coalition & Algorithmic \\",
+        "Measure & " + " & ".join(col_labels) + r" \\",
         r"\midrule",
     ]
 
-    for measure, label in zip(measures, measure_labels):
+    for measure_key, label in measures:
         cells = [label]
         for cfg_name in all_configs:
             s = summaries[cfg_name]
-            m = s.get(measure, {})
+            m = s.get(measure_key, {})
             cells.append(_fmt(m.get("Mean", ""), m.get("SD", "")))
+        lines.append(" & ".join(cells) + r" \\")
+
+    # Mixed-specific sub-rows (blank cells for homogeneous configs)
+    lines.append(r"\addlinespace")
+    lines.append(r"\multicolumn{7}{l}{\textit{Mixed institution breakdown}} \\")
+    for measure_key, label in mixed_measures:
+        cells = [label]
+        for cfg_name in all_configs:
+            if cfg_name in mixed_configs:
+                s = summaries[cfg_name]
+                m = s.get(measure_key, {})
+                cells.append(_fmt(m.get("Mean", ""), m.get("SD", "")))
+            else:
+                cells.append("---")
         lines.append(" & ".join(cells) + r" \\")
 
     lines.extend([

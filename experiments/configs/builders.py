@@ -28,40 +28,32 @@ _BASELINE = {
 def build_exp1_configs() -> list[ExperimentConfig]:
     """Experiment 1: institutional comparisons without extremists.
 
-    6 configs: 3 homogeneous institutions x {single platform, multi-platform}.
+    6 configs:
+      1a-1c: Homogeneous institutions (direct/coalition/algorithmic), N_p=9
+      1d-1f: Mixed institution at varying platform counts (N_p=3/9/27)
+    All use N_c=300, t_max=100, no extremists.
     """
-    configs = []
-    institutions = ["direct", "coalition", "algorithmic"]
+    _exp1_shared = dict(
+        experiment="exp1",
+        n_communities=300,
+        p_space=10,
+        t_max=100,
+        rho_extremist=0.0,
+        alpha=0.0,
+        tracking_enabled=False,
+        **_COMMON_FIXED,
+    )
 
-    # 1a: Single platform (N_p=1), no competition
-    for inst in institutions:
-        configs.append(ExperimentConfig(
-            name=f"exp1_{inst}_np1",
-            experiment="exp1",
-            n_communities=100,
-            n_platforms=1,
-            p_space=10,
-            t_max=50,
-            institution=inst,
-            rho_extremist=0.0,
-            alpha=0.0,
-            **_COMMON_FIXED,
-        ))
-
-    # 1b: Multiple platforms (N_p=9), competition
-    for inst in institutions:
-        configs.append(ExperimentConfig(
-            name=f"exp1_{inst}_np9",
-            experiment="exp1",
-            n_communities=100,
-            n_platforms=9,
-            p_space=10,
-            t_max=50,
-            institution=inst,
-            rho_extremist=0.0,
-            alpha=0.0,
-            **_COMMON_FIXED,
-        ))
+    configs = [
+        # 1a-1c: Homogeneous institutions, N_p=9
+        ExperimentConfig(name="exp1_direct_np9", institution="direct", n_platforms=9, **_exp1_shared),
+        ExperimentConfig(name="exp1_coalition_np9", institution="coalition", n_platforms=9, **_exp1_shared),
+        ExperimentConfig(name="exp1_algorithmic_np9", institution="algorithmic", n_platforms=9, **_exp1_shared),
+        # 1d-1f: Mixed institution, varying N_p
+        ExperimentConfig(name="exp1_mixed_np9", institution="mixed", n_platforms=9, **_exp1_shared),
+        ExperimentConfig(name="exp1_mixed_np3", institution="mixed", n_platforms=3, **_exp1_shared),
+        ExperimentConfig(name="exp1_mixed_np27", institution="mixed", n_platforms=27, **_exp1_shared),
+    ]
 
     return configs
 
