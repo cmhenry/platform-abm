@@ -144,3 +144,83 @@ def test_run_experiment():
             index = json.load(f)
         assert "multi_a" in index["completed"]
         assert "multi_b" in index["completed"]
+
+
+# --- Parallel execution tests ---
+
+
+def test_parallel_single_config():
+    """Run a small config with max_workers=2, verify output files and row count."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        runner = ExperimentRunner(output_dir=tmpdir, max_workers=2)
+        config = _make_small_config(name="par_single")
+        result = runner.run_config(config)
+
+        assert (result.config_dir / "config.json").exists()
+        assert (result.config_dir / "raw.csv").exists()
+        assert (result.config_dir / "summary.csv").exists()
+
+        with open(result.config_dir / "raw.csv") as f:
+            reader = csv.DictReader(f)
+            rows = list(reader)
+        assert len(rows) == config.n_iterations
+
+
+def test_parallel_results_deterministic():
+    """Sequential and parallel runs with same seeds produce identical raw.csv rows."""
+    with tempfile.TemporaryDirectory() as tmpdir_seq, \
+         tempfile.TemporaryDirectory() as tmpdir_par:
+        # Sequential
+        runner_seq = ExperimentRunner(output_dir=tmpdir_seq)
+        config_seq = _make_small_config(name="det_test")
+        result_seq = runner_seq.run_config(config_seq)
+
+        # Parallel
+        runner_par = ExperimentRunner(output_dir=tmpdir_par, max_workers=2)
+        config_par = _make_small_config(name="det_test")
+        result_par = runner_par.run_config(config_par)
+
+        # Compare raw CSV rows
+        with open(result_seq.config_dir / "raw.csv") as f:
+            rows_seq = list(csv.DictReader(f))
+        with open(result_par.config_dir / "raw.csv") as f:
+            rows_par = list(csv.DictReader(f))
+
+        assert len(rows_seq) == len(rows_par)
+        for r_seq, r_par in zip(rows_seq, rows_par):
+            assert r_seq == r_par
+
+
+def test_parallel_run_experiment():
+    """run_experiment with max_workers=2 creates experiment summary and index."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        runner = ExperimentRunner(output_dir=tmpdir, max_workers=2)
+        configs = [
+            _make_small_config(name="par_multi_a"),
+            _make_small_config(name="par_multi_b"),
+        ]
+        exp_dir = runner.run_experiment(configs)
+
+        assert (exp_dir / "summary.csv").exists()
+        assert (exp_dir / "index.json").exists()
+
+        with open(exp_dir / "index.json") as f:
+            index = json.load(f)
+        assert "par_multi_a" in index["completed"]
+        assert "par_multi_b" in index["completed"]
+
+
+def test_parallel_with_tracking():
+    """Parallel run with tracking creates dynamics directory."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        runner = ExperimentRunner(output_dir=tmpdir, max_workers=2)
+        config = _make_small_config(
+            name="par_track",
+            tracking=True,
+            institution="mixed",
+            rho=0.20,
+        )
+        result = runner.run_config(config)
+
+        dynamics_dir = result.config_dir / "dynamics"
+        assert dynamics_dir.exists()

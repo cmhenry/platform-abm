@@ -25,6 +25,10 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run Experiment 2")
     parser.add_argument("--output-dir", default="results", help="Output directory")
     parser.add_argument("--dry-run", action="store_true", help="Print configs without running")
+    parser.add_argument(
+        "--workers", type=int, default=None,
+        help="Max parallel workers for iterations (default: sequential)",
+    )
     args = parser.parse_args()
 
     configs = build_exp2_configs()
@@ -36,7 +40,7 @@ def main() -> None:
                   f"rho={cfg.rho_extremist}, alpha={cfg.alpha}, {cfg.n_iterations}i")
         return
 
-    runner = ExperimentRunner(output_dir=args.output_dir)
+    runner = ExperimentRunner(output_dir=args.output_dir, max_workers=args.workers)
     experiment_dir = runner.run_experiment(configs)
 
     # Generate LaTeX tables

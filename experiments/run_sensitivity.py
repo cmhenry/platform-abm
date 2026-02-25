@@ -215,6 +215,10 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run sensitivity analysis")
     parser.add_argument("--output-dir", default="results", help="Output directory")
     parser.add_argument("--dry-run", action="store_true", help="Print configs without running")
+    parser.add_argument(
+        "--workers", type=int, default=None,
+        help="Max parallel workers for iterations (default: sequential)",
+    )
     args = parser.parse_args()
 
     results_dir = Path(args.output_dir)
@@ -239,7 +243,7 @@ def main() -> None:
         return
 
     # Run OAT configs
-    runner = ExperimentRunner(output_dir=args.output_dir)
+    runner = ExperimentRunner(output_dir=args.output_dir, max_workers=args.workers)
 
     logger.info("--- Running OAT configs ---")
     oat_dir = results_dir / "sensitivity" / "oat"

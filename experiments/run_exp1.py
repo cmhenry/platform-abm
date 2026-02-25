@@ -26,6 +26,10 @@ def main() -> None:
     parser.add_argument("--dry-run", action="store_true", help="Print configs without running")
     parser.add_argument("--smoke", action="store_true",
                         help="Smoke test: 2 iterations, N_c=30, t_max=10")
+    parser.add_argument(
+        "--workers", type=int, default=None,
+        help="Max parallel workers for iterations (default: sequential)",
+    )
     args = parser.parse_args()
 
     configs = build_exp1_configs()
@@ -44,7 +48,7 @@ def main() -> None:
                   f"{cfg.institution}, t_max={cfg.t_max}, {cfg.n_iterations}i")
         return
 
-    runner = ExperimentRunner(output_dir=args.output_dir)
+    runner = ExperimentRunner(output_dir=args.output_dir, max_workers=args.workers)
     experiment_dir = runner.run_experiment(configs)
 
     # Generate LaTeX tables

@@ -7,6 +7,7 @@ import json
 import logging
 import subprocess
 import time
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import asdict
 from pathlib import Path
 from typing import Any
@@ -43,6 +44,54 @@ def _get_git_hash() -> str:
         return "unknown"
 
 
+def _analyze_dynamics_scalar(model: MiniTiebout, config: ExperimentConfig) -> dict[str, Any]:
+    """Extract scalar dynamics summaries from a single iteration."""
+    scalars: dict[str, Any] = {"has_cycle": False, "mean_homogeneity": 0.0}
+
+    if not config.tracking_enabled or model.tracker is None:
+        return scalars
+
+    tracker = model.tracker
+    platform_ids = [p.id for p in model.platforms]
+
+    try:
+        analyzer = MovementAnalyzer(tracker, platform_ids)
+
+        # Raiding cycles
+        raiding = analyzer.detect_raiding_cycles(config.t_max)
+        scalars["has_cycle"] = any(r["has_cycle"] for r in raiding.values())
+
+        # Enclaves
+        community_types = {c.id: c.type for c in model.communities}
+        enclaves = analyzer.detect_enclaves(community_types)
+        if enclaves:
+            scalars["mean_homogeneity"] = float(np.mean(
+                [e["mean_homogeneity"] for e in enclaves.values()]
+            ))
+    except Exception as e:
+        logger.warning("Dynamics analysis failed for %s: %s", config.name, e)
+
+    return scalars
+
+
+def _run_iteration_worker(
+    config: ExperimentConfig, iteration: int
+) -> tuple[int, IterationResult, dict[str, Any]]:
+    """Run a single iteration in a worker process.
+
+    Returns (iteration_index, result, dynamics_scalar).
+    Top-level function for pickle compatibility with ProcessPoolExecutor.
+    """
+    params = config.to_params(iteration)
+    model = MiniTiebout(params)
+    if config.tracking_enabled:
+        model.tracker = RelocationTracker(enabled=True)
+    model.run()
+    result = SimulationReporter.from_model(model)
+    dynamics_scalar = _analyze_dynamics_scalar(model, config)
+    return iteration, result, dynamics_scalar
+
+
 class ConfigResult:
     """Results from running all iterations of a single config."""
 
@@ -62,10 +111,11 @@ class ConfigResult:
 class ExperimentRunner:
     """Runs experiment configs with iteration loops, crash recovery, and reporting."""
 
-    def __init__(self, output_dir: str = "results") -> None:
+    def __init__(self, output_dir: str = "results", max_workers: int | None = None) -> None:
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.git_hash = _get_git_hash()
+        self.max_workers = max_workers
 
     def run_config(self, config: ExperimentConfig) -> ConfigResult:
         """Run all iterations for a single config.
@@ -110,37 +160,61 @@ class ExperimentRunner:
         last_model = None
         wall_start = time.time()
 
-        try:
-            for i in range(start_iter, config.n_iterations):
-                iter_result, model = self._run_single_iteration(config, i)
-                iteration_results.append(iter_result)
+        if self.max_workers is not None:
+            # Parallel path
+            iteration_results, dynamics_scalars = self._run_iterations_parallel(
+                config, start_iter,
+            )
 
-                # Extract dynamics scalars
-                dyn_scalar = self._analyze_dynamics_scalar(model, config)
-                dynamics_scalars.append(dyn_scalar)
-
-                # Append raw row
-                row = self._make_raw_row(i, config, iter_result)
-                raw_writer.writerow(row)
+            # Write all raw rows at once
+            try:
+                for i, (result, dyn) in enumerate(
+                    zip(iteration_results, dynamics_scalars), start=start_iter
+                ):
+                    row = self._make_raw_row(i, config, result)
+                    raw_writer.writerow(row)
                 raw_file.flush()
+            finally:
+                raw_file.close()
 
-                # Keep last model for detailed dynamics
-                if i == config.n_iterations - 1:
-                    last_model = model
+            # For detailed dynamics: re-run last iteration in main process
+            if config.tracking_enabled:
+                _, last_model = self._run_single_iteration(
+                    config, config.n_iterations - 1
+                )
+        else:
+            # Sequential path
+            try:
+                for i in range(start_iter, config.n_iterations):
+                    iter_result, model = self._run_single_iteration(config, i)
+                    iteration_results.append(iter_result)
 
-                # Progress logging
-                elapsed = time.time() - wall_start
-                done = i - start_iter + 1
-                total = config.n_iterations - start_iter
-                if done > 0 and done % 10 == 0:
-                    rate = elapsed / done
-                    remaining = rate * (total - done)
-                    logger.info(
-                        "  %s: %d/%d iterations (%.1fs elapsed, ~%.0fs remaining)",
-                        config.name, i + 1, config.n_iterations, elapsed, remaining,
-                    )
-        finally:
-            raw_file.close()
+                    # Extract dynamics scalars
+                    dyn_scalar = _analyze_dynamics_scalar(model, config)
+                    dynamics_scalars.append(dyn_scalar)
+
+                    # Append raw row
+                    row = self._make_raw_row(i, config, iter_result)
+                    raw_writer.writerow(row)
+                    raw_file.flush()
+
+                    # Keep last model for detailed dynamics
+                    if i == config.n_iterations - 1:
+                        last_model = model
+
+                    # Progress logging
+                    elapsed = time.time() - wall_start
+                    done = i - start_iter + 1
+                    total = config.n_iterations - start_iter
+                    if done > 0 and done % 10 == 0:
+                        rate = elapsed / done
+                        remaining = rate * (total - done)
+                        logger.info(
+                            "  %s: %d/%d iterations (%.1fs elapsed, ~%.0fs remaining)",
+                            config.name, i + 1, config.n_iterations, elapsed, remaining,
+                        )
+            finally:
+                raw_file.close()
 
         # Generate summary
         reporter = SimulationReporter()
@@ -199,6 +273,40 @@ class ExperimentRunner:
         result = SimulationReporter.from_model(model)
         return result, model
 
+    def _run_iterations_parallel(
+        self,
+        config: ExperimentConfig,
+        start_iter: int,
+    ) -> tuple[list[IterationResult], list[dict[str, Any]]]:
+        """Run iterations in parallel via ProcessPoolExecutor."""
+        iterations = list(range(start_iter, config.n_iterations))
+        iteration_results: list[IterationResult | None] = [None] * len(iterations)
+        dynamics_scalars: list[dict[str, Any] | None] = [None] * len(iterations)
+
+        wall_start = time.time()
+        total = len(iterations)
+
+        with ProcessPoolExecutor(max_workers=self.max_workers) as executor:
+            futures = {
+                executor.submit(_run_iteration_worker, config, i): i
+                for i in iterations
+            }
+            done_count = 0
+            for future in as_completed(futures):
+                iteration, result, dyn_scalar = future.result()
+                idx = iteration - start_iter
+                iteration_results[idx] = result
+                dynamics_scalars[idx] = dyn_scalar
+                done_count += 1
+                if done_count % 10 == 0:
+                    elapsed = time.time() - wall_start
+                    logger.info(
+                        "  %s: %d/%d iterations (%.1fs elapsed)",
+                        config.name, done_count, total, elapsed,
+                    )
+
+        return iteration_results, dynamics_scalars  # type: ignore[return-value]
+
     def _make_raw_row(
         self, iteration: int, config: ExperimentConfig, result: IterationResult
     ) -> dict[str, Any]:
@@ -245,35 +353,6 @@ class ExperimentRunner:
             "avg_relocations_per_community": f"{total_reloc / result.n_comms:.6f}",
             "settling_time_90pct": sorted_steps[idx],
         }
-
-    def _analyze_dynamics_scalar(self, model: MiniTiebout, config: ExperimentConfig) -> dict[str, Any]:
-        """Extract scalar dynamics summaries from a single iteration."""
-        scalars: dict[str, Any] = {"has_cycle": False, "mean_homogeneity": 0.0}
-
-        if not config.tracking_enabled or model.tracker is None:
-            return scalars
-
-        tracker = model.tracker
-        platform_ids = [p.id for p in model.platforms]
-
-        try:
-            analyzer = MovementAnalyzer(tracker, platform_ids)
-
-            # Raiding cycles
-            raiding = analyzer.detect_raiding_cycles(config.t_max)
-            scalars["has_cycle"] = any(r["has_cycle"] for r in raiding.values())
-
-            # Enclaves
-            community_types = {c.id: c.type for c in model.communities}
-            enclaves = analyzer.detect_enclaves(community_types)
-            if enclaves:
-                scalars["mean_homogeneity"] = float(np.mean(
-                    [e["mean_homogeneity"] for e in enclaves.values()]
-                ))
-        except Exception as e:
-            logger.warning("Dynamics analysis failed for %s: %s", config.name, e)
-
-        return scalars
 
     def _save_dynamics(
         self,
