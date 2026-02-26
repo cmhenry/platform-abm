@@ -66,8 +66,8 @@ def build_exp2_configs() -> list[ExperimentConfig]:
     All use mixed institution type.
     """
     configs = []
-    n_platforms_values = [3, 6, 9]
-    rho_values = [0.05, 0.10, 0.20]
+    n_platforms_values = [3, 9, 27]
+    rho_values = [0.05, 0.10, 0.15]
     alpha_values = [2.0, 5.0, 10.0]
 
     for np_val in n_platforms_values:
