@@ -34,6 +34,7 @@ class IterationResult:
     platform_community_counts: list[int]
     tracker_log: dict[int, StepRecord] | None = None
     step_log: list[dict] | None = None
+    step_series: dict | None = None
 
 
 @dataclass
@@ -76,6 +77,7 @@ class SimulationReporter:
             tracker_log = model.tracker.get_log()
 
         step_log = getattr(model, "step_log", None)
+        step_series = getattr(model, "step_series", None)
 
         return IterationResult(
             n_comms=model.p.n_comms,
@@ -94,6 +96,7 @@ class SimulationReporter:
             platform_community_counts=[len(p.communities) for p in platforms],
             tracker_log=tracker_log,
             step_log=step_log,
+            step_series=step_series,
         )
 
     def add_iteration(self, result: IterationResult) -> None:
@@ -286,3 +289,149 @@ class SimulationReporter:
         )
         with open(filepath, "w") as f:
             f.write("\n".join(lines) + "\n")
+
+    def compute_step_summary(self) -> dict[str, dict[str, np.ndarray]]:
+        """Aggregate step_series across iterations into mean and 95% CI arrays.
+
+        Returns a dict mapping metric names to {'mean': array, 'ci': array}.
+        Nested dicts (per_governance_utility, etc.) produce flattened keys
+        like 'utility_direct', 'community_count_algorithmic', etc.
+        """
+        series_list = [
+            it.step_series for it in self._iterations if it.step_series is not None
+        ]
+        if not series_list:
+            raise ValueError("No step_series data available")
+
+        n_iters = len(series_list)
+        n_steps = len(series_list[0]['steps'])
+        result: dict[str, dict[str, np.ndarray]] = {}
+
+        # Simple (flat) metrics
+        for key in ('avg_utility', 'n_relocations'):
+            matrix = np.zeros((n_iters, n_steps))
+            for i, ss in enumerate(series_list):
+                vals = ss.get(key, [])
+                length = min(len(vals), n_steps)
+                matrix[i, :length] = vals[:length]
+            mean = np.mean(matrix, axis=0)
+            se = np.std(matrix, axis=0, ddof=1) / math.sqrt(n_iters) if n_iters > 1 else np.zeros(n_steps)
+            result[key] = {'mean': mean, 'ci': 1.96 * se}
+
+        # Nested dict metrics
+        nested_keys = [
+            ('per_governance_utility', 'utility'),
+            ('per_governance_community_count', 'community_count'),
+        ]
+        # Conditionally add per-type metrics
+        if 'per_type_utility' in series_list[0]:
+            nested_keys.append(('per_type_utility', 'type_utility'))
+        if 'per_type_relocations' in series_list[0]:
+            nested_keys.append(('per_type_relocations', 'type_relocations'))
+
+        for series_key, prefix in nested_keys:
+            sub_keys = sorted(series_list[0].get(series_key, {}).keys())
+            for sk in sub_keys:
+                matrix = np.zeros((n_iters, n_steps))
+                for i, ss in enumerate(series_list):
+                    vals = ss.get(series_key, {}).get(sk, [])
+                    length = min(len(vals), n_steps)
+                    matrix[i, :length] = vals[:length]
+                mean = np.mean(matrix, axis=0)
+                se = np.std(matrix, axis=0, ddof=1) / math.sqrt(n_iters) if n_iters > 1 else np.zeros(n_steps)
+                result[f'{prefix}_{sk}'] = {'mean': mean, 'ci': 1.96 * se}
+
+        # Include step numbers
+        result['steps'] = {'mean': np.array(series_list[0]['steps'], dtype=float), 'ci': np.zeros(n_steps)}
+
+        return result
+
+    def step_summary_to_csv(self, filepath: str) -> None:
+        """Write per-step aggregated time series to CSV (one row per step)."""
+        summary = self.compute_step_summary()
+        steps = summary.pop('steps')['mean']
+        n_steps = len(steps)
+
+        # Build columns: step, then mean/ci for each metric
+        fieldnames = ['step']
+        metric_names = sorted(summary.keys())
+        for name in metric_names:
+            fieldnames.append(f'{name}_mean')
+            fieldnames.append(f'{name}_ci')
+
+        with open(filepath, 'w', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            for j in range(n_steps):
+                row: dict[str, str] = {'step': str(int(steps[j]))}
+                for name in metric_names:
+                    row[f'{name}_mean'] = f"{summary[name]['mean'][j]:.6f}"
+                    row[f'{name}_ci'] = f"{summary[name]['ci'][j]:.6f}"
+                writer.writerow(row)
+
+    def compute_convergence_diagnostics(self) -> dict:
+        """Compute convergence diagnostics from aggregated step trajectories.
+
+        Mirrors results/analyze_stepwise.py:convergence_diagnostics().
+        """
+        summary = self.compute_step_summary()
+        util = summary['avg_utility']['mean']
+        reloc = summary['n_relocations']['mean']
+        n = len(util)
+
+        # Slope of utility over last 20% of steps
+        tail_start = int(n * 0.8)
+        tail_util = util[tail_start:]
+        tail_steps = np.arange(len(tail_util))
+
+        if len(tail_util) > 1:
+            slope = float(np.polyfit(tail_steps, tail_util, 1)[0])
+        else:
+            slope = 0.0
+
+        util_start = float(util[0])
+        util_mid = float(util[n // 2])
+        util_end = float(util[-1])
+
+        reloc_end = float(reloc[-1])
+        reloc_start = float(reloc[0])
+
+        # Coefficient of variation in tail
+        tail_cv = float(np.std(tail_util) / np.mean(tail_util)) if np.mean(tail_util) > 0 else 0.0
+
+        # Autocorrelation of utility differences (lag-1) in tail
+        if len(tail_util) > 2:
+            diffs = np.diff(tail_util)
+            if len(diffs) > 1 and np.std(diffs[:-1]) > 0 and np.std(diffs[1:]) > 0:
+                autocorr = float(np.corrcoef(diffs[:-1], diffs[1:])[0, 1])
+            else:
+                autocorr = 0.0
+        else:
+            autocorr = 0.0
+
+        # Classification (same thresholds as analyze_stepwise.py)
+        if abs(slope) < 0.001 and tail_cv < 0.005:
+            pattern = "CONVERGED"
+        elif slope > 0.001:
+            pattern = "STILL_CLIMBING"
+        elif tail_cv > 0.02 and autocorr < -0.3:
+            pattern = "OSCILLATING"
+        elif tail_cv > 0.01:
+            pattern = "NOISY_PLATEAU"
+        else:
+            pattern = "PLATEAU"
+
+        return {
+            'pattern': pattern,
+            'tail_slope': slope,
+            'tail_cv': tail_cv,
+            'tail_autocorr': autocorr,
+            'util_start': util_start,
+            'util_mid': util_mid,
+            'util_end': util_end,
+            'util_gain_total': util_end - util_start,
+            'util_gain_second_half': util_end - util_mid,
+            'reloc_start': reloc_start,
+            'reloc_end': reloc_end,
+            'reloc_reduction_pct': (1 - reloc_end / reloc_start) * 100 if reloc_start > 0 else 0.0,
+        }

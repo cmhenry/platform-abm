@@ -287,6 +287,15 @@ class ExperimentRunner:
         # Save per-step metrics (always, regardless of tracking_enabled)
         self._save_step_logs(config_dir, iteration_results)
 
+        # Save step-level aggregated time series and convergence diagnostics
+        try:
+            reporter.step_summary_to_csv(str(config_dir / "stepwise.csv"))
+            convergence = reporter.compute_convergence_diagnostics()
+            with open(config_dir / "convergence.json", "w") as f:
+                json.dump(convergence, f, indent=2)
+        except ValueError:
+            pass  # no step_series data (e.g. loaded from skipped config)
+
         # Save dynamics
         if config.tracking_enabled and last_model is not None:
             self._save_dynamics(config_dir, dynamics_scalars, last_model)
@@ -582,6 +591,17 @@ class ExperimentRunner:
                 "n_communities": config.n_communities,
             }
             row_data.update(measures)
+
+            # Include convergence pattern if available
+            convergence_path = result.config_dir / "convergence.json"
+            if convergence_path.exists():
+                try:
+                    with open(convergence_path) as cf:
+                        conv = json.load(cf)
+                    row_data["convergence_pattern"] = conv.get("pattern", "")
+                except Exception:
+                    pass
+
             rows.append(row_data)
 
         if rows:

@@ -36,7 +36,18 @@ class MiniTiebout(ap.Model):
         if not hasattr(self, "tracker"):
             self.tracker = None
         self._last_n_relocations = 0
+        self._last_relocations_by_type: dict[str, int] = {}
         self.step_log: list[dict] = []
+        self.step_series: dict = {
+            'steps': [],
+            'avg_utility': [],
+            'n_relocations': [],
+            'per_governance_utility': {},
+            'per_governance_community_count': {},
+        }
+        if self.p.extremists == "yes":
+            self.step_series['per_type_utility'] = {'mainstream': [], 'extremist': []}
+            self.step_series['per_type_relocations'] = {'mainstream': [], 'extremist': []}
         self.communities = ap.AgentList(self, self.p.n_comms, Community)
 
         if self.p.extremists == "yes":
@@ -86,6 +97,11 @@ class MiniTiebout(ap.Model):
                 algo_inst.set_group_policies(platform)
 
         self.agents = self.communities + self.platforms
+
+        # Initialize governance keys for step_series
+        for gov in sorted(set(p.institution for p in self.platforms)):
+            self.step_series['per_governance_utility'][gov] = []
+            self.step_series['per_governance_community_count'][gov] = []
 
     def _mix_agents_by_split(self, agentlist: ap.AgentList, split: int) -> list[list[int]]:
         """Split agents into sublists of roughly equal size."""
@@ -198,19 +214,46 @@ class MiniTiebout(ap.Model):
         avg_utility = sum(c.current_utility for c in self.communities) / n if n > 0 else 0.0
 
         by_institution: dict[str, list[float]] = {}
+        community_counts: dict[str, int] = {}
         for c in self.communities:
             inst = c.platform.institution
             by_institution.setdefault(inst, []).append(c.current_utility)
+            community_counts[inst] = community_counts.get(inst, 0) + 1
         per_governance_utilities = {
             inst: sum(vals) / len(vals) for inst, vals in by_institution.items()
         }
 
-        self.step_log.append({
+        entry: dict = {
             "step": self.t,
             "avg_utility": avg_utility,
             "n_relocations": self._last_n_relocations,
             "per_governance_utilities": per_governance_utilities,
-        })
+            "per_governance_community_count": community_counts,
+        }
+
+        if self.p.extremists == "yes":
+            by_type: dict[str, list[float]] = {}
+            for c in self.communities:
+                by_type.setdefault(c.type, []).append(c.current_utility)
+            entry["per_type_utility"] = {
+                t: sum(vals) / len(vals) for t, vals in by_type.items()
+            }
+            entry["per_type_relocations"] = dict(self._last_relocations_by_type)
+
+        self.step_log.append(entry)
+
+        # Populate columnar step_series
+        ss = self.step_series
+        ss['steps'].append(self.t)
+        ss['avg_utility'].append(avg_utility)
+        ss['n_relocations'].append(self._last_n_relocations)
+        for gov in ss['per_governance_utility']:
+            ss['per_governance_utility'][gov].append(per_governance_utilities.get(gov, 0.0))
+            ss['per_governance_community_count'][gov].append(community_counts.get(gov, 0))
+        if self.p.extremists == "yes":
+            for t in ('mainstream', 'extremist'):
+                ss['per_type_utility'][t].append(entry["per_type_utility"].get(t, 0.0))
+                ss['per_type_relocations'][t].append(self._last_relocations_by_type.get(t, 0))
 
     def _step_elections(self) -> None:
         """Hold elections on all platforms."""
@@ -243,6 +286,11 @@ class MiniTiebout(ap.Model):
             new_platform.add_community(community)
 
         self._last_n_relocations = len(moves)
+
+        if self.p.extremists == "yes":
+            self._last_relocations_by_type = {'mainstream': 0, 'extremist': 0}
+            for community, _, _ in moves:
+                self._last_relocations_by_type[community.type] += 1
 
         if self.tracker is not None:
             self.tracker.record_step(self.t, moves)

@@ -277,6 +277,78 @@ def test_step_metrics_json_parallel():
             assert len(steps) == config.t_max
 
 
+def test_stepwise_csv_created():
+    """stepwise.csv is created with correct row count."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        runner = ExperimentRunner(output_dir=tmpdir)
+        config = _make_small_config(name="stepwise_test")
+        result = runner.run_config(config)
+
+        stepwise_path = result.config_dir / "stepwise.csv"
+        assert stepwise_path.exists()
+
+        with open(stepwise_path) as f:
+            reader = csv.DictReader(f)
+            rows = list(reader)
+        assert len(rows) == config.t_max
+        assert "step" in rows[0]
+        assert "avg_utility_mean" in rows[0]
+        assert "n_relocations_mean" in rows[0]
+
+
+def test_convergence_json_created():
+    """convergence.json is created with required keys."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        runner = ExperimentRunner(output_dir=tmpdir)
+        config = _make_small_config(name="conv_test")
+        result = runner.run_config(config)
+
+        conv_path = result.config_dir / "convergence.json"
+        assert conv_path.exists()
+
+        with open(conv_path) as f:
+            data = json.load(f)
+        assert "pattern" in data
+        assert "tail_slope" in data
+        assert "util_end" in data
+        assert "reloc_reduction_pct" in data
+
+
+def test_stepwise_csv_parallel():
+    """stepwise.csv is created with parallel execution (workers=2)."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        runner = ExperimentRunner(output_dir=tmpdir, max_workers=2)
+        config = _make_small_config(name="stepwise_par")
+        result = runner.run_config(config)
+
+        stepwise_path = result.config_dir / "stepwise.csv"
+        assert stepwise_path.exists()
+
+        with open(stepwise_path) as f:
+            reader = csv.DictReader(f)
+            rows = list(reader)
+        assert len(rows) == config.t_max
+
+
+def test_convergence_in_experiment_summary():
+    """Experiment summary CSV includes convergence_pattern column."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        runner = ExperimentRunner(output_dir=tmpdir)
+        configs = [
+            _make_small_config(name="conv_sum_a"),
+            _make_small_config(name="conv_sum_b"),
+        ]
+        exp_dir = runner.run_experiment(configs)
+
+        with open(exp_dir / "summary.csv") as f:
+            reader = csv.DictReader(f)
+            rows = list(reader)
+        assert len(rows) == 2
+        for row in rows:
+            assert "convergence_pattern" in row
+            assert row["convergence_pattern"] != ""
+
+
 def test_parallel_blas_env_restored():
     """BLAS env vars are set when pool is created and restored after shutdown."""
     # Save original env state

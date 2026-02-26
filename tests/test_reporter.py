@@ -303,3 +303,145 @@ class TestFromModel:
         result = SimulationReporter.from_model(model)
         assert result.has_extremists
         assert "extremist" in result.community_types
+
+    def test_step_series_extracted(self):
+        model = make_model({"steps": 3, "seed": 42})
+        model.run()
+        result = SimulationReporter.from_model(model)
+        assert result.step_series is not None
+        ss = result.step_series
+        assert len(ss['steps']) == 3
+        assert len(ss['avg_utility']) == 3
+        assert len(ss['n_relocations']) == 3
+        assert len(ss['per_governance_utility']) > 0
+        assert len(ss['per_governance_community_count']) > 0
+        for gov in ss['per_governance_utility']:
+            assert len(ss['per_governance_utility'][gov]) == 3
+            assert len(ss['per_governance_community_count'][gov]) == 3
+
+    def test_step_series_with_extremists(self):
+        model = make_model(
+            {"steps": 3, "seed": 42, "extremists": "yes", "percent_extremists": 20}
+        )
+        model.run()
+        result = SimulationReporter.from_model(model)
+        ss = result.step_series
+        assert 'per_type_utility' in ss
+        assert 'per_type_relocations' in ss
+        assert len(ss['per_type_utility']['mainstream']) == 3
+        assert len(ss['per_type_utility']['extremist']) == 3
+        assert len(ss['per_type_relocations']['mainstream']) == 3
+        assert len(ss['per_type_relocations']['extremist']) == 3
+
+    def test_step_series_without_extremists(self):
+        model = make_model({"steps": 3, "seed": 42, "extremists": "no"})
+        model.run()
+        result = SimulationReporter.from_model(model)
+        ss = result.step_series
+        assert 'per_type_utility' not in ss
+        assert 'per_type_relocations' not in ss
+
+
+class TestStepSummary:
+    def _make_step_series(self, avg_utilities, n_relocations, gov="direct", n_comms=10):
+        """Helper: build a minimal step_series dict."""
+        n_steps = len(avg_utilities)
+        return {
+            'steps': list(range(1, n_steps + 1)),
+            'avg_utility': list(avg_utilities),
+            'n_relocations': list(n_relocations),
+            'per_governance_utility': {gov: list(avg_utilities)},
+            'per_governance_community_count': {gov: [n_comms] * n_steps},
+        }
+
+    def test_compute_step_summary(self):
+        reporter = SimulationReporter()
+        it1 = _make_iteration()
+        it1.step_series = self._make_step_series([2.0, 3.0, 4.0], [5, 3, 1])
+        it2 = _make_iteration()
+        it2.step_series = self._make_step_series([4.0, 5.0, 6.0], [3, 1, 1])
+        reporter.add_iteration(it1)
+        reporter.add_iteration(it2)
+
+        summary = reporter.compute_step_summary()
+        assert 'avg_utility' in summary
+        np.testing.assert_allclose(summary['avg_utility']['mean'], [3.0, 4.0, 5.0])
+        np.testing.assert_allclose(summary['n_relocations']['mean'], [4.0, 2.0, 1.0])
+
+    def test_step_summary_to_csv(self):
+        reporter = SimulationReporter()
+        it = _make_iteration()
+        it.step_series = self._make_step_series([2.0, 3.0, 4.0], [5, 3, 1])
+        reporter.add_iteration(it)
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as f:
+            filepath = f.name
+        try:
+            reporter.step_summary_to_csv(filepath)
+            with open(filepath) as f:
+                reader = csv.DictReader(f)
+                rows = list(reader)
+            assert len(rows) == 3
+            assert "step" in rows[0]
+            assert "avg_utility_mean" in rows[0]
+            assert "avg_utility_ci" in rows[0]
+            assert "n_relocations_mean" in rows[0]
+        finally:
+            os.unlink(filepath)
+
+    def test_no_step_series_raises(self):
+        reporter = SimulationReporter()
+        reporter.add_iteration(_make_iteration())  # no step_series
+        with pytest.raises(ValueError, match="No step_series"):
+            reporter.compute_step_summary()
+
+
+class TestConvergenceDiagnostics:
+    def _make_step_series(self, avg_utilities, n_relocations):
+        n_steps = len(avg_utilities)
+        return {
+            'steps': list(range(1, n_steps + 1)),
+            'avg_utility': list(avg_utilities),
+            'n_relocations': list(n_relocations),
+            'per_governance_utility': {'direct': list(avg_utilities)},
+            'per_governance_community_count': {'direct': [10] * n_steps},
+        }
+
+    def test_convergence_returns_required_keys(self):
+        reporter = SimulationReporter()
+        it = _make_iteration()
+        it.step_series = self._make_step_series(
+            [3.0 + 0.001 * i for i in range(20)], [5] * 20
+        )
+        reporter.add_iteration(it)
+
+        diag = reporter.compute_convergence_diagnostics()
+        required = {
+            'pattern', 'tail_slope', 'tail_cv', 'tail_autocorr',
+            'util_start', 'util_mid', 'util_end',
+            'util_gain_total', 'util_gain_second_half',
+            'reloc_start', 'reloc_end', 'reloc_reduction_pct',
+        }
+        assert required <= set(diag.keys())
+
+    def test_converged_pattern(self):
+        reporter = SimulationReporter()
+        it = _make_iteration()
+        # Flat utility → CONVERGED
+        it.step_series = self._make_step_series([4.0] * 20, [0] * 20)
+        reporter.add_iteration(it)
+
+        diag = reporter.compute_convergence_diagnostics()
+        assert diag['pattern'] == "CONVERGED"
+
+    def test_still_climbing_pattern(self):
+        reporter = SimulationReporter()
+        it = _make_iteration()
+        # Linearly increasing → STILL_CLIMBING
+        it.step_series = self._make_step_series(
+            [1.0 + 0.1 * i for i in range(20)], [5] * 20
+        )
+        reporter.add_iteration(it)
+
+        diag = reporter.compute_convergence_diagnostics()
+        assert diag['pattern'] == "STILL_CLIMBING"
