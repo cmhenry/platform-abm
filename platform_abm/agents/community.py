@@ -70,8 +70,11 @@ class Community(ap.Agent):
         from platform_abm.search import search_and_select
 
         rng = self.model.random
+        mu = getattr(self.p, 'mu', 0.0)
+        moving_cost = mu * self.p.p_space
         decision, destination = search_and_select(
-            self, self.platform, list(self.model.platforms), rng
+            self, self.platform, list(self.model.platforms), rng,
+            moving_cost=moving_cost,
         )
         if decision == "move":
             self.strategy = Strategy.MOVE.value

@@ -38,13 +38,14 @@ def search_and_select(
     current_platform: Platform,
     all_platforms: list[Platform],
     rng: _random.Random,
+    moving_cost: float = 0.0,
 ) -> tuple[str, Platform]:
     """Asymmetric search: full utility on current vs base-only on destinations.
 
     1. Compute full utility (with vampirism) on current platform.
     2. For each other platform, compute base utility only.
     3. Best destination = argmax base utility, ties broken randomly.
-    4. MOVE if best_base > current_full, else STAY.
+    4. MOVE if best_base > current_full + moving_cost, else STAY.
 
     Returns: ('move', destination) or ('stay', current_platform).
     """
@@ -63,7 +64,7 @@ def search_and_select(
         elif base == best_base:
             best_destinations.append(platform)
 
-    if not best_destinations or best_base <= current_full:
+    if not best_destinations or best_base <= current_full + moving_cost:
         return ("stay", current_platform)
 
     destination = rng.choice(best_destinations)

@@ -56,6 +56,7 @@ class SimulationConfig(BaseModel):
     svd_groups: int = 3
     stop_condition: StopCondition = StopCondition.STEPS
     alpha: float = 1.0
+    mu: float = 0.05
     initial_distribution: str = "random"
     seed: int | None = None
 
@@ -105,6 +106,7 @@ class SimulationConfig(BaseModel):
             "svd_groups": self.svd_groups,
             "stop_condition": self.stop_condition.value,
             "alpha": self.alpha,
+            "mu": self.mu,
             "initial_distribution": self.initial_distribution,
             **({"seed": self.seed} if self.seed is not None else {}),
         }

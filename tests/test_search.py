@@ -239,6 +239,116 @@ class TestReturnFormat:
         assert comm.platform is plat_a
 
 
+class TestMovingCost:
+    """Tests for proportional moving cost (mu)."""
+
+    def _setup_improvement(self, improvement: int):
+        """Create a 2-platform setup where destination is `improvement` better than current."""
+        model = make_model({"n_comms": 1, "n_plats": 2, "p_space": 10, "mu": 0.0})
+        comm = model.communities[0]
+        plat_a, plat_b = model.platforms[0], model.platforms[1]
+
+        comm.platform = plat_a
+        plat_a.communities = [comm]
+        plat_b.communities = []
+
+        # Build policies so base(dest) - full(current) = improvement
+        # Current: alignment = p_space - improvement (some mismatch)
+        # Destination: alignment = p_space (perfect)
+        plat_a.policies = comm.preferences.copy()
+        # Flip `improvement` bits on current platform
+        for i in range(improvement):
+            plat_a.policies[i] = 1 - plat_a.policies[i]
+        plat_b.policies = comm.preferences.copy()
+
+        return model, comm, plat_a, plat_b
+
+    def test_stays_below_threshold(self):
+        """mu=0.05, p_space=10, improvement=0.4 → STAY (0.4 < 0.5)."""
+        # improvement is in integer alignment units; moving_cost = 0.05*10 = 0.5
+        # dest_base - current_full must be > 0.5 to move
+        # We need improvement < moving_cost in alignment units
+        # With 0 improvement (dest == current base), definitely stays
+        model = make_model({"n_comms": 1, "n_plats": 2, "p_space": 10, "mu": 0.0})
+        comm = model.communities[0]
+        plat_a, plat_b = model.platforms[0], model.platforms[1]
+
+        comm.platform = plat_a
+        plat_a.communities = [comm]
+        plat_b.communities = []
+
+        # Current has 6/10 alignment, dest has 6/10 alignment => no improvement
+        # Actually let's be precise: current_full=6, dest_base=6, cost=0.5 => 6 <= 6.5 => STAY
+        plat_a.policies = comm.preferences.copy()
+        plat_b.policies = comm.preferences.copy()
+        # Make current slightly worse: flip 0 bits (same alignment)
+        # Actually for "below threshold": dest improvement = 0, cost = 0.5
+        # 0 improvement clearly below threshold
+        rng = random.Random(42)
+        moving_cost = 0.05 * 10  # 0.5
+        decision, _ = search_and_select(
+            comm, plat_a, list(model.platforms), rng, moving_cost=moving_cost
+        )
+        assert decision == "stay"
+
+    def test_moves_above_threshold(self):
+        """mu=0.05, p_space=10: improvement of 1 > cost of 0.5 → MOVE."""
+        model, comm, plat_a, plat_b = self._setup_improvement(improvement=1)
+
+        rng = random.Random(42)
+        moving_cost = 0.05 * 10  # 0.5
+        decision, dest = search_and_select(
+            comm, plat_a, list(model.platforms), rng, moving_cost=moving_cost
+        )
+        assert decision == "move"
+        assert dest is plat_b
+
+    def test_stays_at_exact_threshold(self):
+        """Strict inequality: improvement exactly equal to cost → STAY."""
+        # We need base(dest) - full(current) == moving_cost exactly
+        # Use mu=0.1, p_space=10 => cost=1.0; improvement=1 alignment unit
+        model, comm, plat_a, plat_b = self._setup_improvement(improvement=1)
+
+        rng = random.Random(42)
+        moving_cost = 0.10 * 10  # 1.0, exactly equals improvement of 1
+        decision, _ = search_and_select(
+            comm, plat_a, list(model.platforms), rng, moving_cost=moving_cost
+        )
+        assert decision == "stay"
+
+    def test_zero_mu_costless(self):
+        """mu=0.0 preserves costless behavior — any improvement triggers move."""
+        model, comm, plat_a, plat_b = self._setup_improvement(improvement=1)
+
+        rng = random.Random(42)
+        decision, dest = search_and_select(
+            comm, plat_a, list(model.platforms), rng, moving_cost=0.0
+        )
+        assert decision == "move"
+        assert dest is plat_b
+
+    def test_same_cost_for_extremists(self):
+        """Extremist communities face same moving cost threshold."""
+        model, comm, plat_a, plat_b = self._setup_improvement(improvement=1)
+        comm.type = CommunityType.EXTREMIST.value
+
+        rng = random.Random(42)
+        # cost = 0.5, improvement = 1 => should move
+        moving_cost = 0.05 * 10
+        decision, _ = search_and_select(
+            comm, plat_a, list(model.platforms), rng, moving_cost=moving_cost
+        )
+        assert decision == "move"
+
+        # cost = 1.0, improvement = 1 => stays (exact threshold)
+        rng = random.Random(42)
+        moving_cost = 0.10 * 10
+        decision, _ = search_and_select(
+            comm, plat_a, list(model.platforms), rng, moving_cost=moving_cost
+        )
+        assert decision == "stay"
+
+
 class TestAlgorithmicDestination:
     def test_evaluates_best_group_policy(self):
         """Algorithmic destination evaluates max across group policies."""

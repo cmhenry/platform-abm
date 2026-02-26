@@ -87,8 +87,8 @@ def test_exp2_config_count():
 
 
 def test_oat_config_count():
-    """OAT produces 10 configs (5 params x 2 test values each)."""
-    assert len(build_oat_configs()) == 10
+    """OAT produces 13 configs (5 params x 2 test values + 1 param x 3 test values)."""
+    assert len(build_oat_configs()) == 13
 
 
 def test_interaction_config_count():
@@ -101,6 +101,29 @@ def test_exp1_no_extremists():
     for cfg in build_exp1_configs():
         assert cfg.rho_extremist == 0.0
         assert cfg.alpha == 0.0
+
+
+def test_mu_in_params():
+    """mu flows through to_params() and to_dict()."""
+    cfg = ExperimentConfig(
+        name="test_mu", experiment="test",
+        n_communities=100, n_platforms=9, p_space=10, t_max=50,
+        institution="mixed", rho_extremist=0.10, alpha=5.0, mu=0.08,
+    )
+    params = cfg.to_params(iteration=0)
+    assert params["mu"] == 0.08
+    d = cfg.to_dict()
+    assert d["mu"] == 0.08
+
+
+def test_mu_default_in_params():
+    """mu defaults to 0.05 in to_params()."""
+    cfg = ExperimentConfig(
+        name="test_mu_default", experiment="test",
+        n_communities=100, n_platforms=9, p_space=10, t_max=50,
+        institution="mixed", rho_extremist=0.0, alpha=0.0,
+    )
+    assert cfg.to_params(0)["mu"] == 0.05
 
 
 def test_exp2_all_mixed():

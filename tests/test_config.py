@@ -101,3 +101,12 @@ class TestSimulationConfig:
         assert config.search_steps == 10
         assert config.svd_groups == 3
         assert config.stop_condition == StopCondition.STEPS
+
+    def test_mu_default(self):
+        config = SimulationConfig(**self._base_params())
+        assert config.mu == 0.05
+
+    def test_mu_in_agentpy_params(self):
+        config = SimulationConfig(**self._base_params(mu=0.10))
+        params = config.to_agentpy_params()
+        assert params["mu"] == 0.10

@@ -16,12 +16,13 @@ _COMMON_FIXED: dict = {
 
 # Baseline values for sensitivity analysis
 _BASELINE = {
-    "n_communities": 100,
+    "n_communities": 900,
     "n_platforms": 9,
     "p_space": 10,
-    "t_max": 50,
+    "t_max": 100,
     "rho_extremist": 0.10,
     "alpha": 5.0,
+    "mu": 0.05,
 }
 
 
@@ -77,10 +78,10 @@ def build_exp2_configs() -> list[ExperimentConfig]:
                 configs.append(ExperimentConfig(
                     name=name,
                     experiment="exp2",
-                    n_communities=100,
+                    n_communities=900,
                     n_platforms=np_val,
                     p_space=10,
-                    t_max=50,
+                    t_max=100,
                     institution="mixed",
                     rho_extremist=rho,
                     alpha=alpha,
@@ -95,11 +96,11 @@ def build_oat_configs() -> list[ExperimentConfig]:
     """OAT sensitivity: one parameter at a time around baseline.
 
     5 parameters, each with 1-3 test values (excluding baseline).
-    Baseline: N_c=100, N_p=9, p_space=10, rho=0.10, alpha=5.0
+    Baseline: N_c=900, N_p=9, p_space=10, rho=0.10, alpha=5.0
     """
     configs = []
 
-    # Parameter: n_communities (baseline=100)
+    # Parameter: n_communities (baseline=900)
     for n_c in [50, 200]:
         configs.append(ExperimentConfig(
             name=f"oat_nc{n_c}",
@@ -176,6 +177,24 @@ def build_oat_configs() -> list[ExperimentConfig]:
             institution="mixed",
             rho_extremist=_BASELINE["rho_extremist"],
             alpha=alpha,
+            tracking_enabled=True,
+            **_COMMON_FIXED,
+        ))
+
+    # Parameter: mu (baseline=0.05)
+    for mu_val in [0.0, 0.02, 0.10]:
+        mu_str = f"{mu_val:.2f}".replace(".", "")
+        configs.append(ExperimentConfig(
+            name=f"oat_mu{mu_str}",
+            experiment="oat",
+            n_communities=_BASELINE["n_communities"],
+            n_platforms=_BASELINE["n_platforms"],
+            p_space=_BASELINE["p_space"],
+            t_max=_BASELINE["t_max"],
+            institution="mixed",
+            rho_extremist=_BASELINE["rho_extremist"],
+            alpha=_BASELINE["alpha"],
+            mu=mu_val,
             tracking_enabled=True,
             **_COMMON_FIXED,
         ))

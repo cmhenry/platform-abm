@@ -19,6 +19,7 @@ class ExperimentConfig:
     institution: str
     rho_extremist: float  # maps to percent_extremists = int(rho * 100)
     alpha: float
+    mu: float = 0.05
     coalitions: int = 5
     mutations: int = 3
     svd_groups: int = 10
@@ -46,6 +47,7 @@ class ExperimentConfig:
             "svd_groups": self.svd_groups,
             "stop_condition": "steps",
             "alpha": self.alpha,
+            "mu": self.mu,
             "initial_distribution": self.initial_distribution,
             "seed": self.seed_base + iteration,
         }
@@ -62,6 +64,7 @@ class ExperimentConfig:
             "institution": self.institution,
             "rho_extremist": self.rho_extremist,
             "alpha": self.alpha,
+            "mu": self.mu,
             "coalitions": self.coalitions,
             "mutations": self.mutations,
             "svd_groups": self.svd_groups,

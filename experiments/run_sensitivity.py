@@ -82,6 +82,9 @@ def _build_oat_csv(oat_dir: Path, baseline_dir: Path) -> None:
         "oat_rho020": ("rho_extremist", "0.20"),
         "oat_alpha2": ("alpha", "2.0"),
         "oat_alpha10": ("alpha", "10.0"),
+        "oat_mu000": ("mu", "0.00"),
+        "oat_mu002": ("mu", "0.02"),
+        "oat_mu010": ("mu", "0.10"),
     }
 
     rows: list[dict[str, Any]] = []
