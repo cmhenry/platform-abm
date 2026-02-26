@@ -232,6 +232,51 @@ def test_parallel_with_tracking():
         assert dynamics_dir.exists()
 
 
+def test_step_metrics_json_created():
+    """step_metrics.json is created even with tracking_enabled=False."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        runner = ExperimentRunner(output_dir=tmpdir)
+        config = _make_small_config(name="step_met", tracking=False)
+        result = runner.run_config(config)
+
+        step_metrics_path = result.config_dir / "step_metrics.json"
+        assert step_metrics_path.exists()
+
+        with open(step_metrics_path) as f:
+            data = json.load(f)
+
+        # Should have one entry per iteration
+        assert len(data) == config.n_iterations
+        # Each iteration should have t_max steps
+        for key in data:
+            steps = data[key]
+            assert len(steps) == config.t_max
+            for entry in steps:
+                assert "step" in entry
+                assert "avg_utility" in entry
+                assert "n_relocations" in entry
+                assert "per_governance_utilities" in entry
+
+
+def test_step_metrics_json_parallel():
+    """step_metrics.json is created with parallel execution (workers=2)."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        runner = ExperimentRunner(output_dir=tmpdir, max_workers=2)
+        config = _make_small_config(name="step_met_par", tracking=False)
+        result = runner.run_config(config)
+
+        step_metrics_path = result.config_dir / "step_metrics.json"
+        assert step_metrics_path.exists()
+
+        with open(step_metrics_path) as f:
+            data = json.load(f)
+
+        assert len(data) == config.n_iterations
+        for key in data:
+            steps = data[key]
+            assert len(steps) == config.t_max
+
+
 def test_parallel_blas_env_restored():
     """BLAS env vars are set when pool is created and restored after shutdown."""
     # Save original env state

@@ -283,6 +283,18 @@ class TestFromModel:
         measures = {m.name: m for m in summary}
         assert "avg_utility" in measures
 
+    def test_step_log_extracted(self):
+        model = make_model({"steps": 3, "seed": 42})
+        model.run()
+        result = SimulationReporter.from_model(model)
+        assert result.step_log is not None
+        assert len(result.step_log) == 3
+        for entry in result.step_log:
+            assert "step" in entry
+            assert "avg_utility" in entry
+            assert "n_relocations" in entry
+            assert "per_governance_utilities" in entry
+
     def test_extremist_model_extraction(self):
         model = make_model(
             {"steps": 3, "seed": 42, "extremists": "yes", "percent_extremists": 20}

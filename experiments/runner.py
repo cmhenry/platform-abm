@@ -284,6 +284,9 @@ class ExperimentRunner:
         summary = reporter.compute_summary()
         reporter.to_csv(str(config_dir / "summary.csv"))
 
+        # Save per-step metrics (always, regardless of tracking_enabled)
+        self._save_step_logs(config_dir, iteration_results)
+
         # Save dynamics
         if config.tracking_enabled and last_model is not None:
             self._save_dynamics(config_dir, dynamics_scalars, last_model)
@@ -492,6 +495,21 @@ class ExperimentRunner:
 
             except Exception as e:
                 logger.warning("Detailed dynamics save failed: %s", e)
+
+    def _save_step_logs(
+        self,
+        config_dir: Path,
+        iteration_results: list[IterationResult],
+    ) -> None:
+        """Save per-step metrics from all iterations to step_metrics.json."""
+        data: dict[str, list[dict]] = {}
+        for i, result in enumerate(iteration_results):
+            if result.step_log is not None:
+                data[str(i)] = result.step_log
+
+        if data:
+            with open(config_dir / "step_metrics.json", "w") as f:
+                json.dump(data, f, indent=2)
 
     def _count_existing_rows(self, raw_path: Path) -> int:
         """Count data rows in existing raw.csv for crash recovery."""

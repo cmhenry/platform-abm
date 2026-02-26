@@ -36,6 +36,7 @@ class MiniTiebout(ap.Model):
         if not hasattr(self, "tracker"):
             self.tracker = None
         self._last_n_relocations = 0
+        self.step_log: list[dict] = []
         self.communities = ap.AgentList(self, self.p.n_comms, Community)
 
         if self.p.extremists == "yes":
@@ -188,6 +189,28 @@ class MiniTiebout(ap.Model):
             self.tracker.record_step_metrics(
                 self.t, self.communities, self._last_n_relocations
             )
+
+        self._record_step_log()
+
+    def _record_step_log(self) -> None:
+        """Record lightweight per-step metrics (always on, independent of tracker)."""
+        n = len(self.communities)
+        avg_utility = sum(c.current_utility for c in self.communities) / n if n > 0 else 0.0
+
+        by_institution: dict[str, list[float]] = {}
+        for c in self.communities:
+            inst = c.platform.institution
+            by_institution.setdefault(inst, []).append(c.current_utility)
+        per_governance_utilities = {
+            inst: sum(vals) / len(vals) for inst, vals in by_institution.items()
+        }
+
+        self.step_log.append({
+            "step": self.t,
+            "avg_utility": avg_utility,
+            "n_relocations": self._last_n_relocations,
+            "per_governance_utilities": per_governance_utilities,
+        })
 
     def _step_elections(self) -> None:
         """Hold elections on all platforms."""

@@ -33,6 +33,7 @@ class IterationResult:
     platform_institutions: list[str]
     platform_community_counts: list[int]
     tracker_log: dict[int, StepRecord] | None = None
+    step_log: list[dict] | None = None
 
 
 @dataclass
@@ -74,6 +75,8 @@ class SimulationReporter:
         if hasattr(model, "tracker") and model.tracker is not None:
             tracker_log = model.tracker.get_log()
 
+        step_log = getattr(model, "step_log", None)
+
         return IterationResult(
             n_comms=model.p.n_comms,
             n_plats=model.p.n_plats,
@@ -90,6 +93,7 @@ class SimulationReporter:
             platform_institutions=[p.institution for p in platforms],
             platform_community_counts=[len(p.communities) for p in platforms],
             tracker_log=tracker_log,
+            step_log=step_log,
         )
 
     def add_iteration(self, result: IterationResult) -> None:
