@@ -5,9 +5,11 @@ from __future__ import annotations
 import csv
 import json
 import logging
+import math
 import os
 import subprocess
 import time
+from collections import Counter
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import asdict
 from pathlib import Path
@@ -17,6 +19,7 @@ import numpy as np
 
 from experiments.configs.experiment_config import ExperimentConfig
 from platform_abm.analyzer import MovementAnalyzer
+from platform_abm.burst_analysis import analyze_bursts, classify_platform
 from platform_abm.model import MiniTiebout
 from platform_abm.reporter import IterationResult, SimulationReporter
 from platform_abm.tracker import RelocationTracker
@@ -62,6 +65,64 @@ def _init_worker() -> None:
     except ImportError:
         pass
 
+# --- Burst aggregation helpers ---
+
+
+def _safe_mean(xs: list[float]) -> float:
+    return float(np.mean(xs)) if xs else float('nan')
+
+
+def _safe_median(xs: list[float]) -> float:
+    return float(np.median(xs)) if xs else float('nan')
+
+
+def _safe_sd(xs: list[float]) -> float:
+    if len(xs) < 2:
+        return float('nan')
+    return float(np.std(xs, ddof=1))
+
+
+def _safe_max(xs: list[float]) -> float:
+    return float(np.max(xs)) if xs else float('nan')
+
+
+def _escalation_ttest(slopes: list[float]) -> dict[str, Any]:
+    """One-sample t-test of escalation slopes against 0."""
+    n = len(slopes)
+    if n < 2:
+        return {"t_stat": float('nan'), "p_value": float('nan'), "n": n, "method": "none"}
+    try:
+        from scipy.stats import ttest_1samp
+        t_stat, p_value = ttest_1samp(slopes, 0.0)
+        return {"t_stat": float(t_stat), "p_value": float(p_value), "n": n, "method": "scipy"}
+    except ImportError:
+        # Manual fallback
+        arr = np.array(slopes)
+        mean = float(np.mean(arr))
+        se = float(np.std(arr, ddof=1)) / math.sqrt(n)
+        if se == 0:
+            return {"t_stat": float('nan'), "p_value": float('nan'), "n": n, "method": "manual"}
+        t_stat = mean / se
+        # Two-tailed p-value approximation (conservative for small n)
+        # Use normal approximation; sufficient for n >= 30
+        p_value = 2.0 * (1.0 - 0.5 * (1.0 + math.erf(abs(t_stat) / math.sqrt(2.0))))
+        return {"t_stat": t_stat, "p_value": p_value, "n": n, "method": "manual"}
+
+
+def _json_safe(obj: Any) -> Any:
+    """JSON serializer for NaN -> null and numpy types -> Python natives."""
+    if isinstance(obj, float) and math.isnan(obj):
+        return None
+    if isinstance(obj, (np.integer,)):
+        return int(obj)
+    if isinstance(obj, (np.floating,)):
+        v = float(obj)
+        return None if math.isnan(v) else v
+    if isinstance(obj, np.ndarray):
+        return obj.tolist()
+    raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
+
+
 # CSV columns for raw per-iteration output
 _RAW_COLUMNS = [
     "iteration", "seed",
@@ -100,6 +161,14 @@ def _analyze_dynamics_scalar(model: MiniTiebout, config: ExperimentConfig) -> di
         # Raiding cycles
         raiding = analyzer.detect_raiding_cycles(config.t_max)
         scalars["has_cycle"] = any(r["has_cycle"] for r in raiding.values())
+
+        # Burst analysis per platform (reuses raiding outflow data)
+        burst_results = {}
+        for pid, rdata in raiding.items():
+            b = analyze_bursts(rdata["outflow_series"], burst_threshold=10.0)
+            b["classification"] = classify_platform(b)
+            burst_results[pid] = b
+        scalars["burst_results"] = burst_results
 
         # Enclaves
         community_types = {c.id: c.type for c in model.communities}
@@ -141,11 +210,13 @@ class ConfigResult:
         config_dir: Path,
         iteration_results: list[IterationResult],
         dynamics_scalars: list[dict[str, Any]],
+        burst_aggregate: dict[str, Any] | None = None,
     ) -> None:
         self.config = config
         self.config_dir = config_dir
         self.iteration_results = iteration_results
         self.dynamics_scalars = dynamics_scalars
+        self.burst_aggregate = burst_aggregate
 
 
 class ExperimentRunner:
@@ -300,13 +371,18 @@ class ExperimentRunner:
         if config.tracking_enabled and last_model is not None:
             self._save_dynamics(config_dir, dynamics_scalars, last_model)
 
+        # Save burst aggregate (cross-iteration)
+        burst_aggregate = None
+        if config.tracking_enabled:
+            burst_aggregate = self._save_burst_aggregate(config_dir, dynamics_scalars)
+
         # Mark config as done
         self._update_index(experiment_dir, config.name)
 
         wall_total = time.time() - wall_start
         logger.info("Completed %s: %d iterations in %.1fs", config.name, config.n_iterations, wall_total)
 
-        return ConfigResult(config, config_dir, iteration_results, dynamics_scalars)
+        return ConfigResult(config, config_dir, iteration_results, dynamics_scalars, burst_aggregate)
 
     def run_experiment(self, configs: list[ExperimentConfig]) -> Path:
         """Run all configs for an experiment. Returns the experiment directory."""
@@ -328,6 +404,9 @@ class ExperimentRunner:
 
             # Generate experiment-level summary
             self._save_experiment_summary(experiment_dir, results)
+
+            # Generate burst master CSV
+            self._save_burst_master(experiment_dir, results)
         finally:
             self.shutdown()
 
@@ -505,6 +584,162 @@ class ExperimentRunner:
             except Exception as e:
                 logger.warning("Detailed dynamics save failed: %s", e)
 
+    def _save_burst_aggregate(
+        self,
+        config_dir: Path,
+        dynamics_scalars: list[dict[str, Any]],
+    ) -> dict[str, Any] | None:
+        """Aggregate burst results across all iterations and save to JSON.
+
+        Returns the aggregate dict (also written to config_dir/dynamics/burst_aggregate.json).
+        """
+        # Collect burst_results from each iteration's dynamics scalars
+        all_slopes: list[float] = []
+        all_burst_sizes: list[float] = []
+        all_intervals: list[float] = []
+        all_burst_fractions: list[float] = []
+        all_classifications: list[str] = []
+        n_with_bursts = 0
+        n_with_escalation = 0
+        n_platform_iterations = 0
+
+        for dyn in dynamics_scalars:
+            burst_results = dyn.get("burst_results", {})
+            for pid, b in burst_results.items():
+                n_platform_iterations += 1
+                classification = b.get("classification", "quiet")
+                all_classifications.append(classification)
+
+                if b.get("has_bursts", False):
+                    n_with_bursts += 1
+                    all_burst_sizes.extend(b.get("burst_sizes", []))
+                    all_intervals.extend(b.get("burst_intervals", []))
+                    all_burst_fractions.append(b.get("burst_fraction", 0.0))
+
+                if b.get("has_escalation", False):
+                    n_with_escalation += 1
+
+                # Only collect slopes from platforms with >= 3 bursts
+                # to avoid mechanical R^2=1.0 artifact with exactly 2 bursts
+                if b.get("n_bursts", 0) >= 3:
+                    slope = b.get("escalation_slope", float('nan'))
+                    if not math.isnan(slope):
+                        all_slopes.append(slope)
+
+        if n_platform_iterations == 0:
+            return None
+
+        # Escalation t-test
+        ttest = _escalation_ttest(all_slopes)
+
+        aggregate: dict[str, Any] = {
+            "n_iterations": len(dynamics_scalars),
+            "n_platform_iterations": n_platform_iterations,
+            "n_with_bursts": n_with_bursts,
+            "n_with_escalation": n_with_escalation,
+            "burst_rate": n_with_bursts / n_platform_iterations,
+            "escalation_rate": n_with_escalation / n_platform_iterations,
+            # Burst size stats
+            "mean_burst_size": _safe_mean(all_burst_sizes),
+            "median_burst_size": _safe_median(all_burst_sizes),
+            "sd_burst_size": _safe_sd(all_burst_sizes),
+            "max_burst_size": _safe_max(all_burst_sizes),
+            "n_total_bursts": len(all_burst_sizes),
+            # Interval stats
+            "mean_interval": _safe_mean(all_intervals),
+            "median_interval": _safe_median(all_intervals),
+            "sd_interval": _safe_sd(all_intervals),
+            # Burst fraction stats
+            "mean_burst_fraction": _safe_mean(all_burst_fractions),
+            "median_burst_fraction": _safe_median(all_burst_fractions),
+            # Escalation slope stats (from platforms with >= 3 bursts)
+            "escalation_n_slopes": len(all_slopes),
+            "escalation_mean_slope": _safe_mean(all_slopes),
+            "escalation_sd_slope": _safe_sd(all_slopes),
+            "escalation_ttest": ttest,
+            # Classification counts
+            "classification_counts": dict(Counter(all_classifications)),
+        }
+
+        dynamics_dir = config_dir / "dynamics"
+        dynamics_dir.mkdir(exist_ok=True)
+        with open(dynamics_dir / "burst_aggregate.json", "w") as f:
+            json.dump(aggregate, f, indent=2, default=_json_safe)
+
+        return aggregate
+
+    def _save_burst_master(
+        self,
+        experiment_dir: Path,
+        results: list[ConfigResult],
+    ) -> None:
+        """Generate experiment-level burst_master.csv with one row per config."""
+        rows: list[dict[str, Any]] = []
+        for result in results:
+            agg = result.burst_aggregate
+            if agg is None:
+                continue
+            config = result.config
+            row: dict[str, Any] = {
+                "config_name": config.name,
+                "institution": config.institution,
+                "n_platforms": config.n_platforms,
+                "rho_extremist": config.rho_extremist,
+                "alpha": config.alpha,
+                "n_iterations": agg["n_iterations"],
+                "n_platform_iterations": agg["n_platform_iterations"],
+                "n_with_bursts": agg["n_with_bursts"],
+                "n_with_escalation": agg["n_with_escalation"],
+                "burst_rate": agg["burst_rate"],
+                "escalation_rate": agg["escalation_rate"],
+                "mean_burst_size": agg["mean_burst_size"],
+                "median_burst_size": agg["median_burst_size"],
+                "sd_burst_size": agg["sd_burst_size"],
+                "max_burst_size": agg["max_burst_size"],
+                "n_total_bursts": agg["n_total_bursts"],
+                "mean_interval": agg["mean_interval"],
+                "median_interval": agg["median_interval"],
+                "sd_interval": agg["sd_interval"],
+                "mean_burst_fraction": agg["mean_burst_fraction"],
+                "median_burst_fraction": agg["median_burst_fraction"],
+                "escalation_n_slopes": agg["escalation_n_slopes"],
+                "escalation_mean_slope": agg["escalation_mean_slope"],
+                "escalation_sd_slope": agg["escalation_sd_slope"],
+                "escalation_ttest_t": agg["escalation_ttest"]["t_stat"],
+                "escalation_ttest_p": agg["escalation_ttest"]["p_value"],
+                "escalation_ttest_n": agg["escalation_ttest"]["n"],
+            }
+            # Add classification counts as columns
+            for cls, count in sorted(agg.get("classification_counts", {}).items()):
+                row[f"class_{cls}"] = count
+            rows.append(row)
+
+        if not rows:
+            return
+
+        # Union all keys
+        fieldnames = list(rows[0].keys())
+        for row in rows[1:]:
+            for key in row:
+                if key not in fieldnames:
+                    fieldnames.append(key)
+
+        master_path = experiment_dir / "burst_master.csv"
+        with open(master_path, "w", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
+            writer.writeheader()
+            for row in rows:
+                # Convert NaN floats to empty string for CSV
+                clean_row = {}
+                for k, v in row.items():
+                    if isinstance(v, float) and math.isnan(v):
+                        clean_row[k] = ""
+                    else:
+                        clean_row[k] = v
+                writer.writerow(clean_row)
+
+        logger.info("Burst master CSV saved to %s", master_path)
+
     def _save_step_logs(
         self,
         config_dir: Path,
@@ -561,7 +796,15 @@ class ExperimentRunner:
 
     def _load_existing_result(self, config: ExperimentConfig, config_dir: Path) -> ConfigResult:
         """Load a stub ConfigResult for an already-completed config."""
-        return ConfigResult(config, config_dir, [], [])
+        burst_aggregate = None
+        burst_agg_path = config_dir / "dynamics" / "burst_aggregate.json"
+        if burst_agg_path.exists():
+            try:
+                with open(burst_agg_path) as f:
+                    burst_aggregate = json.load(f)
+            except Exception:
+                pass
+        return ConfigResult(config, config_dir, [], [], burst_aggregate)
 
     def _save_experiment_summary(self, experiment_dir: Path, results: list[ConfigResult]) -> None:
         """Generate experiment-level summary CSV combining all configs."""
