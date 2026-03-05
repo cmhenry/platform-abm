@@ -920,3 +920,247 @@ def run_phase3_anova(exp_dir: Path) -> None:
     if results:
         with open(exp_dir / "exp2_anova_results.json", 'w') as f:
             json.dump(results, f, indent=2)
+
+
+# ---------------------------------------------------------------------------
+# Phase 4: Visualization-ready data extraction
+# ---------------------------------------------------------------------------
+
+def run_phase4_superposed_epoch(exp_dir: Path, viz_dir: Path) -> None:
+    """Task 4.1: Extract averaged superposed epoch from highest-threat configs."""
+    # Find configs with highest rho_e × alpha (most displacement expected)
+    candidates = []
+    for config_dir in sorted(exp_dir.iterdir()):
+        if not config_dir.is_dir():
+            continue
+        agg_path = config_dir / "displacement_aggregate.json"
+        cfg_path = config_dir / "config.json"
+        if not agg_path.exists() or not cfg_path.exists():
+            continue
+        with open(cfg_path) as f:
+            cfg = json.load(f)
+        with open(agg_path) as f:
+            agg = json.load(f)
+        threat = cfg.get('rho_extremist', 0) * cfg.get('alpha', 0)
+        n_events = agg.get('total_events', 0)
+        candidates.append((threat, n_events, config_dir, agg))
+
+    # Sort by threat level descending, take top 3
+    candidates.sort(key=lambda x: (x[0], x[1]), reverse=True)
+    top = candidates[:3]
+
+    if not top:
+        return
+
+    # Average the superposed epochs across the top configs
+    epoch_data: dict[str, dict[str, list[float]]] = {}
+    for _, _, _, agg in top:
+        epoch = agg.get('superposed_epoch', {})
+        if 'relative_steps' not in epoch:
+            continue
+        for metric_key in epoch:
+            if metric_key in ('relative_steps',):
+                continue
+            values = epoch[metric_key]
+            if not isinstance(values, list):
+                continue
+            for rs, val in zip(epoch['relative_steps'], values):
+                rs_key = str(rs)
+                if rs_key not in epoch_data:
+                    epoch_data[rs_key] = {}
+                if metric_key not in epoch_data[rs_key]:
+                    epoch_data[rs_key][metric_key] = []
+                epoch_data[rs_key][metric_key].append(val)
+
+    if not epoch_data:
+        return
+
+    # Build CSV
+    rel_steps = sorted(int(k) for k in epoch_data.keys())
+    all_metrics = set()
+    for step_data in epoch_data.values():
+        all_metrics.update(step_data.keys())
+
+    rows = []
+    for rs in rel_steps:
+        row: dict[str, Any] = {'relative_step': rs}
+        for metric in sorted(all_metrics):
+            vals = epoch_data.get(str(rs), {}).get(metric, [])
+            if vals:
+                row[metric] = float(np.mean(vals))
+        rows.append(row)
+
+    _write_master_csv(viz_dir / "superposed_epoch.csv", rows)
+
+
+def run_phase4_platform_biography(exp_dir: Path, viz_dir: Path) -> None:
+    """Task 4.2: Platform biography data.
+
+    Per-platform per-step data is not currently logged. Write a note describing
+    the data gap and the recommended simulation code change.
+    """
+    note_path = viz_dir / "PLATFORM_BIOGRAPHY_NEEDS_DATA.md"
+    with open(note_path, 'w') as f:
+        f.write("# Platform Biography Visualization — Data Gap\n\n")
+        f.write("The platform biography figure requires per-platform per-step data:\n")
+        f.write("- `platform_id, step, n_mainstream, n_extremist, "
+                "utility_mainstream, utility_extremist`\n\n")
+        f.write("Currently the model logs only aggregate per-governance counts, not\n")
+        f.write("per-platform breakdowns. To enable this visualization, add per-platform\n")
+        f.write("logging in `MiniTiebout._record_step_log()` that records community\n")
+        f.write("count by type and utility by type for each platform at each step.\n")
+
+
+def run_phase4_burst_heatmap(exp_dir: Path, viz_dir: Path) -> None:
+    """Task 4.3: Burst heatmap data in long format."""
+    master_path = exp_dir / "exp2_burst_master.csv"
+    if not master_path.exists():
+        return
+
+    df = pd.read_csv(master_path)
+    metrics = ['burst_rate', 'burst_size_median', 'escalation_mean_slope']
+
+    rows = []
+    for _, row in df.iterrows():
+        for metric in metrics:
+            if metric in df.columns and pd.notna(row.get(metric)):
+                rows.append({
+                    'rho_e': row.get('rho_e', ''),
+                    'n_platforms': row.get('n_platforms', ''),
+                    'alpha': row.get('alpha', ''),
+                    'metric': metric,
+                    'value': row[metric],
+                })
+
+    if rows:
+        _write_master_csv(viz_dir / "burst_heatmap.csv", rows)
+
+
+def run_phase4_enclave_trajectory(exp_dir: Path, viz_dir: Path) -> None:
+    """Task 4.4: Enclave trajectory data from a representative config."""
+    # Pick the config with highest mean_homogeneity (strongest enclave signal)
+    best_config = None
+    best_hom = -1.0
+    for config_dir in sorted(exp_dir.iterdir()):
+        if not config_dir.is_dir():
+            continue
+        agg_path = config_dir / "enclave_aggregate.json"
+        if not agg_path.exists():
+            continue
+        with open(agg_path) as f:
+            agg = json.load(f)
+        hom = agg.get('mean_homogeneity', 0) or 0
+        if hom > best_hom:
+            best_hom = hom
+            best_config = config_dir
+
+    if best_config is None:
+        return
+
+    # Get per-iteration enclave data and average homogeneity series
+    enc_path = best_config / "per_iter_enclave_analysis.json"
+    if not enc_path.exists():
+        return
+
+    with open(enc_path) as f:
+        per_iter = json.load(f)
+
+    # Collect all homogeneity series per platform, average across iterations
+    platform_series: dict[str, list[list[float]]] = {}
+    for iter_data in per_iter.values():
+        for pid, pdata in iter_data.get('platforms', {}).items():
+            # Need the raw series — but we only stored summary stats
+            # Use the per_iter_enclaves.json from dynamics/ instead
+            pass
+
+    # Fall back to dynamics per_iter_enclaves.json
+    dyn_enc_path = best_config / "dynamics" / "per_iter_enclaves.json"
+    if not dyn_enc_path.exists():
+        return
+
+    with open(dyn_enc_path) as f:
+        dyn_enclaves = json.load(f)
+
+    for iter_data in dyn_enclaves.values():
+        for pid, pdata in iter_data.items():
+            series = pdata.get('homogeneity_series', [])
+            if pid not in platform_series:
+                platform_series[pid] = []
+            platform_series[pid].append(series)
+
+    if not platform_series:
+        return
+
+    # Average across iterations per platform, write CSV
+    rows = []
+    max_steps = max(len(s) for series_list in platform_series.values() for s in series_list)
+    for step in range(max_steps):
+        row: dict[str, Any] = {'step': step}
+        for pid in sorted(platform_series.keys()):
+            vals = [s[step] for s in platform_series[pid] if step < len(s)]
+            if vals:
+                row[f'platform_{pid}_homogeneity'] = float(np.mean(vals))
+        rows.append(row)
+
+    if rows:
+        _write_master_csv(viz_dir / "enclave_trajectory.csv", rows)
+
+
+def run_phase4_alluvial_flows(exp_dir: Path, viz_dir: Path) -> None:
+    """Task 4.5: Alluvial flow data from a representative config.
+
+    Divides steps into 5 bands, records per-governance community counts
+    at band boundaries, computes net flows.
+    """
+    # Pick first config with step_metrics
+    step_metrics = None
+    for config_dir in sorted(exp_dir.iterdir()):
+        if not config_dir.is_dir():
+            continue
+        sm_path = config_dir / "step_metrics.json"
+        if sm_path.exists():
+            with open(sm_path) as f:
+                step_metrics = json.load(f)
+            break
+
+    if not step_metrics:
+        return
+
+    # Use first iteration
+    first_key = next(iter(step_metrics))
+    step_log = step_metrics[first_key]
+    n_steps = len(step_log)
+    if n_steps < 5:
+        return
+
+    # Divide into 5 bands
+    band_size = n_steps // 5
+    band_boundaries = [0] + [band_size * (i + 1) for i in range(4)] + [n_steps - 1]
+
+    rows = []
+    for band_idx, step_idx in enumerate(band_boundaries):
+        entry = step_log[min(step_idx, n_steps - 1)]
+        row: dict[str, Any] = {'band': band_idx, 'step': entry['step']}
+        counts = entry.get('per_governance_community_count', {})
+        for gov, count in counts.items():
+            row[f'count_{gov}'] = count
+        rows.append(row)
+
+    # Compute net flows between consecutive bands
+    flow_rows = []
+    for i in range(len(rows) - 1):
+        flow: dict[str, Any] = {
+            'from_band': rows[i]['band'],
+            'to_band': rows[i + 1]['band'],
+        }
+        for key in rows[i]:
+            if key.startswith('count_'):
+                gov = key.replace('count_', '')
+                delta = rows[i + 1].get(key, 0) - rows[i].get(key, 0)
+                flow[f'net_flow_{gov}'] = delta
+        flow_rows.append(flow)
+
+    if rows:
+        _write_master_csv(viz_dir / "alluvial_bands.csv", rows)
+    if flow_rows:
+        _write_master_csv(viz_dir / "alluvial_flows.csv", flow_rows)
