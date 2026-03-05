@@ -114,12 +114,48 @@ def _analyze_dynamics_scalar(model: MiniTiebout, config: ExperimentConfig) -> di
     return scalars
 
 
+def _extract_iteration_dynamics(
+    model: MiniTiebout, config: ExperimentConfig
+) -> dict[str, Any] | None:
+    """Extract per-iteration raiding outflow and enclave homogeneity for reporting."""
+    if not config.tracking_enabled or model.tracker is None:
+        return None
+
+    platform_ids = [p.id for p in model.platforms]
+    try:
+        analyzer = MovementAnalyzer(model.tracker, platform_ids)
+
+        # Raiding outflow series per platform
+        raiding = analyzer.detect_raiding_cycles(config.t_max)
+        raiding_data = {
+            str(pid): data['outflow_series'].tolist()
+            for pid, data in raiding.items()
+        }
+
+        # Enclave homogeneity series per coalition platform
+        community_types = {c.id: c.type for c in model.communities}
+        enclaves = analyzer.detect_enclaves(community_types)
+        enclave_data = {
+            str(pid): {
+                'homogeneity_series': data['homogeneity_series'].tolist(),
+                'mean_homogeneity': float(data['mean_homogeneity']),
+                'fraction_enclaved': float(data['fraction_enclaved']),
+            }
+            for pid, data in enclaves.items()
+        }
+
+        return {'raiding': raiding_data, 'enclaves': enclave_data}
+    except Exception as e:
+        logger.warning("Per-iteration dynamics extraction failed: %s", e)
+        return None
+
+
 def _run_iteration_worker(
     config: ExperimentConfig, iteration: int
-) -> tuple[int, IterationResult, dict[str, Any]]:
+) -> tuple[int, IterationResult, dict[str, Any], dict[str, Any] | None]:
     """Run a single iteration in a worker process.
 
-    Returns (iteration_index, result, dynamics_scalar).
+    Returns (iteration_index, result, dynamics_scalar, iter_dynamics).
     Top-level function for pickle compatibility with ProcessPoolExecutor.
     """
     params = config.to_params(iteration)
@@ -129,7 +165,8 @@ def _run_iteration_worker(
     model.run()
     result = SimulationReporter.from_model(model)
     dynamics_scalar = _analyze_dynamics_scalar(model, config)
-    return iteration, result, dynamics_scalar
+    iter_dynamics = _extract_iteration_dynamics(model, config)
+    return iteration, result, dynamics_scalar, iter_dynamics
 
 
 class ConfigResult:
@@ -218,13 +255,14 @@ class ExperimentRunner:
 
         iteration_results: list[IterationResult] = []
         dynamics_scalars: list[dict[str, Any]] = []
+        per_iter_dynamics: dict[int, dict] = {}
         last_model = None
         wall_start = time.time()
 
         if self.max_workers is not None:
             # Parallel path
-            iteration_results, dynamics_scalars = self._run_iterations_parallel(
-                config, start_iter,
+            iteration_results, dynamics_scalars, per_iter_dynamics = (
+                self._run_iterations_parallel(config, start_iter)
             )
 
             # Write all raw rows at once
@@ -253,6 +291,11 @@ class ExperimentRunner:
                     # Extract dynamics scalars
                     dyn_scalar = _analyze_dynamics_scalar(model, config)
                     dynamics_scalars.append(dyn_scalar)
+
+                    # Extract per-iteration dynamics for reporting pipeline
+                    iter_dyn = _extract_iteration_dynamics(model, config)
+                    if iter_dyn is not None:
+                        per_iter_dynamics[i] = iter_dyn
 
                     # Append raw row
                     row = self._make_raw_row(i, config, iter_result)
@@ -299,6 +342,21 @@ class ExperimentRunner:
         # Save dynamics
         if config.tracking_enabled and last_model is not None:
             self._save_dynamics(config_dir, dynamics_scalars, last_model)
+
+        # Save per-iteration dynamics for reporting pipeline
+        if config.tracking_enabled and per_iter_dynamics:
+            dynamics_dir = config_dir / "dynamics"
+            dynamics_dir.mkdir(exist_ok=True)
+            with open(dynamics_dir / "per_iter_raiding.json", "w") as f:
+                raiding_out = {
+                    str(k): v['raiding'] for k, v in per_iter_dynamics.items()
+                }
+                json.dump(raiding_out, f)
+            with open(dynamics_dir / "per_iter_enclaves.json", "w") as f:
+                enclave_out = {
+                    str(k): v['enclaves'] for k, v in per_iter_dynamics.items()
+                }
+                json.dump(enclave_out, f)
 
         # Mark config as done
         self._update_index(experiment_dir, config.name)
@@ -353,11 +411,12 @@ class ExperimentRunner:
         self,
         config: ExperimentConfig,
         start_iter: int,
-    ) -> tuple[list[IterationResult], list[dict[str, Any]]]:
+    ) -> tuple[list[IterationResult], list[dict[str, Any]], dict[int, dict]]:
         """Run iterations in parallel via ProcessPoolExecutor."""
         iterations = list(range(start_iter, config.n_iterations))
         iteration_results: list[IterationResult | None] = [None] * len(iterations)
         dynamics_scalars: list[dict[str, Any] | None] = [None] * len(iterations)
+        per_iter_dynamics: dict[int, dict] = {}
 
         wall_start = time.time()
         total = len(iterations)
@@ -369,10 +428,12 @@ class ExperimentRunner:
         }
         done_count = 0
         for future in as_completed(futures):
-            iteration, result, dyn_scalar = future.result()
+            iteration, result, dyn_scalar, iter_dyn = future.result()
             idx = iteration - start_iter
             iteration_results[idx] = result
             dynamics_scalars[idx] = dyn_scalar
+            if iter_dyn is not None:
+                per_iter_dynamics[iteration] = iter_dyn
             done_count += 1
             if done_count % 10 == 0:
                 elapsed = time.time() - wall_start
@@ -381,7 +442,7 @@ class ExperimentRunner:
                     config.name, done_count, total, elapsed,
                 )
 
-        return iteration_results, dynamics_scalars  # type: ignore[return-value]
+        return iteration_results, dynamics_scalars, per_iter_dynamics  # type: ignore[return-value]
 
     def _make_raw_row(
         self, iteration: int, config: ExperimentConfig, result: IterationResult
