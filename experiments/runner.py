@@ -361,6 +361,13 @@ class ExperimentRunner:
         # Mark config as done
         self._update_index(experiment_dir, config.name)
 
+        # Run reporting pipeline (Phase 1 + 2)
+        try:
+            from experiments.reporting import run_config_reporting
+            run_config_reporting(config_dir, config.to_dict())
+        except Exception as e:
+            logger.warning("Reporting pipeline failed for %s: %s", config.name, e)
+
         wall_total = time.time() - wall_start
         logger.info("Completed %s: %d iterations in %.1fs", config.name, config.n_iterations, wall_total)
 
@@ -386,6 +393,13 @@ class ExperimentRunner:
 
             # Generate experiment-level summary
             self._save_experiment_summary(experiment_dir, results)
+
+            # Run reporting pipeline (Phase 3 + 4)
+            try:
+                from experiments.reporting import run_experiment_reporting
+                run_experiment_reporting(experiment_dir, experiment_name)
+            except Exception as e:
+                logger.warning("Experiment reporting failed: %s", e)
         finally:
             self.shutdown()
 

@@ -1164,3 +1164,126 @@ def run_phase4_alluvial_flows(exp_dir: Path, viz_dir: Path) -> None:
         _write_master_csv(viz_dir / "alluvial_bands.csv", rows)
     if flow_rows:
         _write_master_csv(viz_dir / "alluvial_flows.csv", flow_rows)
+
+
+# ---------------------------------------------------------------------------
+# Orchestrators
+# ---------------------------------------------------------------------------
+
+def run_config_reporting(config_dir: Path, config: dict) -> None:
+    """Run Phase 1 and Phase 2 for a single config."""
+    is_exp2 = config.get('rho_extremist', 0) > 0
+
+    # Load common data
+    step_metrics_path = config_dir / "step_metrics.json"
+    if not step_metrics_path.exists():
+        logger.warning("No step_metrics.json for %s", config_dir.name)
+        return
+    with open(step_metrics_path) as f:
+        step_metrics = json.load(f)
+
+    # Phase 1
+    run_phase1_convergence(config_dir, step_metrics)
+
+    if is_exp2:
+        dynamics_dir = config_dir / "dynamics"
+        raiding_path = dynamics_dir / "per_iter_raiding.json"
+        enclaves_path = dynamics_dir / "per_iter_enclaves.json"
+
+        per_iter_burst = None
+        if raiding_path.exists():
+            with open(raiding_path) as f:
+                per_iter_raiding = json.load(f)
+            per_iter_burst = run_phase1_burst(config_dir, per_iter_raiding)
+
+            # Task 1.3 depends on 1.1 + 1.2
+            if per_iter_burst:
+                run_phase1_displacement(config_dir, per_iter_burst, step_metrics)
+
+        if enclaves_path.exists():
+            with open(enclaves_path) as f:
+                per_iter_enclaves = json.load(f)
+            run_phase1_enclaves(config_dir, per_iter_enclaves)
+
+    # Phase 2
+    run_phase2_convergence(config_dir)
+    if is_exp2:
+        if (config_dir / "per_iter_burst_analysis.json").exists():
+            run_phase2_burst(config_dir)
+        if (config_dir / "per_iter_displacement.json").exists():
+            run_phase2_displacement(config_dir)
+        if (config_dir / "per_iter_enclave_analysis.json").exists():
+            run_phase2_enclaves(config_dir)
+    run_phase2_summary_update(config_dir)
+
+
+def run_experiment_reporting(exp_dir: Path, experiment: str) -> None:
+    """Run Phase 3 and Phase 4 after all configs complete."""
+    # Phase 3
+    run_phase3_master_summary(exp_dir, experiment)
+    if experiment == 'exp2':
+        run_phase3_burst_master(exp_dir)
+        run_phase3_displacement_master(exp_dir)
+        run_phase3_enclave_master(exp_dir)
+        run_phase3_factorial_tables(exp_dir)
+        run_phase3_anova(exp_dir)
+
+    # Phase 4
+    if experiment == 'exp2':
+        viz_dir = exp_dir / "viz"
+        viz_dir.mkdir(exist_ok=True)
+        run_phase4_superposed_epoch(exp_dir, viz_dir)
+        run_phase4_platform_biography(exp_dir, viz_dir)
+        run_phase4_burst_heatmap(exp_dir, viz_dir)
+        run_phase4_enclave_trajectory(exp_dir, viz_dir)
+        run_phase4_alluvial_flows(exp_dir, viz_dir)
+
+
+# ---------------------------------------------------------------------------
+# Standalone CLI
+# ---------------------------------------------------------------------------
+
+if __name__ == '__main__':
+    import argparse
+
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+
+    parser = argparse.ArgumentParser(description="Run reporting pipeline on existing results")
+    parser.add_argument("results_dir", type=Path, help="Path to experiment results directory")
+    parser.add_argument("--experiment", type=str, default=None,
+                        help="Experiment name (exp1/exp2). Auto-detected from dir name if omitted.")
+    parser.add_argument("--config-only", type=str, default=None,
+                        help="Run only Phase 1+2 for a specific config name")
+    args = parser.parse_args()
+
+    exp_dir = args.results_dir
+    experiment = args.experiment or exp_dir.name
+
+    if args.config_only:
+        config_dir = exp_dir / args.config_only
+        cfg_path = config_dir / "config.json"
+        if not cfg_path.exists():
+            logger.error("Config not found: %s", cfg_path)
+            sys.exit(1)
+        with open(cfg_path) as f:
+            cfg = json.load(f)
+        logger.info("Running Phase 1+2 for %s", args.config_only)
+        run_config_reporting(config_dir, cfg)
+    else:
+        # Run Phase 1+2 for all configs, then Phase 3+4
+        for config_dir in sorted(exp_dir.iterdir()):
+            if not config_dir.is_dir():
+                continue
+            cfg_path = config_dir / "config.json"
+            if not cfg_path.exists():
+                continue
+            with open(cfg_path) as f:
+                cfg = json.load(f)
+            logger.info("Running Phase 1+2 for %s", config_dir.name)
+            try:
+                run_config_reporting(config_dir, cfg)
+            except Exception as e:
+                logger.error("Failed for %s: %s", config_dir.name, e)
+
+        logger.info("Running Phase 3+4 for experiment '%s'", experiment)
+        run_experiment_reporting(exp_dir, experiment)
