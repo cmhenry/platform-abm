@@ -656,3 +656,267 @@ def run_phase2_summary_update(config_dir: Path) -> None:
         writer.writeheader()
         for row in rows:
             writer.writerow(row)
+
+
+# ---------------------------------------------------------------------------
+# Phase 3: Cross-config master summaries
+# ---------------------------------------------------------------------------
+
+def run_phase3_master_summary(exp_dir: Path, experiment: str) -> None:
+    """Task 3.1: Master summary CSV combining all configs with reporting metrics."""
+    summary_path = exp_dir / "summary.csv"
+    if not summary_path.exists():
+        logger.warning("No experiment summary.csv found at %s", summary_path)
+        return
+
+    rows = []
+    with open(summary_path) as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            config_name = row.get('config_name', '')
+            config_dir = exp_dir / config_name
+
+            # Enrich with aggregate data
+            for agg_file, key_map in [
+                ('convergence_aggregate.json', {
+                    'convergence_pattern_mode': lambda d: max(
+                        d.get('pattern_counts', {}),
+                        key=d.get('pattern_counts', {}).get, default='',
+                    ),
+                    'convergence_settling_step': lambda d: d.get('settling_step_mean'),
+                }),
+                ('burst_aggregate.json', {
+                    'burst_rate': lambda d: d.get('burst_rate'),
+                    'burst_size_median': lambda d: d.get('burst_size_median'),
+                    'burst_interval_median': lambda d: d.get('interval_median'),
+                    'escalation_mean_slope': lambda d: d.get('escalation_mean_slope'),
+                    'escalation_p_value': lambda d: d.get('escalation_p_value'),
+                }),
+                ('displacement_aggregate.json', {
+                    'displacement_util_delta_mean': lambda d: d.get('mainstream_util_delta_mean'),
+                    'displacement_frac_negative': lambda d: d.get(
+                        'mainstream_util_delta_negative_frac',
+                    ),
+                }),
+                ('enclave_aggregate.json', {
+                    'enclave_mean_homogeneity': lambda d: d.get('mean_homogeneity'),
+                    'enclave_settling_step': lambda d: d.get('settling_step_mean'),
+                }),
+            ]:
+                agg_path = config_dir / agg_file
+                if agg_path.exists():
+                    with open(agg_path) as af:
+                        agg = json.load(af)
+                    for col_name, extractor in key_map.items():
+                        val = extractor(agg)
+                        if isinstance(val, (int, float)) and val is not None:
+                            row[col_name] = f'{val:.6f}'
+                        elif val:
+                            row[col_name] = val
+                        else:
+                            row[col_name] = ''
+
+            rows.append(row)
+
+    if rows:
+        fieldnames = list(rows[0].keys())
+        for r in rows[1:]:
+            for k in r:
+                if k not in fieldnames:
+                    fieldnames.append(k)
+
+        output_name = f"{experiment}_master_summary.csv"
+        with open(exp_dir / output_name, 'w', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction='ignore')
+            writer.writeheader()
+            for row in rows:
+                writer.writerow(row)
+
+
+def run_phase3_burst_master(exp_dir: Path) -> None:
+    """Task 3.2: Burst master CSV for all exp2 configs."""
+    rows = []
+    for config_dir in sorted(exp_dir.iterdir()):
+        if not config_dir.is_dir():
+            continue
+        agg_path = config_dir / "burst_aggregate.json"
+        cfg_path = config_dir / "config.json"
+        if not agg_path.exists() or not cfg_path.exists():
+            continue
+        with open(agg_path) as f:
+            agg = json.load(f)
+        with open(cfg_path) as f:
+            cfg = json.load(f)
+
+        row: dict[str, Any] = {
+            'config_name': cfg.get('name', config_dir.name),
+            'n_platforms': cfg.get('n_platforms'),
+            'rho_e': cfg.get('rho_extremist'),
+            'alpha': cfg.get('alpha'),
+        }
+        for key in ('burst_rate', 'burst_size_mean', 'burst_size_median', 'burst_size_sd',
+                     'interval_mean', 'interval_median', 'escalation_mean_slope',
+                     'escalation_p_value', 'escalation_fraction_positive',
+                     'n_platform_iterations'):
+            row[key] = agg.get(key, '')
+        for cls, prop in agg.get('classification_proportions', {}).items():
+            row[f'class_{cls}'] = prop
+        rows.append(row)
+
+    if rows:
+        _write_master_csv(exp_dir / "exp2_burst_master.csv", rows)
+
+
+def run_phase3_displacement_master(exp_dir: Path) -> None:
+    """Task 3.3: Displacement master CSV for all exp2 configs."""
+    rows = []
+    for config_dir in sorted(exp_dir.iterdir()):
+        if not config_dir.is_dir():
+            continue
+        agg_path = config_dir / "displacement_aggregate.json"
+        cfg_path = config_dir / "config.json"
+        if not agg_path.exists() or not cfg_path.exists():
+            continue
+        with open(agg_path) as f:
+            agg = json.load(f)
+        with open(cfg_path) as f:
+            cfg = json.load(f)
+
+        row: dict[str, Any] = {
+            'config_name': cfg.get('name', config_dir.name),
+            'n_platforms': cfg.get('n_platforms'),
+            'rho_e': cfg.get('rho_extremist'),
+            'alpha': cfg.get('alpha'),
+        }
+        for key in ('n_iterations_with_events', 'total_events',
+                     'destination_algorithmic_mean', 'destination_coalition_mean',
+                     'mainstream_util_delta_mean', 'mainstream_util_delta_sd',
+                     'mainstream_util_delta_negative_frac',
+                     'burst_displacement_corr_mean'):
+            row[key] = agg.get(key, '')
+        rows.append(row)
+
+    if rows:
+        _write_master_csv(exp_dir / "exp2_displacement_master.csv", rows)
+
+
+def run_phase3_enclave_master(exp_dir: Path) -> None:
+    """Task 3.4: Enclave master CSV for all exp2 configs."""
+    rows = []
+    for config_dir in sorted(exp_dir.iterdir()):
+        if not config_dir.is_dir():
+            continue
+        agg_path = config_dir / "enclave_aggregate.json"
+        cfg_path = config_dir / "config.json"
+        if not agg_path.exists() or not cfg_path.exists():
+            continue
+        with open(agg_path) as f:
+            agg = json.load(f)
+        with open(cfg_path) as f:
+            cfg = json.load(f)
+
+        row: dict[str, Any] = {
+            'config_name': cfg.get('name', config_dir.name),
+            'n_platforms': cfg.get('n_platforms'),
+            'rho_e': cfg.get('rho_extremist'),
+            'alpha': cfg.get('alpha'),
+        }
+        for key in ('settling_step_mean', 'settling_step_sd',
+                     'mean_homogeneity', 'mean_homogeneity_sd',
+                     'fraction_disrupted', 'mean_recovery_steps'):
+            row[key] = agg.get(key, '')
+        rows.append(row)
+
+    if rows:
+        _write_master_csv(exp_dir / "exp2_enclave_master.csv", rows)
+
+
+def run_phase3_factorial_tables(exp_dir: Path) -> None:
+    """Task 3.5: Factorial tables (N_p x alpha) at each rho_e level."""
+    master_path = exp_dir / "exp2_master_summary.csv"
+    if not master_path.exists():
+        return
+
+    df = pd.read_csv(master_path)
+    required = {'rho_extremist', 'n_platforms', 'alpha'}
+    if not required.issubset(df.columns):
+        return
+
+    tables_dir = exp_dir / "factorial_tables"
+    tables_dir.mkdir(exist_ok=True)
+
+    for metric in ('burst_rate', 'escalation_mean_slope', 'displacement_util_delta_mean',
+                    'enclave_mean_homogeneity', 'convergence_settling_step'):
+        if metric not in df.columns:
+            continue
+        for rho_val in sorted(df['rho_extremist'].unique()):
+            sub = df[df['rho_extremist'] == rho_val]
+            try:
+                pivot = sub.pivot_table(
+                    values=metric, index='n_platforms', columns='alpha', aggfunc='first',
+                )
+                rho_str = str(rho_val).replace('.', '')
+                pivot.to_csv(tables_dir / f"{metric}_rho{rho_str}.csv")
+            except Exception:
+                pass
+
+
+def run_phase3_anova(exp_dir: Path) -> None:
+    """Task 3.6: Two-way ANOVA on iteration-level mainstream utility."""
+    rows = []
+    for config_dir in sorted(exp_dir.iterdir()):
+        if not config_dir.is_dir():
+            continue
+        raw_path = config_dir / "raw.csv"
+        cfg_path = config_dir / "config.json"
+        if not raw_path.exists() or not cfg_path.exists():
+            continue
+        with open(cfg_path) as f:
+            cfg = json.load(f)
+        rho = cfg.get('rho_extremist', 0)
+        n_p = cfg.get('n_platforms')
+        alpha = cfg.get('alpha')
+
+        with open(raw_path) as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                val = row.get('norm_utility_mainstream')
+                if val:
+                    rows.append({
+                        'rho_e': rho, 'n_platforms': n_p, 'alpha': alpha,
+                        'norm_utility_mainstream': float(val),
+                    })
+
+    if not rows:
+        return
+
+    df = pd.DataFrame(rows)
+    results = {}
+
+    try:
+        import statsmodels.api as sm
+        from statsmodels.formula.api import ols
+
+        for rho_val in sorted(df['rho_e'].unique()):
+            sub = df[df['rho_e'] == rho_val]
+            if len(sub['n_platforms'].unique()) < 2 or len(sub['alpha'].unique()) < 2:
+                continue
+            model = ols('norm_utility_mainstream ~ C(n_platforms) * C(alpha)', data=sub).fit()
+            anova_table = sm.stats.anova_lm(model, typ=2)
+
+            rho_key = f"rho_{str(rho_val).replace('.', '')}"
+            results[rho_key] = {
+                'N_p_F': float(anova_table.loc['C(n_platforms)', 'F']),
+                'N_p_p': float(anova_table.loc['C(n_platforms)', 'PR(>F)']),
+                'alpha_F': float(anova_table.loc['C(alpha)', 'F']),
+                'alpha_p': float(anova_table.loc['C(alpha)', 'PR(>F)']),
+                'interaction_F': float(anova_table.loc['C(n_platforms):C(alpha)', 'F']),
+                'interaction_p': float(anova_table.loc['C(n_platforms):C(alpha)', 'PR(>F)']),
+            }
+    except ImportError:
+        logger.warning("statsmodels not available; skipping ANOVA")
+        return
+
+    if results:
+        with open(exp_dir / "exp2_anova_results.json", 'w') as f:
+            json.dump(results, f, indent=2)
