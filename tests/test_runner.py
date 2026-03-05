@@ -372,3 +372,108 @@ def test_parallel_blas_env_restored():
             assert os.environ.get(k) == orig[k], (
                 f"{k} should be restored to {orig[k]!r} after shutdown"
             )
+
+
+# --- Burst analysis integration tests ---
+
+
+def test_burst_aggregate_created():
+    """Tracked config with extremists produces burst_aggregate.json."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        runner = ExperimentRunner(output_dir=tmpdir)
+        config = _make_small_config(
+            name="burst_test",
+            tracking=True,
+            institution="mixed",
+            rho=0.20,
+        )
+        result = runner.run_config(config)
+
+        burst_agg_path = result.config_dir / "dynamics" / "burst_aggregate.json"
+        assert burst_agg_path.exists(), "burst_aggregate.json should be created"
+
+        with open(burst_agg_path) as f:
+            agg = json.load(f)
+
+        # Check expected keys
+        expected_keys = [
+            "n_iterations", "n_platform_iterations",
+            "n_with_bursts", "n_with_escalation",
+            "burst_rate", "escalation_rate",
+            "mean_burst_size", "n_total_bursts",
+            "escalation_n_slopes", "escalation_ttest",
+            "classification_counts",
+        ]
+        for key in expected_keys:
+            assert key in agg, f"Missing key: {key}"
+
+        assert agg["n_iterations"] == config.n_iterations
+        assert agg["n_platform_iterations"] > 0
+        assert isinstance(agg["classification_counts"], dict)
+
+        # burst_aggregate should also be on the ConfigResult
+        assert result.burst_aggregate is not None
+
+
+def test_burst_aggregate_parallel():
+    """Tracked config with parallel workers produces burst_aggregate.json."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        runner = ExperimentRunner(output_dir=tmpdir, max_workers=2)
+        config = _make_small_config(
+            name="burst_par",
+            tracking=True,
+            institution="mixed",
+            rho=0.20,
+        )
+        result = runner.run_config(config)
+
+        burst_agg_path = result.config_dir / "dynamics" / "burst_aggregate.json"
+        assert burst_agg_path.exists(), "burst_aggregate.json should be created in parallel mode"
+
+        with open(burst_agg_path) as f:
+            agg = json.load(f)
+
+        assert agg["n_iterations"] == config.n_iterations
+        assert agg["n_platform_iterations"] > 0
+
+
+def test_burst_master_csv():
+    """run_experiment with tracked configs produces burst_master.csv."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        runner = ExperimentRunner(output_dir=tmpdir)
+        configs = [
+            _make_small_config(
+                name="burst_master_a",
+                tracking=True,
+                institution="mixed",
+                rho=0.20,
+            ),
+            _make_small_config(
+                name="burst_master_b",
+                tracking=True,
+                institution="direct",
+                rho=0.30,
+            ),
+        ]
+        exp_dir = runner.run_experiment(configs)
+
+        master_path = exp_dir / "burst_master.csv"
+        assert master_path.exists(), "burst_master.csv should be created"
+
+        with open(master_path) as f:
+            reader = csv.DictReader(f)
+            rows = list(reader)
+
+        assert len(rows) == 2, f"Expected 2 rows, got {len(rows)}"
+
+        # Check expected columns
+        expected_cols = [
+            "config_name", "institution", "n_platforms", "rho_extremist", "alpha",
+            "n_iterations", "burst_rate", "escalation_rate",
+            "escalation_ttest_t", "escalation_ttest_p",
+        ]
+        for col in expected_cols:
+            assert col in rows[0], f"Missing column: {col}"
+
+        config_names = {r["config_name"] for r in rows}
+        assert config_names == {"burst_master_a", "burst_master_b"}
