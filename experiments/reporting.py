@@ -330,3 +330,329 @@ def run_phase1_enclaves(config_dir: Path, per_iter_enclaves: dict) -> dict | Non
     with open(output_path, 'w') as f:
         json.dump(results, f, indent=2)
     return results
+
+
+# ---------------------------------------------------------------------------
+# Phase 2: Per-config aggregation
+# ---------------------------------------------------------------------------
+
+def run_phase2_convergence(config_dir: Path) -> dict:
+    """Task 2.1: Aggregate convergence across iterations."""
+    with open(config_dir / "per_iter_convergence.json") as f:
+        per_iter = json.load(f)
+
+    patterns = [v['pattern'] for v in per_iter.values()]
+    settling = [v['settling_step'] for v in per_iter.values() if v.get('settling_step') is not None]
+    finals = [v['final_utility'] for v in per_iter.values()]
+    gains = [v['second_half_gain'] for v in per_iter.values()
+             if v.get('second_half_gain') is not None]
+
+    pattern_counts: dict[str, int] = {}
+    for p in patterns:
+        pattern_counts[p] = pattern_counts.get(p, 0) + 1
+
+    # Per-governance aggregation
+    gov_patterns: dict[str, dict[str, int]] = {}
+    for v in per_iter.values():
+        for gov, gdata in v.get('per_governance', {}).items():
+            if gov not in gov_patterns:
+                gov_patterns[gov] = {}
+            p = gdata['pattern']
+            gov_patterns[gov][p] = gov_patterns[gov].get(p, 0) + 1
+
+    result = {
+        'n_iterations': len(per_iter),
+        'pattern_counts': pattern_counts,
+        'settling_step_mean': float(np.mean(settling)) if settling else None,
+        'settling_step_sd': float(np.std(settling, ddof=1)) if len(settling) > 1 else None,
+        'final_utility_mean': float(np.mean(finals)),
+        'final_utility_sd': float(np.std(finals, ddof=1)) if len(finals) > 1 else 0.0,
+        'second_half_gain_mean': float(np.mean(gains)) if gains else None,
+        'second_half_gain_sd': float(np.std(gains, ddof=1)) if len(gains) > 1 else None,
+        'per_governance_pattern_counts': gov_patterns,
+    }
+
+    with open(config_dir / "convergence_aggregate.json", 'w') as f:
+        json.dump(result, f, indent=2)
+    return result
+
+
+def run_phase2_burst(config_dir: Path) -> dict:
+    """Task 2.2: Aggregate burst statistics across iterations.
+
+    CRITICAL: Only pool escalation slopes from platforms with n_bursts >= 3.
+    Platforms with exactly 2 bursts have mechanical R²=1.0 (two-point regression).
+    """
+    with open(config_dir / "per_iter_burst_analysis.json") as f:
+        per_iter = json.load(f)
+
+    all_burst_sizes: list[float] = []
+    all_intervals: list[float] = []
+    all_slopes: list[float] = []  # ONLY from platforms with n_bursts >= 3
+    classifications: list[str] = []
+    n_platform_iters = 0
+
+    for iter_data in per_iter.values():
+        for pid, pdata in iter_data.items():
+            n_platform_iters += 1
+            classifications.append(pdata.get('classification', 'unknown'))
+            if pdata.get('has_bursts'):
+                all_burst_sizes.extend(pdata.get('burst_sizes', []))
+                all_intervals.extend(pdata.get('burst_intervals', []))
+                # CRITICAL FILTER: only n_bursts >= 3 for escalation slopes
+                if pdata.get('n_bursts', 0) >= 3:
+                    slope = pdata.get('escalation_slope')
+                    if slope is not None and not (isinstance(slope, float) and math.isnan(slope)):
+                        all_slopes.append(slope)
+
+    # Classification proportions
+    class_counts: dict[str, int] = {}
+    for c in classifications:
+        class_counts[c] = class_counts.get(c, 0) + 1
+    class_props = (
+        {k: v / n_platform_iters for k, v in class_counts.items()}
+        if n_platform_iters > 0 else {}
+    )
+
+    # Escalation t-test
+    from scipy.stats import ttest_1samp
+    if len(all_slopes) >= 2:
+        t_stat, p_value = ttest_1samp(all_slopes, 0)
+        frac_positive = sum(1 for s in all_slopes if s > 0) / len(all_slopes)
+    else:
+        t_stat, p_value, frac_positive = float('nan'), float('nan'), float('nan')
+
+    burst_rate = (
+        sum(1 for c in classifications if c not in ('quiet',)) / n_platform_iters
+        if n_platform_iters > 0 else 0.0
+    )
+
+    result = {
+        'n_iterations': len(per_iter),
+        'n_platform_iterations': n_platform_iters,
+        'classification_proportions': class_props,
+        'burst_size_mean': float(np.mean(all_burst_sizes)) if all_burst_sizes else None,
+        'burst_size_median': float(np.median(all_burst_sizes)) if all_burst_sizes else None,
+        'burst_size_sd': (
+            float(np.std(all_burst_sizes, ddof=1)) if len(all_burst_sizes) > 1 else None
+        ),
+        'interval_mean': float(np.mean(all_intervals)) if all_intervals else None,
+        'interval_median': float(np.median(all_intervals)) if all_intervals else None,
+        'interval_sd': (
+            float(np.std(all_intervals, ddof=1)) if len(all_intervals) > 1 else None
+        ),
+        'escalation_n_slopes': len(all_slopes),
+        'escalation_mean_slope': float(np.mean(all_slopes)) if all_slopes else None,
+        'escalation_sd': (
+            float(np.std(all_slopes, ddof=1)) if len(all_slopes) > 1 else None
+        ),
+        'escalation_t_stat': _nan_to_none(t_stat),
+        'escalation_p_value': _nan_to_none(p_value),
+        'escalation_fraction_positive': _nan_to_none(frac_positive),
+        'burst_rate': burst_rate,
+    }
+
+    with open(config_dir / "burst_aggregate.json", 'w') as f:
+        json.dump(result, f, indent=2)
+    return result
+
+
+def run_phase2_displacement(config_dir: Path) -> dict:
+    """Task 2.3: Aggregate displacement across iterations."""
+    with open(config_dir / "per_iter_displacement.json") as f:
+        per_iter = json.load(f)
+
+    all_main_deltas: list[float] = []
+    all_dest_algo: list[float] = []
+    all_dest_coal: list[float] = []
+    all_corrs: list[float] = []
+    epoch_curves: dict[str, dict[str, list[float]]] = {}
+
+    for iter_data in per_iter.values():
+        if iter_data.get('n_events', 0) == 0:
+            continue
+        flow = iter_data.get('flow_analysis', {})
+        if 'error' in flow:
+            continue
+
+        if 'mainstream_util_delta_mean' in flow:
+            all_main_deltas.append(flow['mainstream_util_delta_mean'])
+        if 'fraction_to_algorithmic' in flow:
+            all_dest_algo.append(flow['fraction_to_algorithmic'])
+        if 'fraction_to_coalition' in flow:
+            all_dest_coal.append(flow['fraction_to_coalition'])
+        if 'burst_displacement_correlation' in flow:
+            corr = flow['burst_displacement_correlation']
+            if corr is not None:
+                all_corrs.append(corr)
+
+        # Collect superposed epoch curves for averaging
+        epoch = iter_data.get('superposed_epoch', {})
+        if 'relative_steps' in epoch:
+            steps = epoch['relative_steps']
+            for metric_key in epoch:
+                if metric_key in ('relative_steps', 'n_events_per_step', 'error'):
+                    continue
+                values = epoch[metric_key]
+                if not isinstance(values, list):
+                    continue
+                for rs, val in zip(steps, values):
+                    rs_key = str(rs)
+                    if rs_key not in epoch_curves:
+                        epoch_curves[rs_key] = {}
+                    if metric_key not in epoch_curves[rs_key]:
+                        epoch_curves[rs_key][metric_key] = []
+                    epoch_curves[rs_key][metric_key].append(val)
+
+    n_iters_with_events = len(all_main_deltas)
+    total_events = sum(d.get('n_events', 0) for d in per_iter.values())
+
+    # Average superposed epoch with SE
+    superposed: dict[str, Any] = {
+        'relative_steps': sorted(int(k) for k in epoch_curves.keys())
+    }
+    for rs in superposed['relative_steps']:
+        rs_key = str(rs)
+        for metric_key, vals in epoch_curves.get(rs_key, {}).items():
+            if metric_key not in superposed:
+                superposed[metric_key] = []
+            arr = np.array(vals)
+            superposed[metric_key].append(float(np.mean(arr)))
+            # Add SE for _mean metrics
+            se_key = metric_key.replace('_mean', '_se')
+            if '_mean' in metric_key and se_key != metric_key:
+                if se_key not in superposed:
+                    superposed[se_key] = []
+                se = float(np.std(arr, ddof=1) / np.sqrt(len(arr))) if len(arr) > 1 else 0.0
+                superposed[se_key].append(se)
+
+    result = {
+        'n_iterations': len(per_iter),
+        'n_iterations_with_events': n_iters_with_events,
+        'total_events': total_events,
+        'destination_algorithmic_mean': float(np.mean(all_dest_algo)) if all_dest_algo else None,
+        'destination_coalition_mean': float(np.mean(all_dest_coal)) if all_dest_coal else None,
+        'mainstream_util_delta_mean': (
+            float(np.mean(all_main_deltas)) if all_main_deltas else None
+        ),
+        'mainstream_util_delta_sd': (
+            float(np.std(all_main_deltas, ddof=1)) if len(all_main_deltas) > 1 else None
+        ),
+        'mainstream_util_delta_negative_frac': (
+            float(np.mean([d < 0 for d in all_main_deltas])) if all_main_deltas else None
+        ),
+        'burst_displacement_corr_mean': float(np.mean(all_corrs)) if all_corrs else None,
+        'superposed_epoch': superposed,
+    }
+
+    with open(config_dir / "displacement_aggregate.json", 'w') as f:
+        json.dump(_clean_for_json(result), f, indent=2)
+    return result
+
+
+def run_phase2_enclaves(config_dir: Path) -> dict:
+    """Task 2.4: Aggregate enclaves across iterations."""
+    with open(config_dir / "per_iter_enclave_analysis.json") as f:
+        per_iter = json.load(f)
+
+    settling_steps: list[float] = []
+    mean_homogeneities: list[float] = []
+    frac_disrupted: list[float] = []
+    recovery_times: list[float] = []
+
+    for iter_data in per_iter.values():
+        system = iter_data.get('system', {})
+        if system.get('mean_settling_step') is not None:
+            settling_steps.append(system['mean_settling_step'])
+        if system.get('mean_homogeneity') is not None:
+            mean_homogeneities.append(system['mean_homogeneity'])
+        frac_disrupted.append(system.get('fraction_with_disruptions', 0.0))
+        for pdata in iter_data.get('platforms', {}).values():
+            if pdata.get('mean_recovery_steps') is not None:
+                recovery_times.append(pdata['mean_recovery_steps'])
+
+    result = {
+        'n_iterations': len(per_iter),
+        'settling_step_mean': float(np.mean(settling_steps)) if settling_steps else None,
+        'settling_step_sd': (
+            float(np.std(settling_steps, ddof=1)) if len(settling_steps) > 1 else None
+        ),
+        'mean_homogeneity': float(np.mean(mean_homogeneities)) if mean_homogeneities else None,
+        'mean_homogeneity_sd': (
+            float(np.std(mean_homogeneities, ddof=1)) if len(mean_homogeneities) > 1 else None
+        ),
+        'fraction_disrupted': float(np.mean(frac_disrupted)) if frac_disrupted else None,
+        'mean_recovery_steps': float(np.mean(recovery_times)) if recovery_times else None,
+    }
+
+    with open(config_dir / "enclave_aggregate.json", 'w') as f:
+        json.dump(result, f, indent=2)
+    return result
+
+
+def run_phase2_summary_update(config_dir: Path) -> None:
+    """Task 2.5: Update config summary.csv with reporting pipeline metrics."""
+    summary_path = config_dir / "summary.csv"
+    if not summary_path.exists():
+        return
+
+    rows = []
+    fieldnames: list[str] = []
+    with open(summary_path) as f:
+        reader = csv.DictReader(f)
+        fieldnames = list(reader.fieldnames or [])
+        for row in reader:
+            rows.append(row)
+
+    def add_measure(name: str, value: Any) -> None:
+        row_dict: dict[str, str] = {fn: '' for fn in fieldnames}
+        row_dict['Measure'] = name
+        row_dict['Mean'] = f'{value:.6f}' if isinstance(value, (int, float)) and value is not None else ''
+        rows.append(row_dict)
+
+    # Load aggregates and add key metrics
+    for agg_file, metrics in [
+        ('convergence_aggregate.json', [
+            ('convergence_settling_step', 'settling_step_mean'),
+        ]),
+        ('burst_aggregate.json', [
+            ('burst_rate', 'burst_rate'),
+            ('burst_size_median', 'burst_size_median'),
+            ('escalation_mean_slope', 'escalation_mean_slope'),
+            ('escalation_p_value', 'escalation_p_value'),
+        ]),
+        ('displacement_aggregate.json', [
+            ('displacement_util_delta_mean', 'mainstream_util_delta_mean'),
+            ('displacement_frac_negative', 'mainstream_util_delta_negative_frac'),
+        ]),
+        ('enclave_aggregate.json', [
+            ('enclave_mean_homogeneity', 'mean_homogeneity'),
+            ('enclave_settling_step', 'settling_step_mean'),
+        ]),
+    ]:
+        agg_path = config_dir / agg_file
+        if agg_path.exists():
+            with open(agg_path) as f:
+                agg = json.load(f)
+            for new_name, key in metrics:
+                val = agg.get(key)
+                add_measure(new_name, val)
+
+    # Convergence pattern mode
+    conv_path = config_dir / "convergence_aggregate.json"
+    if conv_path.exists():
+        with open(conv_path) as f:
+            conv = json.load(f)
+        pattern_counts = conv.get('pattern_counts', {})
+        if pattern_counts:
+            mode = max(pattern_counts, key=pattern_counts.get)
+            row_dict = {fn: '' for fn in fieldnames}
+            row_dict['Measure'] = 'convergence_pattern_mode'
+            row_dict['Mean'] = mode
+            rows.append(row_dict)
+
+    with open(summary_path, 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction='ignore')
+        writer.writeheader()
+        for row in rows:
+            writer.writerow(row)
