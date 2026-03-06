@@ -429,6 +429,11 @@ class ExperimentRunner:
                 }
                 json.dump(enclave_out, f)
 
+        # Compute burst aggregate
+        burst_aggregate = None
+        if config.tracking_enabled and dynamics_scalars:
+            burst_aggregate = self._save_burst_aggregate(config_dir, dynamics_scalars)
+
         # Mark config as done
         self._update_index(experiment_dir, config.name)
 
