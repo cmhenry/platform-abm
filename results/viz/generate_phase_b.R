@@ -236,7 +236,7 @@ load_gov_utility <- function(rho_val) {
   for (np in np_levels) {
     for (alpha in alpha_levels) {
       for (gov in gov_types) {
-        measure <- paste0("avg_utility_gov_", gov)
+        measure <- paste0("avg_utility_mainstream_", gov)
         r <- load_summary_row(np, rho_val, alpha, measure)
         if (!is.null(r)) {
           r$governance <- gov
