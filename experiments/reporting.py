@@ -502,7 +502,8 @@ def run_phase2_displacement(config_dir: Path) -> dict:
                         epoch_curves[rs_key] = {}
                     if metric_key not in epoch_curves[rs_key]:
                         epoch_curves[rs_key][metric_key] = []
-                    epoch_curves[rs_key][metric_key].append(val)
+                    if val is not None:
+                        epoch_curves[rs_key][metric_key].append(val)
 
     n_iters_with_events = len(all_main_deltas)
     total_events = sum(d.get('n_events', 0) for d in per_iter.values())
