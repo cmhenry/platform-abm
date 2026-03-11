@@ -1,0 +1,21 @@
+{
+  "n_iterations": 200,
+  "pattern_counts": {
+    "NOISY_PLATEAU": 89,
+    "STILL_CLIMBING": 87,
+    "OSCILLATING": 24
+  },
+  "settling_step_mean": 99.465,
+  "settling_step_sd": 1.0508551196107196,
+  "final_utility_mean": 6.492999999999999,
+  "final_utility_sd": 0.12431925185549321,
+  "second_half_gain_mean": 0.016733333333333378,
+  "second_half_gain_sd": 0.17634066821765296,
+  "per_governance_pattern_counts": {
+    "algorithmic": {
+      "NOISY_PLATEAU": 89,
+      "STILL_CLIMBING": 87,
+      "OSCILLATING": 24
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "n_iterations": 200,
+  "pattern_counts": {
+    "STILL_CLIMBING": 82,
+    "OSCILLATING": 66,
+    "NOISY_PLATEAU": 52
+  },
+  "settling_step_mean": 99.645,
+  "settling_step_sd": 0.8441194752179403,
+  "final_utility_mean": 6.0579,
+  "final_utility_sd": 0.1415256703024244,
+  "second_half_gain_mean": -0.008800000000000007,
+  "second_half_gain_sd": 0.193759721573076,
+  "per_governance_pattern_counts": {
+    "coalition": {
+      "STILL_CLIMBING": 82,
+      "OSCILLATING": 66,
+      "NOISY_PLATEAU": 52
+    }
+  }
+}

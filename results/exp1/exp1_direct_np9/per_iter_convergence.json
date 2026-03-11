@@ -1,0 +1,2802 @@
+{
+  "0": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.14,
+    "half_utility": 5.583333333333333,
+    "second_half_gain": -0.44333333333333336,
+    "final_relocations_per_step": 178.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.14
+      }
+    }
+  },
+  "1": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.503333333333333,
+    "half_utility": 5.466666666666667,
+    "second_half_gain": 0.03666666666666618,
+    "final_relocations_per_step": 175.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.503333333333333
+      }
+    }
+  },
+  "2": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.653333333333333,
+    "half_utility": 5.54,
+    "second_half_gain": 0.11333333333333329,
+    "final_relocations_per_step": 184.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.653333333333333
+      }
+    }
+  },
+  "3": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.426666666666667,
+    "half_utility": 6.483333333333333,
+    "second_half_gain": -1.0566666666666666,
+    "final_relocations_per_step": 161.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.426666666666667
+      }
+    }
+  },
+  "4": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.496666666666667,
+    "half_utility": 5.57,
+    "second_half_gain": -0.07333333333333325,
+    "final_relocations_per_step": 187.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.496666666666667
+      }
+    }
+  },
+  "5": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.213333333333333,
+    "half_utility": 6.053333333333334,
+    "second_half_gain": -0.8400000000000007,
+    "final_relocations_per_step": 169.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.213333333333333
+      }
+    }
+  },
+  "6": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.26,
+    "half_utility": 5.703333333333333,
+    "second_half_gain": -0.44333333333333336,
+    "final_relocations_per_step": 203.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.26
+      }
+    }
+  },
+  "7": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.57,
+    "half_utility": 5.46,
+    "second_half_gain": 0.11000000000000032,
+    "final_relocations_per_step": 168.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.57
+      }
+    }
+  },
+  "8": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.376666666666667,
+    "half_utility": 5.496666666666667,
+    "second_half_gain": -0.1200000000000001,
+    "final_relocations_per_step": 168.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.376666666666667
+      }
+    }
+  },
+  "9": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 5.51,
+    "half_utility": 5.6033333333333335,
+    "second_half_gain": -0.09333333333333371,
+    "final_relocations_per_step": 153.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.51
+      }
+    }
+  },
+  "10": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.543333333333333,
+    "half_utility": 6.01,
+    "second_half_gain": -0.4666666666666668,
+    "final_relocations_per_step": 182.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.543333333333333
+      }
+    }
+  },
+  "11": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.52,
+    "half_utility": 5.916666666666667,
+    "second_half_gain": -0.3966666666666674,
+    "final_relocations_per_step": 161.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.52
+      }
+    }
+  },
+  "12": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.33,
+    "half_utility": 5.323333333333333,
+    "second_half_gain": 0.006666666666666821,
+    "final_relocations_per_step": 181.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.33
+      }
+    }
+  },
+  "13": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.273333333333333,
+    "half_utility": 5.68,
+    "second_half_gain": -0.4066666666666663,
+    "final_relocations_per_step": 172.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.273333333333333
+      }
+    }
+  },
+  "14": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.783333333333333,
+    "half_utility": 5.676666666666667,
+    "second_half_gain": 0.10666666666666647,
+    "final_relocations_per_step": 136.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.783333333333333
+      }
+    }
+  },
+  "15": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.1433333333333335,
+    "half_utility": 6.97,
+    "second_half_gain": -1.8266666666666662,
+    "final_relocations_per_step": 30.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.1433333333333335
+      }
+    }
+  },
+  "16": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.31,
+    "half_utility": 5.6033333333333335,
+    "second_half_gain": -0.2933333333333339,
+    "final_relocations_per_step": 152.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.31
+      }
+    }
+  },
+  "17": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 4.95,
+    "half_utility": 7.403333333333333,
+    "second_half_gain": -2.453333333333333,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 4.95
+      }
+    }
+  },
+  "18": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.173333333333333,
+    "half_utility": 5.59,
+    "second_half_gain": 0.583333333333333,
+    "final_relocations_per_step": 107.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.173333333333333
+      }
+    }
+  },
+  "19": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 5.566666666666666,
+    "half_utility": 5.926666666666667,
+    "second_half_gain": -0.3600000000000003,
+    "final_relocations_per_step": 184.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.566666666666666
+      }
+    }
+  },
+  "20": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.376666666666667,
+    "half_utility": 5.63,
+    "second_half_gain": -0.25333333333333297,
+    "final_relocations_per_step": 208.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.376666666666667
+      }
+    }
+  },
+  "21": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 98,
+    "final_utility": 5.54,
+    "half_utility": 5.55,
+    "second_half_gain": -0.009999999999999787,
+    "final_relocations_per_step": 165.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.54
+      }
+    }
+  },
+  "22": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.596666666666667,
+    "half_utility": 5.53,
+    "second_half_gain": 0.06666666666666643,
+    "final_relocations_per_step": 187.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.596666666666667
+      }
+    }
+  },
+  "23": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.493333333333333,
+    "half_utility": 5.823333333333333,
+    "second_half_gain": -0.33000000000000007,
+    "final_relocations_per_step": 170.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.493333333333333
+      }
+    }
+  },
+  "24": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.54,
+    "half_utility": 5.583333333333333,
+    "second_half_gain": -0.043333333333333,
+    "final_relocations_per_step": 173.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.54
+      }
+    }
+  },
+  "25": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.306666666666667,
+    "half_utility": 5.416666666666667,
+    "second_half_gain": -0.11000000000000032,
+    "final_relocations_per_step": 141.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.306666666666667
+      }
+    }
+  },
+  "26": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.486666666666666,
+    "half_utility": 5.533333333333333,
+    "second_half_gain": -0.046666666666666856,
+    "final_relocations_per_step": 128.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.486666666666666
+      }
+    }
+  },
+  "27": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.03,
+    "half_utility": 5.933333333333334,
+    "second_half_gain": -0.9033333333333333,
+    "final_relocations_per_step": 191.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.03
+      }
+    }
+  },
+  "28": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.5633333333333335,
+    "half_utility": 5.74,
+    "second_half_gain": -0.17666666666666675,
+    "final_relocations_per_step": 192.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.5633333333333335
+      }
+    }
+  },
+  "29": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.3,
+    "half_utility": 5.663333333333333,
+    "second_half_gain": -0.3633333333333333,
+    "final_relocations_per_step": 126.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.3
+      }
+    }
+  },
+  "30": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.286666666666667,
+    "half_utility": 6.55,
+    "second_half_gain": -1.2633333333333328,
+    "final_relocations_per_step": 187.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.286666666666667
+      }
+    }
+  },
+  "31": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.4,
+    "half_utility": 5.56,
+    "second_half_gain": -0.15999999999999925,
+    "final_relocations_per_step": 203.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.4
+      }
+    }
+  },
+  "32": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.3966666666666665,
+    "half_utility": 5.3133333333333335,
+    "second_half_gain": 0.08333333333333304,
+    "final_relocations_per_step": 182.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.3966666666666665
+      }
+    }
+  },
+  "33": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.076666666666667,
+    "half_utility": 7.4,
+    "second_half_gain": -2.3233333333333333,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.076666666666667
+      }
+    }
+  },
+  "34": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.593333333333334,
+    "half_utility": 5.5633333333333335,
+    "second_half_gain": 0.03000000000000025,
+    "final_relocations_per_step": 195.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.593333333333334
+      }
+    }
+  },
+  "35": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.256666666666667,
+    "half_utility": 5.863333333333333,
+    "second_half_gain": -0.6066666666666665,
+    "final_relocations_per_step": 202.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.256666666666667
+      }
+    }
+  },
+  "36": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.5633333333333335,
+    "half_utility": 5.703333333333333,
+    "second_half_gain": -0.13999999999999968,
+    "final_relocations_per_step": 174.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.5633333333333335
+      }
+    }
+  },
+  "37": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.55,
+    "half_utility": 5.62,
+    "second_half_gain": -0.07000000000000028,
+    "final_relocations_per_step": 198.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.55
+      }
+    }
+  },
+  "38": {
+    "pattern": "OSCILLATING",
+    "settling_step": 99,
+    "final_utility": 5.45,
+    "half_utility": 5.616666666666666,
+    "second_half_gain": -0.16666666666666607,
+    "final_relocations_per_step": 172.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.45
+      }
+    }
+  },
+  "39": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.553333333333334,
+    "half_utility": 5.27,
+    "second_half_gain": 0.2833333333333341,
+    "final_relocations_per_step": 194.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.553333333333334
+      }
+    }
+  },
+  "40": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 5.583333333333333,
+    "half_utility": 6.116666666666666,
+    "second_half_gain": -0.5333333333333332,
+    "final_relocations_per_step": 181.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.583333333333333
+      }
+    }
+  },
+  "41": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 98,
+    "final_utility": 5.473333333333334,
+    "half_utility": 5.756666666666667,
+    "second_half_gain": -0.2833333333333332,
+    "final_relocations_per_step": 197.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.473333333333334
+      }
+    }
+  },
+  "42": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.456666666666667,
+    "half_utility": 5.556666666666667,
+    "second_half_gain": -0.09999999999999964,
+    "final_relocations_per_step": 170.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.456666666666667
+      }
+    }
+  },
+  "43": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.25,
+    "half_utility": 6.363333333333333,
+    "second_half_gain": -1.1133333333333333,
+    "final_relocations_per_step": 191.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.25
+      }
+    }
+  },
+  "44": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.456666666666667,
+    "half_utility": 5.713333333333333,
+    "second_half_gain": -0.25666666666666593,
+    "final_relocations_per_step": 183.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.456666666666667
+      }
+    }
+  },
+  "45": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.406666666666666,
+    "half_utility": 5.65,
+    "second_half_gain": -0.24333333333333407,
+    "final_relocations_per_step": 186.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.406666666666666
+      }
+    }
+  },
+  "46": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.183333333333334,
+    "half_utility": 6.163333333333333,
+    "second_half_gain": -0.9799999999999995,
+    "final_relocations_per_step": 182.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.183333333333334
+      }
+    }
+  },
+  "47": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.406666666666666,
+    "half_utility": 5.993333333333333,
+    "second_half_gain": -0.5866666666666669,
+    "final_relocations_per_step": 153.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.406666666666666
+      }
+    }
+  },
+  "48": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 4.8933333333333335,
+    "half_utility": 7.463333333333333,
+    "second_half_gain": -2.5699999999999994,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 4.8933333333333335
+      }
+    }
+  },
+  "49": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.553333333333334,
+    "half_utility": 5.333333333333333,
+    "second_half_gain": 0.22000000000000064,
+    "final_relocations_per_step": 180.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.553333333333334
+      }
+    }
+  },
+  "50": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.426666666666667,
+    "half_utility": 5.553333333333334,
+    "second_half_gain": -0.12666666666666693,
+    "final_relocations_per_step": 182.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.426666666666667
+      }
+    }
+  },
+  "51": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.336666666666667,
+    "half_utility": 5.706666666666667,
+    "second_half_gain": -0.3700000000000001,
+    "final_relocations_per_step": 197.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.336666666666667
+      }
+    }
+  },
+  "52": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.33,
+    "half_utility": 6.323333333333333,
+    "second_half_gain": -0.9933333333333332,
+    "final_relocations_per_step": 175.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.33
+      }
+    }
+  },
+  "53": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.443333333333333,
+    "half_utility": 6.243333333333333,
+    "second_half_gain": -0.7999999999999998,
+    "final_relocations_per_step": 186.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.443333333333333
+      }
+    }
+  },
+  "54": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.486666666666666,
+    "half_utility": 5.66,
+    "second_half_gain": -0.17333333333333378,
+    "final_relocations_per_step": 164.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.486666666666666
+      }
+    }
+  },
+  "55": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.29,
+    "half_utility": 5.593333333333334,
+    "second_half_gain": -0.3033333333333337,
+    "final_relocations_per_step": 168.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.29
+      }
+    }
+  },
+  "56": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.466666666666667,
+    "half_utility": 5.373333333333333,
+    "second_half_gain": 0.09333333333333371,
+    "final_relocations_per_step": 184.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.466666666666667
+      }
+    }
+  },
+  "57": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.386666666666667,
+    "half_utility": 5.71,
+    "second_half_gain": -0.32333333333333325,
+    "final_relocations_per_step": 217.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.386666666666667
+      }
+    }
+  },
+  "58": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 5.596666666666667,
+    "half_utility": 5.496666666666667,
+    "second_half_gain": 0.09999999999999964,
+    "final_relocations_per_step": 171.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.596666666666667
+      }
+    }
+  },
+  "59": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.556666666666667,
+    "half_utility": 5.413333333333333,
+    "second_half_gain": 0.14333333333333353,
+    "final_relocations_per_step": 189.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.556666666666667
+      }
+    }
+  },
+  "60": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.24,
+    "half_utility": 6.26,
+    "second_half_gain": -1.0199999999999996,
+    "final_relocations_per_step": 188.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.24
+      }
+    }
+  },
+  "61": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.456666666666667,
+    "half_utility": 5.483333333333333,
+    "second_half_gain": -0.026666666666666394,
+    "final_relocations_per_step": 178.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.456666666666667
+      }
+    }
+  },
+  "62": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.546666666666667,
+    "half_utility": 5.633333333333334,
+    "second_half_gain": -0.08666666666666689,
+    "final_relocations_per_step": 192.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.546666666666667
+      }
+    }
+  },
+  "63": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 5.72,
+    "half_utility": 5.523333333333333,
+    "second_half_gain": 0.19666666666666632,
+    "final_relocations_per_step": 147.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.72
+      }
+    }
+  },
+  "64": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.376666666666667,
+    "half_utility": 5.803333333333334,
+    "second_half_gain": -0.42666666666666675,
+    "final_relocations_per_step": 185.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.376666666666667
+      }
+    }
+  },
+  "65": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.4,
+    "half_utility": 5.953333333333333,
+    "second_half_gain": -0.5533333333333328,
+    "final_relocations_per_step": 168.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.4
+      }
+    }
+  },
+  "66": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.343333333333334,
+    "half_utility": 5.716666666666667,
+    "second_half_gain": -0.3733333333333331,
+    "final_relocations_per_step": 112.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.343333333333334
+      }
+    }
+  },
+  "67": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.1066666666666665,
+    "half_utility": 7.39,
+    "second_half_gain": -2.283333333333333,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.1066666666666665
+      }
+    }
+  },
+  "68": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.183333333333334,
+    "half_utility": 7.46,
+    "second_half_gain": -2.2766666666666664,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.183333333333334
+      }
+    }
+  },
+  "69": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.266666666666667,
+    "half_utility": 5.37,
+    "second_half_gain": -0.1033333333333335,
+    "final_relocations_per_step": 198.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.266666666666667
+      }
+    }
+  },
+  "70": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.123333333333333,
+    "half_utility": 5.62,
+    "second_half_gain": -0.49666666666666703,
+    "final_relocations_per_step": 192.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.123333333333333
+      }
+    }
+  },
+  "71": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.386666666666667,
+    "half_utility": 5.623333333333333,
+    "second_half_gain": -0.23666666666666636,
+    "final_relocations_per_step": 210.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.386666666666667
+      }
+    }
+  },
+  "72": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.346666666666667,
+    "half_utility": 6.0,
+    "second_half_gain": -0.6533333333333333,
+    "final_relocations_per_step": 176.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.346666666666667
+      }
+    }
+  },
+  "73": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.406666666666666,
+    "half_utility": 5.513333333333334,
+    "second_half_gain": -0.10666666666666735,
+    "final_relocations_per_step": 171.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.406666666666666
+      }
+    }
+  },
+  "74": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.233333333333333,
+    "half_utility": 6.023333333333333,
+    "second_half_gain": -0.79,
+    "final_relocations_per_step": 181.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.233333333333333
+      }
+    }
+  },
+  "75": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.3133333333333335,
+    "half_utility": 5.973333333333334,
+    "second_half_gain": -0.6600000000000001,
+    "final_relocations_per_step": 222.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.3133333333333335
+      }
+    }
+  },
+  "76": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.25,
+    "half_utility": 6.056666666666667,
+    "second_half_gain": -0.8066666666666666,
+    "final_relocations_per_step": 178.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.25
+      }
+    }
+  },
+  "77": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.713333333333333,
+    "half_utility": 5.493333333333333,
+    "second_half_gain": 0.21999999999999975,
+    "final_relocations_per_step": 177.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.713333333333333
+      }
+    }
+  },
+  "78": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.846666666666667,
+    "half_utility": 5.493333333333333,
+    "second_half_gain": 0.3533333333333335,
+    "final_relocations_per_step": 168.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.846666666666667
+      }
+    }
+  },
+  "79": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.556666666666667,
+    "half_utility": 5.3566666666666665,
+    "second_half_gain": 0.20000000000000018,
+    "final_relocations_per_step": 183.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.556666666666667
+      }
+    }
+  },
+  "80": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.3566666666666665,
+    "half_utility": 6.12,
+    "second_half_gain": -0.7633333333333336,
+    "final_relocations_per_step": 179.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.3566666666666665
+      }
+    }
+  },
+  "81": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.456666666666667,
+    "half_utility": 5.63,
+    "second_half_gain": -0.1733333333333329,
+    "final_relocations_per_step": 198.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.456666666666667
+      }
+    }
+  },
+  "82": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.46,
+    "half_utility": 6.656666666666666,
+    "second_half_gain": -1.1966666666666663,
+    "final_relocations_per_step": 182.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.46
+      }
+    }
+  },
+  "83": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.723333333333334,
+    "half_utility": 5.65,
+    "second_half_gain": 0.07333333333333325,
+    "final_relocations_per_step": 187.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.723333333333334
+      }
+    }
+  },
+  "84": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.573333333333333,
+    "half_utility": 5.723333333333334,
+    "second_half_gain": -0.15000000000000036,
+    "final_relocations_per_step": 169.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.573333333333333
+      }
+    }
+  },
+  "85": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.3533333333333335,
+    "half_utility": 5.816666666666666,
+    "second_half_gain": -0.46333333333333293,
+    "final_relocations_per_step": 176.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.3533333333333335
+      }
+    }
+  },
+  "86": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.233333333333333,
+    "half_utility": 5.636666666666667,
+    "second_half_gain": -0.4033333333333333,
+    "final_relocations_per_step": 176.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.233333333333333
+      }
+    }
+  },
+  "87": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 97,
+    "final_utility": 5.553333333333334,
+    "half_utility": 5.916666666666667,
+    "second_half_gain": -0.3633333333333333,
+    "final_relocations_per_step": 181.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.553333333333334
+      }
+    }
+  },
+  "88": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 98,
+    "final_utility": 5.513333333333334,
+    "half_utility": 5.68,
+    "second_half_gain": -0.16666666666666607,
+    "final_relocations_per_step": 190.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.513333333333334
+      }
+    }
+  },
+  "89": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.56,
+    "half_utility": 5.546666666666667,
+    "second_half_gain": 0.013333333333332753,
+    "final_relocations_per_step": 204.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.56
+      }
+    }
+  },
+  "90": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.336666666666667,
+    "half_utility": 6.586666666666667,
+    "second_half_gain": -1.25,
+    "final_relocations_per_step": 67.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.336666666666667
+      }
+    }
+  },
+  "91": {
+    "pattern": "OSCILLATING",
+    "settling_step": 98,
+    "final_utility": 5.3566666666666665,
+    "half_utility": 5.526666666666666,
+    "second_half_gain": -0.16999999999999993,
+    "final_relocations_per_step": 210.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.3566666666666665
+      }
+    }
+  },
+  "92": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.316666666666666,
+    "half_utility": 5.536666666666667,
+    "second_half_gain": -0.22000000000000064,
+    "final_relocations_per_step": 204.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.316666666666666
+      }
+    }
+  },
+  "93": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 98,
+    "final_utility": 5.633333333333334,
+    "half_utility": 5.65,
+    "second_half_gain": -0.016666666666666607,
+    "final_relocations_per_step": 195.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.633333333333334
+      }
+    }
+  },
+  "94": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.6033333333333335,
+    "half_utility": 5.55,
+    "second_half_gain": 0.05333333333333368,
+    "final_relocations_per_step": 169.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.6033333333333335
+      }
+    }
+  },
+  "95": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.253333333333333,
+    "half_utility": 5.766666666666667,
+    "second_half_gain": -0.5133333333333336,
+    "final_relocations_per_step": 187.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.253333333333333
+      }
+    }
+  },
+  "96": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.45,
+    "half_utility": 5.53,
+    "second_half_gain": -0.08000000000000007,
+    "final_relocations_per_step": 182.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.45
+      }
+    }
+  },
+  "97": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.37,
+    "half_utility": 6.616666666666666,
+    "second_half_gain": -1.2466666666666661,
+    "final_relocations_per_step": 195.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.37
+      }
+    }
+  },
+  "98": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.426666666666667,
+    "half_utility": 5.996666666666667,
+    "second_half_gain": -0.5700000000000003,
+    "final_relocations_per_step": 159.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.426666666666667
+      }
+    }
+  },
+  "99": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.163333333333333,
+    "half_utility": 5.82,
+    "second_half_gain": -0.6566666666666672,
+    "final_relocations_per_step": 194.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.163333333333333
+      }
+    }
+  },
+  "100": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.213333333333333,
+    "half_utility": 5.926666666666667,
+    "second_half_gain": -0.7133333333333338,
+    "final_relocations_per_step": 165.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.213333333333333
+      }
+    }
+  },
+  "101": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.743333333333333,
+    "half_utility": 5.466666666666667,
+    "second_half_gain": 0.2766666666666664,
+    "final_relocations_per_step": 178.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.743333333333333
+      }
+    }
+  },
+  "102": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.266666666666667,
+    "half_utility": 5.926666666666667,
+    "second_half_gain": -0.6600000000000001,
+    "final_relocations_per_step": 198.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.266666666666667
+      }
+    }
+  },
+  "103": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.83,
+    "half_utility": 5.333333333333333,
+    "second_half_gain": 0.49666666666666703,
+    "final_relocations_per_step": 179.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.83
+      }
+    }
+  },
+  "104": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.493333333333333,
+    "half_utility": 5.31,
+    "second_half_gain": 0.18333333333333357,
+    "final_relocations_per_step": 193.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.493333333333333
+      }
+    }
+  },
+  "105": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 5.456666666666667,
+    "half_utility": 5.476666666666667,
+    "second_half_gain": -0.019999999999999574,
+    "final_relocations_per_step": 191.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.456666666666667
+      }
+    }
+  },
+  "106": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.463333333333333,
+    "half_utility": 5.52,
+    "second_half_gain": -0.05666666666666664,
+    "final_relocations_per_step": 132.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.463333333333333
+      }
+    }
+  },
+  "107": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 4.9366666666666665,
+    "half_utility": 7.35,
+    "second_half_gain": -2.413333333333333,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 4.9366666666666665
+      }
+    }
+  },
+  "108": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.873333333333333,
+    "half_utility": 5.596666666666667,
+    "second_half_gain": 0.2766666666666664,
+    "final_relocations_per_step": 168.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.873333333333333
+      }
+    }
+  },
+  "109": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.253333333333333,
+    "half_utility": 5.523333333333333,
+    "second_half_gain": -0.27000000000000046,
+    "final_relocations_per_step": 182.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.253333333333333
+      }
+    }
+  },
+  "110": {
+    "pattern": "OSCILLATING",
+    "settling_step": 98,
+    "final_utility": 5.51,
+    "half_utility": 5.67,
+    "second_half_gain": -0.16000000000000014,
+    "final_relocations_per_step": 192.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.51
+      }
+    }
+  },
+  "111": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.526666666666666,
+    "half_utility": 5.786666666666667,
+    "second_half_gain": -0.2600000000000007,
+    "final_relocations_per_step": 142.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.526666666666666
+      }
+    }
+  },
+  "112": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.066666666666666,
+    "half_utility": 7.28,
+    "second_half_gain": -2.213333333333334,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.066666666666666
+      }
+    }
+  },
+  "113": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.346666666666667,
+    "half_utility": 6.003333333333333,
+    "second_half_gain": -0.6566666666666663,
+    "final_relocations_per_step": 221.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.346666666666667
+      }
+    }
+  },
+  "114": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.433333333333334,
+    "half_utility": 6.64,
+    "second_half_gain": -1.206666666666666,
+    "final_relocations_per_step": 182.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.433333333333334
+      }
+    }
+  },
+  "115": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.343333333333334,
+    "half_utility": 5.6433333333333335,
+    "second_half_gain": -0.2999999999999998,
+    "final_relocations_per_step": 180.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.343333333333334
+      }
+    }
+  },
+  "116": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.413333333333333,
+    "half_utility": 5.946666666666666,
+    "second_half_gain": -0.5333333333333332,
+    "final_relocations_per_step": 188.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.413333333333333
+      }
+    }
+  },
+  "117": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.493333333333333,
+    "half_utility": 5.453333333333333,
+    "second_half_gain": 0.040000000000000036,
+    "final_relocations_per_step": 173.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.493333333333333
+      }
+    }
+  },
+  "118": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.736666666666666,
+    "half_utility": 5.793333333333333,
+    "second_half_gain": -0.05666666666666664,
+    "final_relocations_per_step": 165.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.736666666666666
+      }
+    }
+  },
+  "119": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.423333333333333,
+    "half_utility": 6.64,
+    "second_half_gain": -1.2166666666666668,
+    "final_relocations_per_step": 200.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.423333333333333
+      }
+    }
+  },
+  "120": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 4.993333333333333,
+    "half_utility": 7.4,
+    "second_half_gain": -2.406666666666667,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 4.993333333333333
+      }
+    }
+  },
+  "121": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.51,
+    "half_utility": 5.6033333333333335,
+    "second_half_gain": -0.09333333333333371,
+    "final_relocations_per_step": 183.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.51
+      }
+    }
+  },
+  "122": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 4.996666666666667,
+    "half_utility": 6.8,
+    "second_half_gain": -1.8033333333333328,
+    "final_relocations_per_step": 192.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 4.996666666666667
+      }
+    }
+  },
+  "123": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.656666666666666,
+    "half_utility": 5.3933333333333335,
+    "second_half_gain": 0.26333333333333275,
+    "final_relocations_per_step": 122.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.656666666666666
+      }
+    }
+  },
+  "124": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.34,
+    "half_utility": 5.6066666666666665,
+    "second_half_gain": -0.2666666666666666,
+    "final_relocations_per_step": 189.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.34
+      }
+    }
+  },
+  "125": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 4.92,
+    "half_utility": 7.513333333333334,
+    "second_half_gain": -2.5933333333333337,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 4.92
+      }
+    }
+  },
+  "126": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.413333333333333,
+    "half_utility": 5.58,
+    "second_half_gain": -0.16666666666666696,
+    "final_relocations_per_step": 193.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.413333333333333
+      }
+    }
+  },
+  "127": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.31,
+    "half_utility": 5.723333333333334,
+    "second_half_gain": -0.413333333333334,
+    "final_relocations_per_step": 174.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.31
+      }
+    }
+  },
+  "128": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.126666666666667,
+    "half_utility": 7.51,
+    "second_half_gain": -2.383333333333333,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.126666666666667
+      }
+    }
+  },
+  "129": {
+    "pattern": "OSCILLATING",
+    "settling_step": 99,
+    "final_utility": 5.443333333333333,
+    "half_utility": 5.486666666666666,
+    "second_half_gain": -0.043333333333333,
+    "final_relocations_per_step": 203.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.443333333333333
+      }
+    }
+  },
+  "130": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.546666666666667,
+    "half_utility": 5.993333333333333,
+    "second_half_gain": -0.4466666666666663,
+    "final_relocations_per_step": 142.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.546666666666667
+      }
+    }
+  },
+  "131": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 5.52,
+    "half_utility": 5.523333333333333,
+    "second_half_gain": -0.0033333333333338544,
+    "final_relocations_per_step": 160.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.52
+      }
+    }
+  },
+  "132": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 4.95,
+    "half_utility": 7.24,
+    "second_half_gain": -2.29,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 4.95
+      }
+    }
+  },
+  "133": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.48,
+    "half_utility": 6.023333333333333,
+    "second_half_gain": -0.543333333333333,
+    "final_relocations_per_step": 157.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.48
+      }
+    }
+  },
+  "134": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.456666666666667,
+    "half_utility": 6.153333333333333,
+    "second_half_gain": -0.6966666666666663,
+    "final_relocations_per_step": 181.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.456666666666667
+      }
+    }
+  },
+  "135": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.553333333333334,
+    "half_utility": 5.743333333333333,
+    "second_half_gain": -0.1899999999999995,
+    "final_relocations_per_step": 145.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.553333333333334
+      }
+    }
+  },
+  "136": {
+    "pattern": "OSCILLATING",
+    "settling_step": 99,
+    "final_utility": 5.5,
+    "half_utility": 5.53,
+    "second_half_gain": -0.03000000000000025,
+    "final_relocations_per_step": 182.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.5
+      }
+    }
+  },
+  "137": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.443333333333333,
+    "half_utility": 6.06,
+    "second_half_gain": -0.6166666666666663,
+    "final_relocations_per_step": 128.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.443333333333333
+      }
+    }
+  },
+  "138": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.376666666666667,
+    "half_utility": 5.573333333333333,
+    "second_half_gain": -0.19666666666666632,
+    "final_relocations_per_step": 177.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.376666666666667
+      }
+    }
+  },
+  "139": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.046666666666667,
+    "half_utility": 7.34,
+    "second_half_gain": -2.293333333333333,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.046666666666667
+      }
+    }
+  },
+  "140": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.626666666666667,
+    "half_utility": 6.36,
+    "second_half_gain": -0.7333333333333334,
+    "final_relocations_per_step": 175.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.626666666666667
+      }
+    }
+  },
+  "141": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.11,
+    "half_utility": 7.366666666666666,
+    "second_half_gain": -2.256666666666666,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.11
+      }
+    }
+  },
+  "142": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 98,
+    "final_utility": 5.3933333333333335,
+    "half_utility": 5.6433333333333335,
+    "second_half_gain": -0.25,
+    "final_relocations_per_step": 195.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.3933333333333335
+      }
+    }
+  },
+  "143": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.246666666666667,
+    "half_utility": 5.903333333333333,
+    "second_half_gain": -0.6566666666666663,
+    "final_relocations_per_step": 181.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.246666666666667
+      }
+    }
+  },
+  "144": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.503333333333333,
+    "half_utility": 5.956666666666667,
+    "second_half_gain": -0.45333333333333403,
+    "final_relocations_per_step": 193.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.503333333333333
+      }
+    }
+  },
+  "145": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.253333333333333,
+    "half_utility": 5.6866666666666665,
+    "second_half_gain": -0.43333333333333357,
+    "final_relocations_per_step": 176.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.253333333333333
+      }
+    }
+  },
+  "146": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 4.946666666666666,
+    "half_utility": 7.3933333333333335,
+    "second_half_gain": -2.446666666666667,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 4.946666666666666
+      }
+    }
+  },
+  "147": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 5.64,
+    "half_utility": 5.833333333333333,
+    "second_half_gain": -0.19333333333333336,
+    "final_relocations_per_step": 175.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.64
+      }
+    }
+  },
+  "148": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.59,
+    "half_utility": 5.63,
+    "second_half_gain": -0.040000000000000036,
+    "final_relocations_per_step": 144.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.59
+      }
+    }
+  },
+  "149": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.286666666666667,
+    "half_utility": 5.613333333333333,
+    "second_half_gain": -0.3266666666666662,
+    "final_relocations_per_step": 189.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.286666666666667
+      }
+    }
+  },
+  "150": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.57,
+    "half_utility": 5.3933333333333335,
+    "second_half_gain": 0.17666666666666675,
+    "final_relocations_per_step": 166.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.57
+      }
+    }
+  },
+  "151": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 4.8,
+    "half_utility": 7.39,
+    "second_half_gain": -2.59,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 4.8
+      }
+    }
+  },
+  "152": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.493333333333333,
+    "half_utility": 5.96,
+    "second_half_gain": -0.4666666666666668,
+    "final_relocations_per_step": 163.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.493333333333333
+      }
+    }
+  },
+  "153": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.306666666666667,
+    "half_utility": 6.61,
+    "second_half_gain": -1.3033333333333337,
+    "final_relocations_per_step": 136.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.306666666666667
+      }
+    }
+  },
+  "154": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 97,
+    "final_utility": 5.4,
+    "half_utility": 5.566666666666666,
+    "second_half_gain": -0.16666666666666607,
+    "final_relocations_per_step": 211.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.4
+      }
+    }
+  },
+  "155": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.3133333333333335,
+    "half_utility": 5.81,
+    "second_half_gain": -0.49666666666666615,
+    "final_relocations_per_step": 168.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.3133333333333335
+      }
+    }
+  },
+  "156": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.623333333333333,
+    "half_utility": 5.783333333333333,
+    "second_half_gain": -0.16000000000000014,
+    "final_relocations_per_step": 190.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.623333333333333
+      }
+    }
+  },
+  "157": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.65,
+    "half_utility": 5.6866666666666665,
+    "second_half_gain": -0.03666666666666618,
+    "final_relocations_per_step": 197.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.65
+      }
+    }
+  },
+  "158": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.456666666666667,
+    "half_utility": 5.626666666666667,
+    "second_half_gain": -0.16999999999999993,
+    "final_relocations_per_step": 180.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.456666666666667
+      }
+    }
+  },
+  "159": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.44,
+    "half_utility": 5.933333333333334,
+    "second_half_gain": -0.4933333333333332,
+    "final_relocations_per_step": 148.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.44
+      }
+    }
+  },
+  "160": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.123333333333333,
+    "half_utility": 5.99,
+    "second_half_gain": -0.8666666666666671,
+    "final_relocations_per_step": 175.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.123333333333333
+      }
+    }
+  },
+  "161": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 97,
+    "final_utility": 5.566666666666666,
+    "half_utility": 5.473333333333334,
+    "second_half_gain": 0.09333333333333282,
+    "final_relocations_per_step": 169.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.566666666666666
+      }
+    }
+  },
+  "162": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.316666666666666,
+    "half_utility": 6.81,
+    "second_half_gain": -1.4933333333333332,
+    "final_relocations_per_step": 74.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.316666666666666
+      }
+    }
+  },
+  "163": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.25,
+    "half_utility": 5.763333333333334,
+    "second_half_gain": -0.5133333333333336,
+    "final_relocations_per_step": 182.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.25
+      }
+    }
+  },
+  "164": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.28,
+    "half_utility": 5.873333333333333,
+    "second_half_gain": -0.5933333333333328,
+    "final_relocations_per_step": 204.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.28
+      }
+    }
+  },
+  "165": {
+    "pattern": "OSCILLATING",
+    "settling_step": 98,
+    "final_utility": 5.453333333333333,
+    "half_utility": 6.04,
+    "second_half_gain": -0.5866666666666669,
+    "final_relocations_per_step": 152.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.453333333333333
+      }
+    }
+  },
+  "166": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 5.366666666666666,
+    "half_utility": 5.376666666666667,
+    "second_half_gain": -0.010000000000000675,
+    "final_relocations_per_step": 223.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.366666666666666
+      }
+    }
+  },
+  "167": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 98,
+    "final_utility": 5.503333333333333,
+    "half_utility": 5.55,
+    "second_half_gain": -0.046666666666666856,
+    "final_relocations_per_step": 201.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.503333333333333
+      }
+    }
+  },
+  "168": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.26,
+    "half_utility": 5.73,
+    "second_half_gain": -0.47000000000000064,
+    "final_relocations_per_step": 180.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.26
+      }
+    }
+  },
+  "169": {
+    "pattern": "OSCILLATING",
+    "settling_step": 99,
+    "final_utility": 5.423333333333333,
+    "half_utility": 5.806666666666667,
+    "second_half_gain": -0.38333333333333375,
+    "final_relocations_per_step": 178.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.423333333333333
+      }
+    }
+  },
+  "170": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.013333333333334,
+    "half_utility": 7.46,
+    "second_half_gain": -2.4466666666666663,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.013333333333334
+      }
+    }
+  },
+  "171": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.793333333333333,
+    "half_utility": 5.66,
+    "second_half_gain": 0.13333333333333286,
+    "final_relocations_per_step": 176.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.793333333333333
+      }
+    }
+  },
+  "172": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 4.996666666666667,
+    "half_utility": 7.3533333333333335,
+    "second_half_gain": -2.3566666666666665,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 4.996666666666667
+      }
+    }
+  },
+  "173": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.343333333333334,
+    "half_utility": 5.8566666666666665,
+    "second_half_gain": -0.5133333333333328,
+    "final_relocations_per_step": 210.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.343333333333334
+      }
+    }
+  },
+  "174": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.073333333333333,
+    "half_utility": 5.826666666666667,
+    "second_half_gain": -0.7533333333333339,
+    "final_relocations_per_step": 156.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.073333333333333
+      }
+    }
+  },
+  "175": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.276666666666666,
+    "half_utility": 5.57,
+    "second_half_gain": -0.2933333333333339,
+    "final_relocations_per_step": 170.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.276666666666666
+      }
+    }
+  },
+  "176": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.66,
+    "half_utility": 5.47,
+    "second_half_gain": 0.1900000000000004,
+    "final_relocations_per_step": 179.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.66
+      }
+    }
+  },
+  "177": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 97,
+    "final_utility": 5.52,
+    "half_utility": 5.613333333333333,
+    "second_half_gain": -0.09333333333333371,
+    "final_relocations_per_step": 196.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.52
+      }
+    }
+  },
+  "178": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.276666666666666,
+    "half_utility": 5.693333333333333,
+    "second_half_gain": -0.41666666666666696,
+    "final_relocations_per_step": 161.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.276666666666666
+      }
+    }
+  },
+  "179": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.706666666666667,
+    "half_utility": 5.61,
+    "second_half_gain": 0.09666666666666668,
+    "final_relocations_per_step": 165.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.706666666666667
+      }
+    }
+  },
+  "180": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.306666666666667,
+    "half_utility": 5.866666666666666,
+    "second_half_gain": -0.5599999999999996,
+    "final_relocations_per_step": 198.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.306666666666667
+      }
+    }
+  },
+  "181": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.556666666666667,
+    "half_utility": 6.136666666666667,
+    "second_half_gain": -0.5800000000000001,
+    "final_relocations_per_step": 171.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.556666666666667
+      }
+    }
+  },
+  "182": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.336666666666667,
+    "half_utility": 6.22,
+    "second_half_gain": -0.8833333333333329,
+    "final_relocations_per_step": 173.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.336666666666667
+      }
+    }
+  },
+  "183": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.553333333333334,
+    "half_utility": 5.433333333333334,
+    "second_half_gain": 0.1200000000000001,
+    "final_relocations_per_step": 191.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.553333333333334
+      }
+    }
+  },
+  "184": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 95,
+    "final_utility": 5.553333333333334,
+    "half_utility": 5.806666666666667,
+    "second_half_gain": -0.25333333333333297,
+    "final_relocations_per_step": 158.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.553333333333334
+      }
+    }
+  },
+  "185": {
+    "pattern": "OSCILLATING",
+    "settling_step": 99,
+    "final_utility": 5.486666666666666,
+    "half_utility": 5.73,
+    "second_half_gain": -0.24333333333333407,
+    "final_relocations_per_step": 172.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.486666666666666
+      }
+    }
+  },
+  "186": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 95,
+    "final_utility": 5.46,
+    "half_utility": 5.53,
+    "second_half_gain": -0.07000000000000028,
+    "final_relocations_per_step": 175.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.46
+      }
+    }
+  },
+  "187": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.023333333333333,
+    "half_utility": 7.296666666666667,
+    "second_half_gain": -2.2733333333333334,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.023333333333333
+      }
+    }
+  },
+  "188": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.323333333333333,
+    "half_utility": 5.613333333333333,
+    "second_half_gain": -0.29000000000000004,
+    "final_relocations_per_step": 203.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.323333333333333
+      }
+    }
+  },
+  "189": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.613333333333333,
+    "half_utility": 5.323333333333333,
+    "second_half_gain": 0.29000000000000004,
+    "final_relocations_per_step": 193.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.613333333333333
+      }
+    }
+  },
+  "190": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.47,
+    "half_utility": 5.586666666666667,
+    "second_half_gain": -0.11666666666666714,
+    "final_relocations_per_step": 183.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.47
+      }
+    }
+  },
+  "191": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.636666666666667,
+    "half_utility": 5.343333333333334,
+    "second_half_gain": 0.293333333333333,
+    "final_relocations_per_step": 188.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.636666666666667
+      }
+    }
+  },
+  "192": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.683333333333334,
+    "half_utility": 5.286666666666667,
+    "second_half_gain": 0.3966666666666665,
+    "final_relocations_per_step": 192.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.683333333333334
+      }
+    }
+  },
+  "193": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 96,
+    "final_utility": 5.496666666666667,
+    "half_utility": 5.47,
+    "second_half_gain": 0.026666666666667282,
+    "final_relocations_per_step": 181.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.496666666666667
+      }
+    }
+  },
+  "194": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 4.863333333333333,
+    "half_utility": 7.343333333333334,
+    "second_half_gain": -2.4800000000000004,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 4.863333333333333
+      }
+    }
+  },
+  "195": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 5.493333333333333,
+    "half_utility": 6.196666666666666,
+    "second_half_gain": -0.7033333333333331,
+    "final_relocations_per_step": 193.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.493333333333333
+      }
+    }
+  },
+  "196": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 4.89,
+    "half_utility": 7.45,
+    "second_half_gain": -2.5600000000000005,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 4.89
+      }
+    }
+  },
+  "197": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.343333333333334,
+    "half_utility": 5.956666666666667,
+    "second_half_gain": -0.6133333333333333,
+    "final_relocations_per_step": 173.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.343333333333334
+      }
+    }
+  },
+  "198": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 5.493333333333333,
+    "half_utility": 5.456666666666667,
+    "second_half_gain": 0.03666666666666618,
+    "final_relocations_per_step": 173.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.493333333333333
+      }
+    }
+  },
+  "199": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 5.03,
+    "half_utility": 7.293333333333333,
+    "second_half_gain": -2.2633333333333328,
+    "final_relocations_per_step": 0.0,
+    "per_governance": {
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.03
+      }
+    }
+  }
+}

@@ -1,0 +1,4402 @@
+{
+  "0": {
+    "pattern": "OSCILLATING",
+    "settling_step": 98,
+    "final_utility": 6.649539295392954,
+    "half_utility": 6.6811640211640215,
+    "second_half_gain": -0.03162472577106712,
+    "final_relocations_per_step": 697.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.114542113403974
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.484403654741971
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.564264539808018
+      }
+    }
+  },
+  "1": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.452748538011696,
+    "half_utility": 6.784074074074074,
+    "second_half_gain": -0.33132553606237813,
+    "final_relocations_per_step": 726.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.963329123880344
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.408036219581211
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.435353535353535
+      }
+    }
+  },
+  "2": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 6.953986928104576,
+    "half_utility": 6.55956465237167,
+    "second_half_gain": 0.39442227573290545,
+    "final_relocations_per_step": 631.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.660286046063644
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.415492957746479
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.62158715871587
+      }
+    }
+  },
+  "3": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.482582582582582,
+    "half_utility": 6.775092592592593,
+    "second_half_gain": -0.29251001001001065,
+    "final_relocations_per_step": 747.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.112238057192186
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.198675496688741
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.483375104427736
+      }
+    }
+  },
+  "4": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.547521367521367,
+    "half_utility": 6.7,
+    "second_half_gain": -0.15247863247863336,
+    "final_relocations_per_step": 701.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.1715111751460405
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.055768271802543
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.982162341204894
+      }
+    }
+  },
+  "5": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.711111111111111,
+    "half_utility": 6.876923076923077,
+    "second_half_gain": -0.1658119658119661,
+    "final_relocations_per_step": 709.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.430259063852814
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.115151515151515
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.63825472772841
+      }
+    }
+  },
+  "6": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.5923196881091615,
+    "half_utility": 6.666032282282282,
+    "second_half_gain": -0.07371259417312093,
+    "final_relocations_per_step": 648.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.158253818277965
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.666730892118034
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.938316254771951
+      }
+    }
+  },
+  "7": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.671345224823486,
+    "half_utility": 6.4999355467521855,
+    "second_half_gain": 0.17140967807130014,
+    "final_relocations_per_step": 668.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.247355272095203
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.715909090909091
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.731700118063754
+      }
+    }
+  },
+  "8": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.492771030139451,
+    "half_utility": 6.736316420914122,
+    "second_half_gain": -0.24354539077467052,
+    "final_relocations_per_step": 694.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.105536331353912
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.234276323256069
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.560185185185185
+      }
+    }
+  },
+  "9": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.840707070707071,
+    "half_utility": 6.5744669365721995,
+    "second_half_gain": 0.2662401341348719,
+    "final_relocations_per_step": 631.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.518175451998982
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.57008547008547
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.668510501843835
+      }
+    }
+  },
+  "10": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 98,
+    "final_utility": 6.77036036036036,
+    "half_utility": 6.722222222222222,
+    "second_half_gain": 0.048138138138138054,
+    "final_relocations_per_step": 638.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.295227605010214
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.6103896103896105
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.01174261468379
+      }
+    }
+  },
+  "11": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.783650793650794,
+    "half_utility": 6.767464387464388,
+    "second_half_gain": 0.016186406186405655,
+    "final_relocations_per_step": 620.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.425305520438264
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.259834368530021
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.53656462585034
+      }
+    }
+  },
+  "12": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.74051282051282,
+    "half_utility": 6.5744444444444445,
+    "second_half_gain": 0.16606837606837566,
+    "final_relocations_per_step": 705.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.235025327376489
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.739477124183006
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.49649694874414
+      }
+    }
+  },
+  "13": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.848888888888889,
+    "half_utility": 6.728080808080808,
+    "second_half_gain": 0.12080808080808136,
+    "final_relocations_per_step": 647.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.556835240556172
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.228395061728395
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.955282471411504
+      }
+    }
+  },
+  "14": {
+    "pattern": "PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.726923076923077,
+    "half_utility": 6.895311890838207,
+    "second_half_gain": -0.16838881391513016,
+    "final_relocations_per_step": 654.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.253305066966058
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.392785149860622
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.506766917293232
+      }
+    }
+  },
+  "15": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.622222222222222,
+    "half_utility": 6.838219832735962,
+    "second_half_gain": -0.21599761051373978,
+    "final_relocations_per_step": 688.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.246609147120055
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.130506768515818
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.134359903381641
+      }
+    }
+  },
+  "16": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.817777777777778,
+    "half_utility": 6.574040404040405,
+    "second_half_gain": 0.24373737373737292,
+    "final_relocations_per_step": 692.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.344319590502797
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.401722840402086
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 11.19298530926438
+      }
+    }
+  },
+  "17": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.653773773773773,
+    "half_utility": 6.757144115997757,
+    "second_half_gain": -0.10337034222398422,
+    "final_relocations_per_step": 647.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.185036621925873
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.472442087826703
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.738456255283179
+      }
+    }
+  },
+  "18": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.79334455667789,
+    "half_utility": 6.666897573038877,
+    "second_half_gain": 0.12644698363901252,
+    "final_relocations_per_step": 661.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.326413264479729
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.623376623376624
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.784815713387141
+      }
+    }
+  },
+  "19": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.454735449735449,
+    "half_utility": 6.530693967480275,
+    "second_half_gain": -0.07595851774482565,
+    "final_relocations_per_step": 737.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.9602619079668475
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.100972296624471
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.69968857609307
+      }
+    }
+  },
+  "20": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 98,
+    "final_utility": 6.705029239766081,
+    "half_utility": 6.7948456790123455,
+    "second_half_gain": -0.08981643924626415,
+    "final_relocations_per_step": 707.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.136030186966459
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.737677527151211
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.930443183190436
+      }
+    }
+  },
+  "21": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.6345446950710105,
+    "half_utility": 6.725476190476191,
+    "second_half_gain": -0.09093149540518031,
+    "final_relocations_per_step": 685.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.20633514876936
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.04986464558833
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.31057387057387
+      }
+    }
+  },
+  "22": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.67140589569161,
+    "half_utility": 6.756262626262626,
+    "second_half_gain": -0.08485673057101639,
+    "final_relocations_per_step": 723.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.253292253694725
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.7544091528644
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 12.55109053700603
+      }
+    }
+  },
+  "23": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 95,
+    "final_utility": 6.652222222222222,
+    "half_utility": 6.462469135802469,
+    "second_half_gain": 0.18975308641975275,
+    "final_relocations_per_step": 675.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.261291934691325
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.549145299145299
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.749157092907094
+      }
+    }
+  },
+  "24": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.8066957153231655,
+    "half_utility": 6.746675824175824,
+    "second_half_gain": 0.0600198911473413,
+    "final_relocations_per_step": 672.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.244586010134904
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 7.048106765983861
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.137795895860412
+      }
+    }
+  },
+  "25": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.410740740740741,
+    "half_utility": 6.742222222222222,
+    "second_half_gain": -0.3314814814814806,
+    "final_relocations_per_step": 728.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.973462363359624
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.007802469135802
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.213286713286713
+      }
+    }
+  },
+  "26": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 6.830168183071408,
+    "half_utility": 6.637142857142857,
+    "second_half_gain": 0.19302532592855126,
+    "final_relocations_per_step": 675.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.196338590975516
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 7.294266326503946
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.502948858370544
+      }
+    }
+  },
+  "27": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.83,
+    "half_utility": 6.78352733686067,
+    "second_half_gain": 0.04647266313932974,
+    "final_relocations_per_step": 715.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.419893409107584
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.453416149068323
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.46099086099086
+      }
+    }
+  },
+  "28": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.783333333333333,
+    "half_utility": 6.704197530864197,
+    "second_half_gain": 0.07913580246913643,
+    "final_relocations_per_step": 700.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.434295934707796
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.281437481437481
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.604781792281791
+      }
+    }
+  },
+  "29": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.810555555555555,
+    "half_utility": 6.796172839506173,
+    "second_half_gain": 0.014382716049381905,
+    "final_relocations_per_step": 684.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.535868392664509
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.33879781420765
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.397306397306398
+      }
+    }
+  },
+  "30": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 6.586201550387597,
+    "half_utility": 6.674834114805342,
+    "second_half_gain": -0.08863256441774503,
+    "final_relocations_per_step": 689.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.1643158742968
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.128309199941494
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.7663922266726
+      }
+    }
+  },
+  "31": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.796296296296297,
+    "half_utility": 6.804814814814814,
+    "second_half_gain": -0.008518518518517482,
+    "final_relocations_per_step": 726.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.318013797465853
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.206858500976148
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 11.28980278980279
+      }
+    }
+  },
+  "32": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.706111111111111,
+    "half_utility": 6.929286097691895,
+    "second_half_gain": -0.2231749865807835,
+    "final_relocations_per_step": 668.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.077426381861866
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.7055107526881725
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 11.061077220651688
+      }
+    }
+  },
+  "33": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.500764610764611,
+    "half_utility": 6.759527260179434,
+    "second_half_gain": -0.2587626494148232,
+    "final_relocations_per_step": 715.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.113165211789065
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.711762295703902
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.818042813455659
+      }
+    }
+  },
+  "34": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.902222222222222,
+    "half_utility": 6.472556750298685,
+    "second_half_gain": 0.42966547192353666,
+    "final_relocations_per_step": 624.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.5848117882818205
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.261224489795919
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.346319126538907
+      }
+    }
+  },
+  "35": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 7.067555555555556,
+    "half_utility": 6.811111111111111,
+    "second_half_gain": 0.2564444444444449,
+    "final_relocations_per_step": 623.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.7075512810542754
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.47410071942446
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.54038434683596
+      }
+    }
+  },
+  "36": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 97,
+    "final_utility": 6.725079365079365,
+    "half_utility": 6.757234346027671,
+    "second_half_gain": -0.03215498094830593,
+    "final_relocations_per_step": 705.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.407960755786843
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.0528521611159105
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.49263721552878
+      }
+    }
+  },
+  "37": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.722852852852853,
+    "half_utility": 6.6627777777777775,
+    "second_half_gain": 0.06007507507507537,
+    "final_relocations_per_step": 654.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.449395474868935
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.362370627316279
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.404345654345654
+      }
+    }
+  },
+  "38": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.952222222222222,
+    "half_utility": 6.585579710144928,
+    "second_half_gain": 0.36664251207729404,
+    "final_relocations_per_step": 697.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.495983935742972
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.882821689014349
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.726516882457476
+      }
+    }
+  },
+  "39": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.885555555555555,
+    "half_utility": 6.820401606425703,
+    "second_half_gain": 0.0651539491298525,
+    "final_relocations_per_step": 647.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.485742142646239
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.637146546040583
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.796791443850267
+      }
+    }
+  },
+  "40": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 97,
+    "final_utility": 6.687222222222222,
+    "half_utility": 6.8132367149758455,
+    "second_half_gain": -0.1260144927536233,
+    "final_relocations_per_step": 723.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.137850269381655
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.583307557480153
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.331979464914816
+      }
+    }
+  },
+  "41": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 6.81047138047138,
+    "half_utility": 6.782462722462723,
+    "second_half_gain": 0.02800865800865715,
+    "final_relocations_per_step": 641.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.478832099799842
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.526761117670208
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.54298245614035
+      }
+    }
+  },
+  "42": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.572222222222222,
+    "half_utility": 6.8670552519732855,
+    "second_half_gain": -0.2948330297510635,
+    "final_relocations_per_step": 746.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.127409176189664
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.197452229299363
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.60252391286874
+      }
+    }
+  },
+  "43": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.713333333333333,
+    "half_utility": 6.486900432900433,
+    "second_half_gain": 0.22643290043289976,
+    "final_relocations_per_step": 699.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.103122495702847
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 7.194743807903195
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.305807241853755
+      }
+    }
+  },
+  "44": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.775555555555556,
+    "half_utility": 6.485201465201465,
+    "second_half_gain": 0.2903540903540911,
+    "final_relocations_per_step": 699.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.421371430286735
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.348856209150327
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.03266574695146
+      }
+    }
+  },
+  "45": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.783333333333333,
+    "half_utility": 6.8436019536019534,
+    "second_half_gain": -0.06026862026862023,
+    "final_relocations_per_step": 714.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.252423799442148
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.299644017953876
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.78235946745562
+      }
+    }
+  },
+  "46": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.611919191919192,
+    "half_utility": 6.9181481481481475,
+    "second_half_gain": -0.3062289562289555,
+    "final_relocations_per_step": 726.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.174506143964425
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.456805724302316
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.691417004048581
+      }
+    }
+  },
+  "47": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.773690078037904,
+    "half_utility": 6.955496187649148,
+    "second_half_gain": -0.18180610961124355,
+    "final_relocations_per_step": 698.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.34429930867129
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.582882526278753
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.09179351114835
+      }
+    }
+  },
+  "48": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.642222222222222,
+    "half_utility": 6.606309523809524,
+    "second_half_gain": 0.03591269841269806,
+    "final_relocations_per_step": 743.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.237417326649254
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.373015873015873
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.98522401511532
+      }
+    }
+  },
+  "49": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 6.791637426900585,
+    "half_utility": 6.883424836601307,
+    "second_half_gain": -0.0917874097007223,
+    "final_relocations_per_step": 615.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.359994461135897
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.338301536830948
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.664271625810088
+      }
+    }
+  },
+  "50": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 97,
+    "final_utility": 6.788888888888889,
+    "half_utility": 6.543065134099616,
+    "second_half_gain": 0.24582375478927254,
+    "final_relocations_per_step": 657.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.387304770393006
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.114275339765536
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.598234716194666
+      }
+    }
+  },
+  "51": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.71,
+    "half_utility": 6.768888888888889,
+    "second_half_gain": -0.05888888888888921,
+    "final_relocations_per_step": 702.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.439702897869029
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.1947686380976545
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.898508898508899
+      }
+    }
+  },
+  "52": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 96,
+    "final_utility": 6.667777777777777,
+    "half_utility": 6.696005625879044,
+    "second_half_gain": -0.028227848101266773,
+    "final_relocations_per_step": 711.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.22612496992059
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.246312684365782
+      },
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 10.100696688931983
+      }
+    }
+  },
+  "53": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.7411111111111115,
+    "half_utility": 6.916577227382181,
+    "second_half_gain": -0.17546611627106934,
+    "final_relocations_per_step": 718.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.351861056517919
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.401408450704225
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.472673048876258
+      }
+    }
+  },
+  "54": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.545555555555556,
+    "half_utility": 6.935138888888889,
+    "second_half_gain": -0.3895833333333334,
+    "final_relocations_per_step": 735.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.08952776597227
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.3311359759447186
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.701023399043201
+      }
+    }
+  },
+  "55": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.68969696969697,
+    "half_utility": 6.652857142857143,
+    "second_half_gain": 0.03683982683982734,
+    "final_relocations_per_step": 676.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.298870958524423
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.421611952861952
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.468503718503719
+      }
+    }
+  },
+  "56": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.554139194139195,
+    "half_utility": 6.630438596491228,
+    "second_half_gain": -0.07629940235203314,
+    "final_relocations_per_step": 685.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.200397371988281
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.495697761655208
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.41989520019823
+      }
+    }
+  },
+  "57": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.646797385620915,
+    "half_utility": 6.701461988304094,
+    "second_half_gain": -0.05466460268317874,
+    "final_relocations_per_step": 691.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.3896124336022035
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.302795031055901
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.390243902439025
+      }
+    }
+  },
+  "58": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.813650793650794,
+    "half_utility": 6.5274074074074075,
+    "second_half_gain": 0.2862433862433864,
+    "final_relocations_per_step": 628.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.397714654157953
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.6589475317153894
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.757569558101473
+      }
+    }
+  },
+  "59": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.6,
+    "half_utility": 6.792653399668325,
+    "second_half_gain": -0.19265339966832506,
+    "final_relocations_per_step": 709.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.273546031746032
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.1387431620482475
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.515063168124392
+      }
+    }
+  },
+  "60": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 6.874509803921568,
+    "half_utility": 6.720899470899471,
+    "second_half_gain": 0.15361033302209748,
+    "final_relocations_per_step": 664.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.585072432573283
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.81170895220482
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.65484962036686
+      }
+    }
+  },
+  "61": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.985555555555556,
+    "half_utility": 6.754152046783626,
+    "second_half_gain": 0.23140350877192972,
+    "final_relocations_per_step": 612.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.630904634581106
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.59826526130874
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.578344419807834
+      }
+    }
+  },
+  "62": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 6.81230352303523,
+    "half_utility": 6.751111111111111,
+    "second_half_gain": 0.06119241192411895,
+    "final_relocations_per_step": 638.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.009702870618504
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 7.446965289897228
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.533172214990396
+      }
+    }
+  },
+  "63": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 97,
+    "final_utility": 6.816363636363636,
+    "half_utility": 6.678104575163398,
+    "second_half_gain": 0.13825906120023834,
+    "final_relocations_per_step": 644.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.41782539017562
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.280735393638619
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.969885773624092
+      }
+    }
+  },
+  "64": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.638809523809524,
+    "half_utility": 6.781325536062378,
+    "second_half_gain": -0.14251601225285437,
+    "final_relocations_per_step": 680.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.228052877592755
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.300778485491861
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.165009593581022
+      }
+    }
+  },
+  "65": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.7627686703096535,
+    "half_utility": 6.8374170542286485,
+    "second_half_gain": -0.07464838391899509,
+    "final_relocations_per_step": 627.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.286119669950502
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 7.07591459690824
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.332611832611832
+      }
+    }
+  },
+  "66": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.8005555555555555,
+    "half_utility": 6.827548500881835,
+    "second_half_gain": -0.026992945326279383,
+    "final_relocations_per_step": 669.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.163262753838029
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 7.057598255487781
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.25605181855182
+      }
+    }
+  },
+  "67": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 97,
+    "final_utility": 6.783636363636363,
+    "half_utility": 6.88628762541806,
+    "second_half_gain": -0.10265126178169659,
+    "final_relocations_per_step": 713.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.49283950617284
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.683333333333333
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.258110516934046
+      }
+    }
+  },
+  "68": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.783376623376624,
+    "half_utility": 6.596666666666667,
+    "second_half_gain": 0.18670995670995705,
+    "final_relocations_per_step": 690.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.37417197431925
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.542537172971955
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.531398320554947
+      }
+    }
+  },
+  "69": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.691111111111111,
+    "half_utility": 6.68331998665332,
+    "second_half_gain": 0.007791124457790843,
+    "final_relocations_per_step": 652.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.427154741827329
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.479223014507007
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 8.953601953601954
+      }
+    }
+  },
+  "70": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.705555555555556,
+    "half_utility": 6.67949494949495,
+    "second_half_gain": 0.02606060606060545,
+    "final_relocations_per_step": 712.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.312763291591145
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.1913580246913575
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.236275006456482
+      }
+    }
+  },
+  "71": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.65911877394636,
+    "half_utility": 6.615339631129105,
+    "second_half_gain": 0.0437791428172547,
+    "final_relocations_per_step": 661.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.226502755161366
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.679940849980853
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.781818181818181
+      }
+    }
+  },
+  "72": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 6.465710594315245,
+    "half_utility": 6.432190701339637,
+    "second_half_gain": 0.03351989297560731,
+    "final_relocations_per_step": 704.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.965384093586533
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.30994412664707
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.337202069960691
+      }
+    }
+  },
+  "73": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 97,
+    "final_utility": 6.751403508771929,
+    "half_utility": 6.872422891118543,
+    "second_half_gain": -0.12101938234661347,
+    "final_relocations_per_step": 635.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.263833003188414
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.876623510189962
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.303339517625233
+      }
+    }
+  },
+  "74": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.7188888888888885,
+    "half_utility": 6.72,
+    "second_half_gain": -0.0011111111111112848,
+    "final_relocations_per_step": 671.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.3722096239314165
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.141765704584041
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.107724439303388
+      }
+    }
+  },
+  "75": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.685213675213675,
+    "half_utility": 6.532371332371332,
+    "second_half_gain": 0.15284234284234355,
+    "final_relocations_per_step": 713.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.179999580223796
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.575172559866437
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.901455026455025
+      }
+    }
+  },
+  "76": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 98,
+    "final_utility": 6.7225,
+    "half_utility": 6.707575757575758,
+    "second_half_gain": 0.014924242424242173,
+    "final_relocations_per_step": 678.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.379811658158115
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.877430262045647
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.476915445665446
+      }
+    }
+  },
+  "77": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 6.801904761904762,
+    "half_utility": 6.61670634920635,
+    "second_half_gain": 0.18519841269841208,
+    "final_relocations_per_step": 618.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.618572010948692
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.169333891914537
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.705827067669173
+      }
+    }
+  },
+  "78": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.88,
+    "half_utility": 6.891367521367521,
+    "second_half_gain": -0.011367521367521505,
+    "final_relocations_per_step": 628.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.619013575634581
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.0252195154155945
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.238327721661054
+      }
+    }
+  },
+  "79": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.664603174603174,
+    "half_utility": 6.6669841269841275,
+    "second_half_gain": -0.0023809523809532607,
+    "final_relocations_per_step": 662.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.360006755200214
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.878006586352078
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.926551112118123
+      }
+    }
+  },
+  "80": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.850701754385965,
+    "half_utility": 6.428657999431657,
+    "second_half_gain": 0.42204375495430835,
+    "final_relocations_per_step": 686.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.410423962862043
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.590116431044236
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.529376557785648
+      }
+    }
+  },
+  "81": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.904444444444445,
+    "half_utility": 6.724253317488611,
+    "second_half_gain": 0.18019112695583317,
+    "final_relocations_per_step": 642.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.51059628738985
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.567434390912651
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.74365821094793
+      }
+    }
+  },
+  "82": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.667777777777777,
+    "half_utility": 6.7441577060931905,
+    "second_half_gain": -0.07637992831541318,
+    "final_relocations_per_step": 703.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.251919748704315
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.464578469814072
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.087027914614122
+      }
+    }
+  },
+  "83": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 95,
+    "final_utility": 6.670643274853801,
+    "half_utility": 6.562962962962963,
+    "second_half_gain": 0.10768031189083782,
+    "final_relocations_per_step": 720.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.165031104683613
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.605441222726971
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.722957597957597
+      }
+    }
+  },
+  "84": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.528315768855499,
+    "half_utility": 6.774904214559387,
+    "second_half_gain": -0.24658844570388805,
+    "final_relocations_per_step": 661.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.660473464382292
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 7.0426516884120405
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.734523208750012
+      }
+    }
+  },
+  "85": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 96,
+    "final_utility": 6.767142857142857,
+    "half_utility": 6.729072681704261,
+    "second_half_gain": 0.03807017543859548,
+    "final_relocations_per_step": 689.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.133574607027278
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 7.470726376488095
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.616666666666667
+      }
+    }
+  },
+  "86": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 6.871111111111111,
+    "half_utility": 6.7231432748538005,
+    "second_half_gain": 0.14796783625731091,
+    "final_relocations_per_step": 644.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.404512130854841
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.054823529411765
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 11.859219865102219
+      }
+    }
+  },
+  "87": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.677777777777778,
+    "half_utility": 6.5311111111111115,
+    "second_half_gain": 0.1466666666666665,
+    "final_relocations_per_step": 715.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.435132575757575
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.526086956521739
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.002057613168724
+      }
+    }
+  },
+  "88": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 98,
+    "final_utility": 6.604920634920635,
+    "half_utility": 6.767124183006535,
+    "second_half_gain": -0.1622035480859001,
+    "final_relocations_per_step": 717.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.238406726918833
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.386146718940429
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.634353741496598
+      }
+    }
+  },
+  "89": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.974444444444444,
+    "half_utility": 6.635416666666667,
+    "second_half_gain": 0.33902777777777704,
+    "final_relocations_per_step": 677.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.457321448392877
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.789448836187967
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 11.20148482953361
+      }
+    }
+  },
+  "90": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 6.708741813741814,
+    "half_utility": 6.836872427983539,
+    "second_half_gain": -0.12813061424172467,
+    "final_relocations_per_step": 680.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.310396740122104
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.3200064772229725
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.409779237365443
+      }
+    }
+  },
+  "91": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.774444444444445,
+    "half_utility": 6.5347474747474745,
+    "second_half_gain": 0.23969696969697019,
+    "final_relocations_per_step": 707.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.37111902907392
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.730640357408785
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.678099017384731
+      }
+    }
+  },
+  "92": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.653333333333333,
+    "half_utility": 6.841111111111111,
+    "second_half_gain": -0.18777777777777782,
+    "final_relocations_per_step": 709.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.289339496482354
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.250395437895437
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.847303405814044
+      }
+    }
+  },
+  "93": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.725220422852002,
+    "half_utility": 6.747222222222222,
+    "second_half_gain": -0.022001799370220176,
+    "final_relocations_per_step": 653.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.1910710602603585
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.911106662491131
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.395587437254104
+      }
+    }
+  },
+  "94": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.6481662149954825,
+    "half_utility": 6.871666666666667,
+    "second_half_gain": -0.22350045167118449,
+    "final_relocations_per_step": 663.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.216510021952323
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.6834451901566
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.153759820426487
+      }
+    }
+  },
+  "95": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.86015873015873,
+    "half_utility": 6.491648511256354,
+    "second_half_gain": 0.3685102189023759,
+    "final_relocations_per_step": 611.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.549012229309913
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.578067305668752
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.8770319372729
+      }
+    }
+  },
+  "96": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.796481481481481,
+    "half_utility": 6.837893413775766,
+    "second_half_gain": -0.041411932294284526,
+    "final_relocations_per_step": 688.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.376069589383179
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.401887559784178
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 11.042126623376623
+      }
+    }
+  },
+  "97": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.658465608465608,
+    "half_utility": 6.571111111111111,
+    "second_half_gain": 0.08735449735449752,
+    "final_relocations_per_step": 654.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.197597467990217
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.354523114016785
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 11.072435897435899
+      }
+    }
+  },
+  "98": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.565555555555555,
+    "half_utility": 6.603054014058453,
+    "second_half_gain": -0.037498458502898124,
+    "final_relocations_per_step": 732.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.206017683146879
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 5.999622926093514
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.073209718670077
+      }
+    }
+  },
+  "99": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.7578309409888355,
+    "half_utility": 6.704027777777778,
+    "second_half_gain": 0.05380316321105738,
+    "final_relocations_per_step": 625.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.276100671768871
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.322190368006346
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.679716903943708
+      }
+    }
+  },
+  "100": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.793333333333333,
+    "half_utility": 6.610584795321637,
+    "second_half_gain": 0.18274853801169577,
+    "final_relocations_per_step": 671.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.498544218350982
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.183548189073051
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.787569573283859
+      }
+    }
+  },
+  "101": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.514007936507936,
+    "half_utility": 6.74320987654321,
+    "second_half_gain": -0.2292019400352734,
+    "final_relocations_per_step": 709.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.142997049247049
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.239826839826841
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.797398004294557
+      }
+    }
+  },
+  "102": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 98,
+    "final_utility": 6.802478632478633,
+    "half_utility": 6.29484607984608,
+    "second_half_gain": 0.5076325526325531,
+    "final_relocations_per_step": 693.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.408596303333145
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.631380631380631
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.243073464003697
+      }
+    }
+  },
+  "103": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.651851851851852,
+    "half_utility": 6.4511111111111115,
+    "second_half_gain": 0.20074074074074044,
+    "final_relocations_per_step": 692.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.321729387451038
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.624850427350427
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.86598378147674
+      }
+    }
+  },
+  "104": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.48750700280112,
+    "half_utility": 6.56065934065934,
+    "second_half_gain": -0.07315233785821995,
+    "final_relocations_per_step": 712.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.09231875631097
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.10964035964036
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.679233464947751
+      }
+    }
+  },
+  "105": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 6.882323232323232,
+    "half_utility": 6.88,
+    "second_half_gain": 0.0023232323232322827,
+    "final_relocations_per_step": 652.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.5229679366847515
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.677685950413223
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.53978859424404
+      }
+    }
+  },
+  "106": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.825087719298246,
+    "half_utility": 6.6403428976673755,
+    "second_half_gain": 0.18474482163087025,
+    "final_relocations_per_step": 664.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.301535182383136
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.295245634868276
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 11.378925733764444
+      }
+    }
+  },
+  "107": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 98,
+    "final_utility": 6.7206172839506175,
+    "half_utility": 6.767724867724867,
+    "second_half_gain": -0.04710758377424984,
+    "final_relocations_per_step": 673.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.162312511985715
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.480096522750551
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.745700601428155
+      }
+    }
+  },
+  "108": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.669262574595055,
+    "half_utility": 6.594927032744594,
+    "second_half_gain": 0.07433554185046098,
+    "final_relocations_per_step": 727.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.150178709462358
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.668245341614908
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.071452357166642
+      }
+    }
+  },
+  "109": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 6.748779956427016,
+    "half_utility": 6.771111111111111,
+    "second_half_gain": -0.02233115468409519,
+    "final_relocations_per_step": 632.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.298500298759206
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.2798600500806385
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.112727309951058
+      }
+    }
+  },
+  "110": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.645384615384616,
+    "half_utility": 6.73,
+    "second_half_gain": -0.08461538461538431,
+    "final_relocations_per_step": 732.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.252149358344048
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.181265206812652
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.530065359477124
+      }
+    }
+  },
+  "111": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.743333333333333,
+    "half_utility": 6.6030030030030025,
+    "second_half_gain": 0.1403303303303307,
+    "final_relocations_per_step": 725.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.3811982268865775
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.040759709773794
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.239588590104054
+      }
+    }
+  },
+  "112": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.71047619047619,
+    "half_utility": 6.528037518037518,
+    "second_half_gain": 0.18243867243867218,
+    "final_relocations_per_step": 640.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.19850800978252
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.760099803578064
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.451864322234693
+      }
+    }
+  },
+  "113": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.702222222222222,
+    "half_utility": 6.689506501182033,
+    "second_half_gain": 0.012715721040188477,
+    "final_relocations_per_step": 713.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.377971151655362
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.261676919571656
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.390648567119156
+      }
+    }
+  },
+  "114": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 98,
+    "final_utility": 6.64,
+    "half_utility": 6.738183421516755,
+    "second_half_gain": -0.09818342151675541,
+    "final_relocations_per_step": 641.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.268808114961961
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.170285714285715
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.767676767676768
+      }
+    }
+  },
+  "115": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.718148148148148,
+    "half_utility": 6.682692667414889,
+    "second_half_gain": 0.035455480733259215,
+    "final_relocations_per_step": 678.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.214594583260753
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.9441670492806855
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.893920798559973
+      }
+    }
+  },
+  "116": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.718279569892473,
+    "half_utility": 6.788888888888889,
+    "second_half_gain": -0.07060931899641609,
+    "final_relocations_per_step": 687.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.354805867451635
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.9663943583298416
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.507731020127714
+      }
+    }
+  },
+  "117": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 97,
+    "final_utility": 6.7844444444444445,
+    "half_utility": 6.645061728395062,
+    "second_half_gain": 0.1393827160493828,
+    "final_relocations_per_step": 703.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.24750171386384
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.355420274170274
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.958366463468504
+      }
+    }
+  },
+  "118": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.877777777777778,
+    "half_utility": 6.9867037037037045,
+    "second_half_gain": -0.10892592592592631,
+    "final_relocations_per_step": 648.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.577236758652687
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.14632281298948
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.354941354941355
+      }
+    }
+  },
+  "119": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 96,
+    "final_utility": 6.705555555555556,
+    "half_utility": 6.785252525252526,
+    "second_half_gain": -0.07969696969697004,
+    "final_relocations_per_step": 640.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.432698325770614
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.96969696969697
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.59051152928704
+      }
+    }
+  },
+  "120": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.65037037037037,
+    "half_utility": 6.6834733893557425,
+    "second_half_gain": -0.033103018985372934,
+    "final_relocations_per_step": 667.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.227089488994251
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.206283615374525
+      },
+      "direct": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 10.686046511627907
+      }
+    }
+  },
+  "121": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.776969696969696,
+    "half_utility": 6.7178335991493885,
+    "second_half_gain": 0.05913609782030793,
+    "final_relocations_per_step": 659.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.427453640886476
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.075876879026485
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.914974992644895
+      }
+    }
+  },
+  "122": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.773333333333333,
+    "half_utility": 6.901428571428572,
+    "second_half_gain": -0.1280952380952387,
+    "final_relocations_per_step": 641.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.380127648401365
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.288333746932473
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.063095238095237
+      }
+    }
+  },
+  "123": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 6.848888888888889,
+    "half_utility": 6.774444444444445,
+    "second_half_gain": 0.07444444444444454,
+    "final_relocations_per_step": 629.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.518235569605433
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.100480769230769
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.908943466172383
+      }
+    }
+  },
+  "124": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.47020202020202,
+    "half_utility": 6.772222222222222,
+    "second_half_gain": -0.3020202020202021,
+    "final_relocations_per_step": 747.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.068647349921738
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.261260028808936
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.164164025275136
+      }
+    }
+  },
+  "125": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 98,
+    "final_utility": 6.7721680216802165,
+    "half_utility": 6.857359307359307,
+    "second_half_gain": -0.08519128567909018,
+    "final_relocations_per_step": 657.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.192839832973094
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.707431551596582
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.505021056041462
+      }
+    }
+  },
+  "126": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.681111111111111,
+    "half_utility": 6.7524579124579125,
+    "second_half_gain": -0.07134680134680149,
+    "final_relocations_per_step": 703.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.270095775210865
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.13103448275862
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.7843091960739
+      }
+    }
+  },
+  "127": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 6.7634920634920634,
+    "half_utility": 6.487978580990629,
+    "second_half_gain": 0.2755134825014345,
+    "final_relocations_per_step": 617.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.373190088891794
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.511344910635062
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.050556959380488
+      }
+    }
+  },
+  "128": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.433333333333334,
+    "half_utility": 6.7342270531400965,
+    "second_half_gain": -0.30089371980676294,
+    "final_relocations_per_step": 711.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.118583495776479
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.838643790849673
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.135416666666666
+      }
+    }
+  },
+  "129": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.695555555555556,
+    "half_utility": 6.559153439153439,
+    "second_half_gain": 0.13640211640211675,
+    "final_relocations_per_step": 728.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.506251512462693
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.062949472887361
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.050938535149061
+      }
+    }
+  },
+  "130": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.697777777777778,
+    "half_utility": 6.565925925925925,
+    "second_half_gain": 0.13185185185185233,
+    "final_relocations_per_step": 730.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.239935073025452
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.151932367149758
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.504366845275937
+      }
+    }
+  },
+  "131": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 98,
+    "final_utility": 6.65980618611443,
+    "half_utility": 6.621203703703704,
+    "second_half_gain": 0.0386024824107265,
+    "final_relocations_per_step": 700.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.285162175612884
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.079673694504289
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.021043771043772
+      }
+    }
+  },
+  "132": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.778888888888889,
+    "half_utility": 6.75306648937785,
+    "second_half_gain": 0.02582239951103915,
+    "final_relocations_per_step": 723.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.408880942445757
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.318120226656812
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.362198092311727
+      }
+    }
+  },
+  "133": {
+    "pattern": "OSCILLATING",
+    "settling_step": 99,
+    "final_utility": 6.741616161616161,
+    "half_utility": 6.861241830065359,
+    "second_half_gain": -0.11962566844919831,
+    "final_relocations_per_step": 672.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.320150694786263
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.028894386037243
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 11.047619047619047
+      }
+    }
+  },
+  "134": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 6.797483660130719,
+    "half_utility": 6.904967320261439,
+    "second_half_gain": -0.10748366013072008,
+    "final_relocations_per_step": 680.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.2833098006308035
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.6389698868562474
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.982562891653801
+      }
+    }
+  },
+  "135": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.566175213675214,
+    "half_utility": 6.898641975308641,
+    "second_half_gain": -0.3324667616334276,
+    "final_relocations_per_step": 652.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.89440692432136
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.698436302323808
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.634963695308523
+      }
+    }
+  },
+  "136": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.737676767676768,
+    "half_utility": 6.645555555555555,
+    "second_half_gain": 0.09212121212121271,
+    "final_relocations_per_step": 636.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.310343780676632
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.288136752136752
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.921957671957673
+      }
+    }
+  },
+  "137": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.5633333333333335,
+    "half_utility": 6.852716049382716,
+    "second_half_gain": -0.28938271604938226,
+    "final_relocations_per_step": 710.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.163954769174998
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.2076502732240435
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.543228139381984
+      }
+    }
+  },
+  "138": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.777777777777778,
+    "half_utility": 6.588334754191531,
+    "second_half_gain": 0.18944302358624654,
+    "final_relocations_per_step": 681.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.3311409550045905
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.224029680365297
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.773815280464216
+      }
+    }
+  },
+  "139": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.808366013071895,
+    "half_utility": 6.666666666666667,
+    "second_half_gain": 0.14169934640522808,
+    "final_relocations_per_step": 672.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.344342884380412
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 7.035547785547785
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.816489361702128
+      }
+    }
+  },
+  "140": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.872222222222222,
+    "half_utility": 6.832857142857143,
+    "second_half_gain": 0.03936507936507905,
+    "final_relocations_per_step": 656.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.473459307307839
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.148311688311688
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.43131140703956
+      }
+    }
+  },
+  "141": {
+    "pattern": "OSCILLATING",
+    "settling_step": 99,
+    "final_utility": 6.683333333333334,
+    "half_utility": 6.631481481481481,
+    "second_half_gain": 0.05185185185185226,
+    "final_relocations_per_step": 746.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.313451980118647
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.204216073781291
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.068401405357926
+      }
+    }
+  },
+  "142": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.771111111111111,
+    "half_utility": 6.744716553287982,
+    "second_half_gain": 0.026394557823128828,
+    "final_relocations_per_step": 677.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.368407578084997
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.430303030303031
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.561507936507937
+      }
+    }
+  },
+  "143": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.79,
+    "half_utility": 6.729191919191919,
+    "second_half_gain": 0.06080808080808087,
+    "final_relocations_per_step": 647.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.5309128047754275
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.931873279090243
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.356314320600035
+      }
+    }
+  },
+  "144": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 98,
+    "final_utility": 6.691497761497762,
+    "half_utility": 6.77,
+    "second_half_gain": -0.07850223850223781,
+    "final_relocations_per_step": 622.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.247479647158619
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.357303515198252
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.840276076125134
+      }
+    }
+  },
+  "145": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.841111111111111,
+    "half_utility": 6.735036075036075,
+    "second_half_gain": 0.10607503607503599,
+    "final_relocations_per_step": 691.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.422132194256089
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.603305785123967
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.938558141528437
+      }
+    }
+  },
+  "146": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.625903158179482,
+    "half_utility": 6.744656084656085,
+    "second_half_gain": -0.11875292647660274,
+    "final_relocations_per_step": 657.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.037530826792989
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.6322199671890845
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.215629984051036
+      }
+    }
+  },
+  "147": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.64498023715415,
+    "half_utility": 6.550815468326017,
+    "second_half_gain": 0.09416476882813285,
+    "final_relocations_per_step": 685.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.166784852603087
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.162374326933113
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 11.06609015984016
+      }
+    }
+  },
+  "148": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.770095564113536,
+    "half_utility": 6.6,
+    "second_half_gain": 0.1700955641135362,
+    "final_relocations_per_step": 678.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.110022730419035
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 7.209390382430898
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.7064128001628
+      }
+    }
+  },
+  "149": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.671761006289309,
+    "half_utility": 6.784938271604938,
+    "second_half_gain": -0.11317726531562933,
+    "final_relocations_per_step": 614.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.356473901656187
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.323701503285624
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.943415637860081
+      }
+    }
+  },
+  "150": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 6.683333333333334,
+    "half_utility": 6.957777777777777,
+    "second_half_gain": -0.2744444444444438,
+    "final_relocations_per_step": 659.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.313299924712968
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.023789726533629
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.449275362318842
+      }
+    }
+  },
+  "151": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.673074581430746,
+    "half_utility": 6.724556665433469,
+    "second_half_gain": -0.05148208400272303,
+    "final_relocations_per_step": 691.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.26373370349972
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.312699557111958
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.919232002565337
+      }
+    }
+  },
+  "152": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.798624338624339,
+    "half_utility": 6.6874725274725275,
+    "second_half_gain": 0.11115181115181105,
+    "final_relocations_per_step": 679.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.379336496917629
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.363395171137107
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.69468031968032
+      }
+    }
+  },
+  "153": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.679475890985325,
+    "half_utility": 6.6507407407407415,
+    "second_half_gain": 0.028735150244583174,
+    "final_relocations_per_step": 676.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.060981650257567
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.905905247963707
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.16326530612245
+      }
+    }
+  },
+  "154": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.6322222222222225,
+    "half_utility": 6.723714809262035,
+    "second_half_gain": -0.09149258703981289,
+    "final_relocations_per_step": 647.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.32326335552142
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.219444444444444
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.634207240948815
+      }
+    }
+  },
+  "155": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.562559523809524,
+    "half_utility": 6.848518518518519,
+    "second_half_gain": -0.2859589947089951,
+    "final_relocations_per_step": 721.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.975736543618044
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.602473033412259
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.2073832530015
+      }
+    }
+  },
+  "156": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.845555555555555,
+    "half_utility": 6.728888888888889,
+    "second_half_gain": 0.11666666666666625,
+    "final_relocations_per_step": 631.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.518553923486151
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.308054042731462
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.554713804713804
+      }
+    }
+  },
+  "157": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 6.360686868686869,
+    "half_utility": 6.681990231990232,
+    "second_half_gain": -0.32130336330336284,
+    "final_relocations_per_step": 727.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.947776067228954
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.218235930735931
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.342403628117914
+      }
+    }
+  },
+  "158": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.652592592592592,
+    "half_utility": 6.868966588966589,
+    "second_half_gain": -0.21637399637399657,
+    "final_relocations_per_step": 724.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.150272408004367
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.456015779092702
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.681497989190296
+      }
+    }
+  },
+  "159": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.720875420875421,
+    "half_utility": 6.7232275132275126,
+    "second_half_gain": -0.0023520923520914394,
+    "final_relocations_per_step": 694.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.24741108564638
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.771535580524344
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.626670843776106
+      }
+    }
+  },
+  "160": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 6.8566666666666665,
+    "half_utility": 6.81,
+    "second_half_gain": 0.046666666666666856,
+    "final_relocations_per_step": 629.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.527235356281955
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 5.983980084479689
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.411855218277786
+      }
+    }
+  },
+  "161": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.879722222222222,
+    "half_utility": 6.813910533910534,
+    "second_half_gain": 0.06581168831168771,
+    "final_relocations_per_step": 668.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.4883587734610755
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.316137566137566
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.123917540872558
+      }
+    }
+  },
+  "162": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.6722222222222225,
+    "half_utility": 6.777777777777778,
+    "second_half_gain": -0.10555555555555518,
+    "final_relocations_per_step": 700.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.2841570935368205
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.887763143082291
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.418342428546511
+      }
+    }
+  },
+  "163": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 97,
+    "final_utility": 6.883194444444444,
+    "half_utility": 6.700305514157973,
+    "second_half_gain": 0.18288893028647113,
+    "final_relocations_per_step": 699.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.496635266442959
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.238819127891976
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.404044328286751
+      }
+    }
+  },
+  "164": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.55,
+    "half_utility": 7.045555555555556,
+    "second_half_gain": -0.49555555555555575,
+    "final_relocations_per_step": 708.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.2536084946799235
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.0702420503084955
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.121794871794872
+      }
+    }
+  },
+  "165": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.801296296296297,
+    "half_utility": 6.547382716049382,
+    "second_half_gain": 0.25391358024691435,
+    "final_relocations_per_step": 688.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.353141835605443
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.922129824151883
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 11.466180667023364
+      }
+    }
+  },
+  "166": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.66190808217124,
+    "half_utility": 6.782616642616643,
+    "second_half_gain": -0.12070856044540346,
+    "final_relocations_per_step": 698.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.335409193208091
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.094265018607124
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.235026737967914
+      }
+    }
+  },
+  "167": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.73,
+    "half_utility": 6.634444444444444,
+    "second_half_gain": 0.09555555555555628,
+    "final_relocations_per_step": 701.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.438520653218059
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.058974358974359
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.539473684210526
+      }
+    }
+  },
+  "168": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 98,
+    "final_utility": 6.796666666666667,
+    "half_utility": 6.687777777777778,
+    "second_half_gain": 0.10888888888888903,
+    "final_relocations_per_step": 688.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.498025469846616
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.460945597075395
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.573404123965922
+      }
+    }
+  },
+  "169": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.6033333333333335,
+    "half_utility": 6.763419312169312,
+    "second_half_gain": -0.16008597883597808,
+    "final_relocations_per_step": 749.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.210763088077902
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.370824812542604
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 9.887427803158142
+      }
+    }
+  },
+  "170": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.76543771043771,
+    "half_utility": 6.517777777777778,
+    "second_half_gain": 0.24765993265993202,
+    "final_relocations_per_step": 667.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.449831920282931
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.100737646192192
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.163372859025033
+      }
+    }
+  },
+  "171": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.796859290580221,
+    "half_utility": 6.78156862745098,
+    "second_half_gain": 0.015290663129240656,
+    "final_relocations_per_step": 663.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.207259333924239
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 7.207273246234284
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.586768851303736
+      }
+    }
+  },
+  "172": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 98,
+    "final_utility": 6.729174603174603,
+    "half_utility": 6.765555555555555,
+    "second_half_gain": -0.03638095238095218,
+    "final_relocations_per_step": 680.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.322001304128335
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.148490153637212
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.805374701926427
+      }
+    }
+  },
+  "173": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.720952380952381,
+    "half_utility": 6.502899470899471,
+    "second_half_gain": 0.2180529100529105,
+    "final_relocations_per_step": 680.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.351688723321053
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.552346121311638
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.482456140350878
+      }
+    }
+  },
+  "174": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.683567251461988,
+    "half_utility": 6.731526374859708,
+    "second_half_gain": -0.04795912339772013,
+    "final_relocations_per_step": 688.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.286551729871569
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 5.841180603022708
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.236152736152736
+      }
+    }
+  },
+  "175": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 98,
+    "final_utility": 6.763534278959811,
+    "half_utility": 6.883589743589744,
+    "second_half_gain": -0.12005546462993344,
+    "final_relocations_per_step": 674.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.127039382003043
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.868626139354783
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.603561935140883
+      }
+    }
+  },
+  "176": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.752136752136752,
+    "half_utility": 6.810634920634921,
+    "second_half_gain": -0.05849816849816847,
+    "final_relocations_per_step": 714.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.2942837465564745
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.598355287097009
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.408361301619728
+      }
+    }
+  },
+  "177": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 99,
+    "final_utility": 6.701831501831501,
+    "half_utility": 6.884265705578996,
+    "second_half_gain": -0.18243420374749508,
+    "final_relocations_per_step": 643.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.214616809392928
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.946438746438747
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.790377458798512
+      }
+    }
+  },
+  "178": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.7590904828879514,
+    "half_utility": 6.6857896206915814,
+    "second_half_gain": 0.07330086219637,
+    "final_relocations_per_step": 640.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.129941848014232
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.589497999621094
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 11.575852442131513
+      }
+    }
+  },
+  "179": {
+    "pattern": "OSCILLATING",
+    "settling_step": 100,
+    "final_utility": 6.601940928270043,
+    "half_utility": 6.592852887852888,
+    "second_half_gain": 0.009088040417155163,
+    "final_relocations_per_step": 704.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.108601841196778
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.4927332395686825
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.151358950328023
+      }
+    }
+  },
+  "180": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.664017094017094,
+    "half_utility": 6.670952380952381,
+    "second_half_gain": -0.0069352869352874436,
+    "final_relocations_per_step": 660.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.171277492405979
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.6636348804959615
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.136130099613245
+      }
+    }
+  },
+  "181": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 94,
+    "final_utility": 6.801333333333333,
+    "half_utility": 6.859283154121863,
+    "second_half_gain": -0.05794982078853028,
+    "final_relocations_per_step": 629.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.27328303304931
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.495649174673565
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.748910233285232
+      }
+    }
+  },
+  "182": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 99,
+    "final_utility": 6.612629695885509,
+    "half_utility": 6.689083694083695,
+    "second_half_gain": -0.07645399819818532,
+    "final_relocations_per_step": 664.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.238865298518172
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.251145074451444
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.320491500369549
+      }
+    }
+  },
+  "183": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.63021164021164,
+    "half_utility": 6.768148148148148,
+    "second_half_gain": -0.1379365079365078,
+    "final_relocations_per_step": 714.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.2755480918757325
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.165620012171736
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.452771547111169
+      }
+    }
+  },
+  "184": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.69719298245614,
+    "half_utility": 6.912156862745098,
+    "second_half_gain": -0.2149638802889582,
+    "final_relocations_per_step": 735.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.444211299790421
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.150554231106221
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.072356215213357
+      }
+    }
+  },
+  "185": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.710900205761317,
+    "half_utility": 6.708541666666667,
+    "second_half_gain": 0.002358539094649892,
+    "final_relocations_per_step": 661.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.3521093904152375
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.2288158691702
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.546166098052892
+      }
+    }
+  },
+  "186": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.688659003831418,
+    "half_utility": 6.6003026682596575,
+    "second_half_gain": 0.0883563355717607,
+    "final_relocations_per_step": 649.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.309436985721293
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.214072410573425
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.851352351352352
+      }
+    }
+  },
+  "187": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.618888888888889,
+    "half_utility": 6.784209401709402,
+    "second_half_gain": -0.16532051282051352,
+    "final_relocations_per_step": 711.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.177091213957573
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.2069157836029
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.744027290538918
+      }
+    }
+  },
+  "188": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 98,
+    "final_utility": 6.769747474747475,
+    "half_utility": 6.876851851851852,
+    "second_half_gain": -0.10710437710437759,
+    "final_relocations_per_step": 659.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.033879475932457
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 7.35929648241206
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.142366224840451
+      }
+    }
+  },
+  "189": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 98,
+    "final_utility": 6.820707070707071,
+    "half_utility": 6.768148148148148,
+    "second_half_gain": 0.052558922558922916,
+    "final_relocations_per_step": 619.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.485434704184704
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.328571428571428
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.163911845730027
+      }
+    }
+  },
+  "190": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.624646464646465,
+    "half_utility": 6.794928774928775,
+    "second_half_gain": -0.17028231028231033,
+    "final_relocations_per_step": 704.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.089602174462878
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.333041155355205
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.750259334022221
+      }
+    }
+  },
+  "191": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.804444444444444,
+    "half_utility": 6.546421073479897,
+    "second_half_gain": 0.25802337096454675,
+    "final_relocations_per_step": 658.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.533477896979381
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.051643192488263
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.251221001221001
+      }
+    }
+  },
+  "192": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.699027777777777,
+    "half_utility": 6.785972222222222,
+    "second_half_gain": -0.08694444444444471,
+    "final_relocations_per_step": 685.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.298615600086189
+      },
+      "coalition": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.220370370370371
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.935224089635854
+      }
+    }
+  },
+  "193": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 7.044444444444444,
+    "half_utility": 6.522609427609428,
+    "second_half_gain": 0.5218350168350163,
+    "final_relocations_per_step": 610.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.689350057572948
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.381481481481481
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.265064968035267
+      }
+    }
+  },
+  "194": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.697777777777778,
+    "half_utility": 6.664285714285715,
+    "second_half_gain": 0.03349206349206302,
+    "final_relocations_per_step": 710.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.29052109191595
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.38475499092559
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.619456015682431
+      }
+    }
+  },
+  "195": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.622222222222222,
+    "half_utility": 6.757191358024691,
+    "second_half_gain": -0.1349691358024696,
+    "final_relocations_per_step": 697.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.279585417243645
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.1391999141999145
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.070977633477632
+      }
+    }
+  },
+  "196": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.690526315789474,
+    "half_utility": 6.826666666666667,
+    "second_half_gain": -0.13614035087719323,
+    "final_relocations_per_step": 713.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "NOISY_PLATEAU",
+        "final_utility": 6.227778252449306
+      },
+      "coalition": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.661387983232417
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.655192197360872
+      }
+    }
+  },
+  "197": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 100,
+    "final_utility": 6.726666666666667,
+    "half_utility": 6.828009153318078,
+    "second_half_gain": -0.10134248665141143,
+    "final_relocations_per_step": 695.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.272704928284917
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.482352941176471
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 9.923871166589613
+      }
+    }
+  },
+  "198": {
+    "pattern": "NOISY_PLATEAU",
+    "settling_step": 100,
+    "final_utility": 6.667777777777777,
+    "half_utility": 6.834444444444444,
+    "second_half_gain": -0.16666666666666696,
+    "final_relocations_per_step": 682.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.28568996867966
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.388336233406656
+      },
+      "direct": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 10.454085647123623
+      }
+    }
+  },
+  "199": {
+    "pattern": "STILL_CLIMBING",
+    "settling_step": 98,
+    "final_utility": 6.881111111111111,
+    "half_utility": 6.504232804232804,
+    "second_half_gain": 0.37687830687830726,
+    "final_relocations_per_step": 659.0,
+    "per_governance": {
+      "algorithmic": {
+        "pattern": "STILL_CLIMBING",
+        "final_utility": 6.629040698165122
+      },
+      "coalition": {
+        "pattern": "OSCILLATING",
+        "final_utility": 6.081170363378953
+      },
+      "direct": {
+        "pattern": "OSCILLATING",
+        "final_utility": 10.305392282136468
+      }
+    }
+  }
+}

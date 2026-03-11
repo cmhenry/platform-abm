@@ -1,0 +1,20 @@
+{
+  "name": "exp2_np9_rho015_alpha5",
+  "experiment": "exp2",
+  "n_communities": 900,
+  "n_platforms": 9,
+  "p_space": 10,
+  "t_max": 100,
+  "institution": "mixed",
+  "rho_extremist": 0.15,
+  "alpha": 5.0,
+  "mu": 0.05,
+  "coalitions": 5,
+  "mutations": 3,
+  "svd_groups": 10,
+  "search_steps": 10,
+  "initial_distribution": "equal",
+  "tracking_enabled": true,
+  "n_iterations": 200,
+  "seed_base": 42
+}

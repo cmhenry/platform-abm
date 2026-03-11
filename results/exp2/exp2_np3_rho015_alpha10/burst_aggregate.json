@@ -1,0 +1,23 @@
+{
+  "n_iterations": 200,
+  "n_platform_iterations": 600,
+  "classification_proportions": {
+    "enclave": 0.4,
+    "raiding_base": 0.5933333333333334,
+    "quiet": 0.0016666666666666668,
+    "raiding_stable": 0.005
+  },
+  "burst_size_mean": 48.38620689655173,
+  "burst_size_median": 58.0,
+  "burst_size_sd": 21.951527765441888,
+  "interval_mean": 26.241967871485944,
+  "interval_median": 22.0,
+  "interval_sd": 17.875917539594543,
+  "escalation_n_slopes": 299,
+  "escalation_mean_slope": 15.030649784997609,
+  "escalation_sd": 6.343154075899604,
+  "escalation_t_stat": 40.973974178127776,
+  "escalation_p_value": 1.8083772490186237e-124,
+  "escalation_fraction_positive": 0.9933110367892977,
+  "burst_rate": 0.9983333333333333
+}
