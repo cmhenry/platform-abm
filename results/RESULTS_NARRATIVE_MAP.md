@@ -222,34 +222,60 @@ comparison in footnote (methodological contribution for ABM modelers).
 
 ---
 
-### Result 8 (NEW): Mainstream displacement following raids
+### Result 8 (REVISED): Displacement dynamics and the dispersal paradox
 **Section:** 3.3 (Raiding Dynamics, integrated with R7)
-**Status:** Diagnostic written, not yet run on full data.
+**Status:** Complete. Baseline-normalized superposed epoch analysis run on
+three contrasting configs. Key findings confirmed.
 
-| Metric | Source | Expected |
-|--------|--------|----------|
-| Number of raid events per config | displacement_aggregate.json | **PENDING.** Expect dozens per iteration at high α |
-| Mainstream utility delta (post-raid mean) | displacement_aggregate.json | **PENDING.** Expect negative — mainstream communities are hurt by arriving extremists |
-| Fraction of events with negative delta | displacement_aggregate.json | **PENDING.** Expect >60% |
-| Destination distribution (algo vs coalition) | displacement_aggregate.json | **PENDING.** Expect majority to algorithmic (it's the mass market) |
-| Burst-displacement correlation | displacement_aggregate.json | **PENDING.** Expect negative (bigger raids → worse mainstream outcomes) |
-| **Superposed epoch trajectory** | displacement_aggregate.json | **KEY PENDING RESULT.** The "average raid" figure. |
-| Direct count drop at t=0 | superposed epoch | Expect sharp drop (extremists leaving) |
-| Algorithmic count rise at t=0 | superposed epoch | Expect rise (extremists arriving) |
-| Coalition count flat at t=0 | superposed epoch | Expect no change (enclave stability) |
-| Mainstream utility dip at t=0 | superposed epoch | Expect dip on algorithmic, possible rise on direct |
+| Metric | Source | Actual |
+|--------|--------|--------|
+| Displacement direction at t=0 | baselined epoch | **Coalition → algorithmic** (not direct → algorithmic as predicted). Direct counts barely move at the system level. |
+| Mainstream utility delta (post-raid) | baselined epoch | **Positive** (+0.02 to +0.045) — raids *improve* system-wide mainstream welfare by dispersing concentrated extremists |
+| Duration of utility improvement | baselined epoch | Sustained through t=+8 (end of observation window) |
+| N_p=3 regime | baselined epoch | Continuous turbulence — ±5 community swings, ±0.12 utility oscillation per step, no stable pre/post pattern |
+| N_p=9 regime | baselined epoch | Clean oscillatory signal — coalition drops ~3.8, algorithmic rises ~3.7 at t=0, utility jumps +0.045 |
+| N_p=27 regime | baselined epoch | Graceful absorption — ~1–2 community rebalancing, utility steps up +0.02 |
 
-**This result ties R5 and R7 together.** The superposed epoch shows the
-full raid sequence: extremists depart direct → arrive algorithmic →
-mainstream utility dips → mainstream communities exit algorithmic → some
-flow to coalition (creating endogenous demand for community self-governance).
-If the data shows mainstream communities flowing to coalition platforms
-after raids, that closes the loop on the NARRATIVE.md suggestion.
+**Narrative revision:** The original prediction was: "extremists depart
+direct → arrive algorithmic → mainstream flees → some flow to coalition."
+The actual pattern is different and more interesting. Direct platform
+counts barely move at the system level because direct platforms are already
+small and extremist-dominated — the sorting has already happened by the
+time raids occur. The action is in the **coalition-algorithmic rebalancing**:
+raids push communities from coalition to algorithmic (the larger, more
+absorptive pool), and mainstream utility *improves* system-wide because the
+extremist concentration is momentarily broken.
 
-**Presentation:** Superposed epoch plot is the primary figure (Viz 4.1).
-Displacement statistics in text. This may be the single most impactful
-visualization in the paper — it shows, in one figure, the entire
-raiding-displacement-sorting mechanism.
+**The dispersal paradox:** Raids are individually disruptive but
+collectively beneficial. The post-raid utility improvement (+0.02 to
++0.045, sustained for 8+ steps) means the raiding cycle is partially
+self-correcting: concentrated extremists damage welfare, raids disperse
+them, welfare recovers. The policy implication is subtle — the volatility
+of the raiding cycle is costly, but the raids themselves serve as a crude
+dispersal mechanism that prevents permanent extremist entrenchment.
+
+**Three displacement regimes** (maps to N_p levels):
+- **Graceful absorption** (N_p=27): Small rebalancing, modest welfare gain.
+  The system has enough platforms to dilute each raid.
+- **Oscillatory recovery** (N_p=9): Clear disruption-and-recovery pattern.
+  The system is stressed but self-correcting.
+- **Continuous turbulence** (N_p=3): No stable state between events. The
+  system never reaches equilibrium. This is the continuous-raiding regime
+  identified in B4 (burst rate ≈ 1.0).
+
+**Presentation:** Three-row superposed epoch figure (B6) showing all three
+regimes. The three-regime taxonomy is itself a finding. The displacement
+paradox (raids improve welfare) deserves a dedicated paragraph and a
+callback in the discussion.
+
+**What this changes for the coalition narrative (R5):** The original
+prediction that raids would drive mainstream communities toward coalition
+(creating "endogenous demand for self-governance") is not supported by the
+epoch data. Coalition platforms lose communities at t=0, not gain them. The
+coalition firewall story holds on cross-sectional evidence (homogeneity,
+utility stability) but is not dynamically reinforced by displacement flows.
+Frame coalitions as **preventive protection** (communities that arrive early
+and stay) rather than **reactive refuge** (communities fleeing raids).
 
 ---
 
@@ -346,17 +372,16 @@ an interesting finding, not a threat to robustness.
   a finding: "System diversification not only reduces raid magnitude but
   prevents raid escalation."
 
-### Displacement direction determines the coalition narrative
-- **Mainstream flows primarily to algorithmic after raids:** The mass-market
-  platform absorbs displaced communities. Coalition platforms are protective
-  but not a refuge. Framing: "Coalition governance prevents displacement;
-  algorithmic governance absorbs it."
-- **Mainstream flows to coalition after raids:** Communities seek protective
-  governance after being raided. Framing: "Raids create endogenous demand
-  for community self-governance." This closes the loop between R5 and R7
-  and is the strongest version of the coalition finding.
-- **Flows are mixed/noisy:** Report destination distribution as a statistic
-  without strong narrative framing.
+### Displacement direction determines the coalition narrative — RESOLVED
+**Actual outcome:** Coalition loses communities to algorithmic at t=0.
+Mainstream utility rises system-wide. This is the "dispersal paradox"
+pattern — raids improve welfare by breaking extremist concentration.
+
+**Framing adopted:** "Coalition governance provides preventive protection
+— communities that arrive early and stay are shielded. But coalitions are
+not reactive refuges; displaced communities flow to algorithmic platforms,
+the larger absorptive pool. The coalition firewall is structural, not
+dynamic."
 
 ### Enclave aggregation determines the protection claim's strength
 - **High homogeneity sustained across 200 iterations:** "Coalition platforms

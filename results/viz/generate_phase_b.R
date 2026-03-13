@@ -305,10 +305,16 @@ burst_015 <- burst_master %>%
     alpha_f = factor(alpha, levels = alpha_levels)
   )
 
+# Compute fill-range midpoints for conditional text colour
+burst_size_mid <- mean(range(burst_015$median_burst_size, na.rm = TRUE))
+burst_rate_mid <- mean(range(burst_015$burst_rate, na.rm = TRUE))
+
 # Panel 1: Median burst size
 p_b4a <- ggplot(burst_015, aes(x = alpha_f, y = np_f, fill = median_burst_size)) +
   geom_tile(colour = "white", linewidth = 0.8) +
-  geom_text(aes(label = sprintf("%.0f", median_burst_size)), size = 4, colour = "black") +
+  geom_text(aes(label = sprintf("%.0f", median_burst_size),
+                colour = median_burst_size > burst_size_mid), size = 4, show.legend = FALSE) +
+  scale_colour_manual(values = c("FALSE" = "black", "TRUE" = "white")) +
   scale_fill_viridis_c(name = "Median\nburst size", option = "magma", direction = -1) +
   labs(
     title = "Median Burst Size",
@@ -320,7 +326,9 @@ p_b4a <- ggplot(burst_015, aes(x = alpha_f, y = np_f, fill = median_burst_size))
 # Panel 2: Burst rate
 p_b4b <- ggplot(burst_015, aes(x = alpha_f, y = np_f, fill = burst_rate)) +
   geom_tile(colour = "white", linewidth = 0.8) +
-  geom_text(aes(label = sprintf("%.2f", burst_rate)), size = 4, colour = "black") +
+  geom_text(aes(label = sprintf("%.2f", burst_rate),
+                colour = burst_rate > burst_rate_mid), size = 4, show.legend = FALSE) +
+  scale_colour_manual(values = c("FALSE" = "black", "TRUE" = "white")) +
   scale_fill_viridis_c(name = "Burst\nrate", option = "magma", direction = -1) +
   labs(
     title = "Burst Rate",

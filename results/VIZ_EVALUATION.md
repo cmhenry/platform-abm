@@ -1,181 +1,158 @@
 # Visualization Evaluation
 
-**Status**: All 27 exp2 configs are now complete (including the formerly missing exp2_np27_rho015_alpha10). Key new numbers: mainstream utility on direct at {N_p=27, ρ_e=0.15, α=10} = **3.29** (deeply below the 5.0 random baseline); ρ_e=0.15 ANOVA interaction F=92.2, p<10⁻⁷¹.
+**Last updated**: Post-fix reassessment (B3 metric corrected, B6 epoch baselined).
 
-Seven figures have been generated. Below is a figure-by-figure evaluation with impact ratings and recommended changes.
+**Status**: All 27 exp2 configs complete. ANOVA interaction significant at all three ρ_e levels (F=31.7, 106.9, 92.2; all p < 10⁻²⁵). Key headline number: mainstream utility on direct at {N_p=27, ρ_e=0.15, α=10} = **3.29**.
 
 ---
 
 ## B1: Interaction Heatmap — Normalized Mainstream Utility
-**Impact: HIGH — Keep with minor revisions**
+**Impact: HIGH — Publication-ready with optional polish**
 
-**Strengths**: Clean, readable layout. The viridis scale works well for the monotonic gradient. The three-panel structure makes the ρ_e progression immediately legible. Cell annotations are appropriately sized. The visual gradient from yellow (high utility, top-left of each panel) to purple (low utility, bottom-right) tells the story at a glance: more platforms and less parasitism = higher welfare.
+All 27 cells populated. The viridis gradient from yellow (high utility, top-left) to purple (low utility, bottom-right) tells the diversification × parasitism story at a glance. Shared color scale across panels correctly shows the entire ρ_e=0.15 panel shifting darker. The complete factorial at ρ_e=0.15 now shows the full range: 0.642 (N_p=27, α=2) to 0.511 (N_p=3, α=10).
 
-**Issues**:
-1. The color scale is *shared* across all three panels, which is correct and important — it lets the reader see that the entire panel shifts darker (lower utility) as ρ_e increases. Good design choice.
-2. The new cell (N_p=27, ρ_e=0.15, α=10) is now populated at 0.609, completing the factorial. **The figure needs to be regenerated** to include this cell — the current PNG appears to already have it, so this may already be done. Verify.
+**Optional polish**: Δ annotations between N_p=3 and N_p=27 rows would make the diversification premium self-evident without requiring the reader to mentally subtract (e.g., "Δ=0.098" at α=10/ρ_e=0.15). Not blocking.
 
-**Recommended changes**:
-- Add a thin border or bold font to the diagonal cells ({3,2}, {9,5}, {27,10}) to visually highlight the diversification-premium comparison.
-- Consider adding small Δ annotations between the bottom row (N_p=3) and top row (N_p=27) to show the diversification premium directly on the figure. E.g., a small arrow or difference label: "Δ=0.098" between 0.511 and 0.609 at α=10/ρ_e=0.15.
-- Panel title could use the actual ρ_e values with more space between panels for readability.
-
-**Verdict**: This is a strong headline figure. With the Δ annotations it becomes a self-contained argument.
+**Verdict**: Ready for paper. Strong headline figure.
 
 ---
 
 ## B2: Escalation Slope Heatmap
-**Impact: HIGH — Keep with revisions**
+**Impact: HIGH — Publication-ready with minor fixes**
 
-**Strengths**: The diverging RdBu scale is the right choice. The "ns" labels on the three non-significant cells (all at α=2, N_p=27) are informative. The dramatic gradient from near-white (top row) to deep red (bottom-left) vividly shows that low N_p + high α = runaway escalation.
+Complete with the new np27/rho015/alpha10 cell (slope=1.39). The gradient from near-white (N_p=27 row) to deep red (N_p=3, α=10 corner) is visually striking. Three "ns" cells (all α=2, N_p=27) correctly labeled. The one grey NaN cell (N_p=3, ρ_e=0.05, α=10) should be relabeled "n/a" rather than left ambiguous.
 
-**Issues**:
-1. The N_p=3, ρ_e=0.05, α=10 cell is **grey** because the escalation slope was NaN (too few burst events to compute). This reads as "missing data" which is ambiguous. It should be explicitly labeled — something like "—" or "n/a" with a note that the burst rate was too low (0.163) for reliable slope estimation.
-2. The color scale is symmetric (±15) but all meaningful values are positive. The blue half of the scale is wasted. Consider using a **sequential** red scale (white → deep red) since there are no negative escalation slopes in the data. This would give better visual resolution in the 0–3 range where most cells sit.
-3. The new cell (N_p=27, ρ_e=0.15, α=10 = slope 1.39) should now be included. Verify.
+**Remaining issues**:
+1. Grey NaN cell needs explicit "n/a" label with caption note.
+2. The diverging RdBu scale wastes half its range on blues that never appear. A sequential white→red scale would give better visual resolution in the 0–3 range where 20 of 27 cells sit. Not blocking but would improve legibility.
 
-**Recommended changes**:
-- Switch to a sequential white-to-red scale.
-- Replace the grey NaN cell with explicit "n/a" text and a neutral fill (light grey with explanation in caption).
-- Add significance stars to significant cells (*** for p<0.001, ** for p<0.01) to reinforce the statistical story.
-
-**Narrative note**: The escalation heatmap is the paper's strongest dynamics figure. Consider making it Figure 3 or 4 (early in the dynamics section) since it summarizes the entire escalation story in one panel.
+**Verdict**: Usable now. The strongest single dynamics figure.
 
 ---
 
 ## B3: Governance Utility Divergence
-**Impact: CRITICAL BUG — Must be regenerated**
+**Impact: HIGHEST — Fixed and excellent** ✅
 
-**The figure is plotting the wrong metric.** Line 239 of generate_phase_b.R reads `avg_utility_gov_direct`, which is the average utility of *all* communities on direct platforms (mainstream + extremist combined). Because extremists have enormous utility (α × parasitism bonus), this inflates the direct-platform average, making it appear that direct platforms have the *highest* utility — the opposite of the intended story.
+The metric fix (avg_utility_gov_* → avg_utility_mainstream_*) transformed this from misleading to the paper's most impactful figure. The corrected version shows exactly the "scissors" pattern the narrative needs:
 
-The actual data:
-| Config (N_p=27, ρ_e=0.15) | α=2 | α=5 | α=10 |
-|---|---|---|---|
-| avg_utility_gov_direct (CURRENT, wrong) | 7.62 | 8.13 | **10.20** |
-| avg_utility_mainstream_direct (CORRECT) | 7.01 | 5.65 | **3.29** |
-| avg_utility_mainstream_coalition | 6.35 | 6.26 | 6.15 |
-| avg_utility_mainstream_algorithmic | 6.41 | 6.34 | 6.20 |
+- At N_p=3: all three governance types decline together (clustered between 4.6 and 6.1), with direct slightly below but not dramatically so.
+- At N_p=9: direct separates from the pack, dropping to 3.9 at α=10 while coalition and algorithmic hold near 5.7–6.0.
+- At N_p=27: the full scissors — direct plunges from 7.0 to **3.3**, crashing below the random baseline (dashed at 5.0), while coalition (6.15) and algorithmic (6.20) barely move.
 
-The corrected figure should show direct utility **collapsing** from 7.01 to 3.29 — crashing below the 5.0 random baseline — while coalition and algorithmic utility barely moves (6.35→6.15 and 6.41→6.20). This is the "scissors" pattern: the governance types diverge as parasitism intensifies.
+The three-panel N_p progression is itself an argument: diversification amplifies governance differences. At low N_p, governance type barely matters. At high N_p, it determines whether your communities thrive or suffer worse-than-random outcomes.
 
-**Required fix**: Change the measure name in the R script from `avg_utility_gov_*` to `avg_utility_mainstream_*`:
-```r
-measure <- paste0("avg_utility_mainstream_", gov)
-```
+**Remaining polish opportunities** (none blocking):
+- A light shaded region below y=5.0 labeled "Below random assignment" would emphasize the damage zone.
+- The y-axis could read "Mainstream community utility" for precision.
+- Error bars are present but tiny at this scale — correct behavior given n=200.
 
-**When corrected, this becomes the paper's most impactful single figure.** The visual of the orange direct line plunging below the dashed "random baseline" at α=10 while coalition and algorithmic hold steady is a devastating illustration of how governance structure determines who bears the cost of extremism.
-
-**Additional recommended changes once the metric is fixed**:
-- Add a shaded region below y=5.0 (light red or grey) labeled "Below random assignment" to emphasize the damage zone.
-- Consider adding the N_p=9 data at α=10 as well (mainstream direct utility = 3.91 there), perhaps as a secondary dashed line or an inset comparison.
-- The y-axis label should be "Mainstream community utility" (not just "Mainstream utility") to be precise about who is being measured.
+**Verdict**: Paper-ready. Lead figure for Section 3.2.
 
 ---
 
 ## B4: Burst Heatmap Grid
-**Impact: MEDIUM — Needs visual fixes**
+**Impact: MEDIUM — Needs readability fix** ⚠️
 
-**Strengths**: Two-panel layout effectively shows both dimensions of burst activity (size and frequency). The ρ_e=0.15 slice is the right choice for the paper body (lower ρ_e values can go in supplementary).
+The two-panel layout (burst size + burst rate at ρ_e=0.15) effectively shows both dimensions. The N_p=3 row carries the most dramatic numbers (burst rate ~1.0, median burst 58–66), but those numbers are **virtually unreadable** — black text on near-black cells. The N_p=27 row is clear (light cells, legible text). The N_p=9 row is borderline.
 
-**Issues**:
-1. **Readability crisis on the N_p=3 row.** The magma color scale maps the highest values (burst size 66, burst rate 1.00) to near-black. The cell text is also black, making the numbers on the bottom row virtually unreadable. This is the row that carries the most dramatic numbers.
-2. The N_p=27, α=10 cell now has the new data (previously missing). The burst heatmap needs regeneration too. Looking at the current figure: the N_p=27 burst data does seem present — but the *median burst size* of 0 for that cell is suspicious. Let me check: the burst_aggregate.json for np27_rho015_alpha10 shows median_burst_size=0, which may indicate the burst detection didn't find typical bursts (possible if the dynamics are continuous raiding rather than discrete bursts).
-3. The two panels use different color scales (one for burst size, one for burst rate) which is correct, but the scales are both named "magma reversed," making dark = high for both. This creates a visual where both panels look similar, reducing the information density.
+**Required fix**: Conditional text color — white text when the cell fill is dark (above scale midpoint), black text otherwise. This is a small R tweak to the geom_text() calls in generate_phase_b.R.
 
-**Recommended changes**:
-- **White text on dark cells.** Add conditional text coloring: if fill value > midpoint of scale, use white text; otherwise black.
-- Consider using a different color palette for the burst rate panel (e.g., YlOrRd) to visually distinguish it from the burst size panel.
-- Add a caption or subtitle noting that the N_p=3 row represents systems where burst events are so pervasive and large that they constitute near-continuous raiding.
-- For the np27_rho015_alpha10 cell with median_burst_size=0: verify the burst detection. If correct (genuinely no discrete bursts because extremists are spread too thin across 27 platforms), this is actually an interesting finding — label it explicitly.
+**Additional note**: The median_burst_size=0 for np27/rho015/alpha10 is a real data point (the burst detector found no discrete bursts at that config), which is itself interesting. The burst_rate for that cell is 0.645, meaning there is movement but it doesn't cluster into discrete burst events. The cell currently shows "0" which reads as "nothing happened" — might benefit from annotation.
+
+**Verdict**: Fix the text color, then ready for paper.
 
 ---
 
 ## B5: Enclave Trajectory
-**Impact: HIGH — Keep with additions**
+**Impact: HIGH — Excellent, would be stronger as two-panel comparison**
 
-**Strengths**: This is the best-executed figure in the set. The grey individual-platform traces against the bold green mean line create a clear visual narrative: rapid convergence to high homogeneity, sustained stability, occasional disruptions. The 0.9 threshold line provides meaningful context. The config choice (N_p=27, ρ_e=0.15, α=5) is well-chosen — harsh enough to test the mechanism but not so extreme that we lose the signal.
+The best-executed figure in the set. Grey individual-platform traces against the bold green mean line. Rapid convergence to ~1.0 by step 25. The 0.9 threshold is well-placed. Late-game dips (steps 70–100) show that even stable enclaves suffer occasional disruptions — these likely correspond to raid events and bridge the enclave story (Result 5) to the dynamics story (Result 7).
 
-**Issues**:
-1. The late-game dips (around steps 70–100) are interesting — these could be extremist raid disruptions. The figure shows them but doesn't help the reader interpret them.
-2. No comparison config. The figure shows that enclaves work at N_p=27/α=5, but doesn't show what happens when they fail (N_p=3/α=10).
+**Recommended addition**: A companion left panel showing N_p=3, ρ_e=0.15, α=10 — the configuration where enclaves are weakest (mean homogeneity ~0.80). The contrast between a successful enclave and a failing one, side by side, would make the diversification dependence of the coalition firewall immediately visible.
 
-**Recommended changes**:
-- **Add a companion panel** showing the same plot for N_p=3, ρ_e=0.15, α=10 — the configuration where enclaves are weakest (homogeneity ~0.80, cycle_rate low). A two-panel figure (left: success case, right: failure case) would be far more powerful than either panel alone.
-- Optionally annotate 1–2 of the late-game dips with arrows pointing to "raid disruption?" to seed the reader's interpretation and connect this figure to the burst dynamics discussion.
-- The y-axis label "Coalition platform homogeneity" is correct but long. Consider "Type homogeneity" with explanation in the caption.
+**Verdict**: Good as-is. Becomes great with the failure-case panel.
 
 ---
 
 ## B6: Superposed Epoch
-**Impact: LOW AS CURRENTLY GENERATED — Needs fundamental rework**
+**Impact: HIGH — Fixed and revealing** ✅
 
-**This is the most important figure in the analysis plan but the current version shows almost no signal.** The community counts and utility lines are essentially flat across the ±8 step window. The "raid event" at t=0 produces no visible perturbation.
+The baseline-normalization fix transformed this from a dead figure into a genuinely informative one. The 3×2 layout (3 configs × {count, utility}) shows three distinct displacement regimes:
 
-**Diagnosis**: The problem is almost certainly methodological. The displacement_aggregate.json was likely computed from the *stepwise.csv* data, which contains *cross-iteration averages* at each simulation step. When you align burst events across 200 iterations (each with raids at different absolute steps), the signal washes out because the stepwise.csv already represents the mean trajectory — not per-iteration trajectories.
+**Bottom row (N_p=27, α=5 — diversified, moderate parasitism):**
+- Left: Clean, small signal. Coalition dips ~1–2 at t=0, algorithmic rises symmetrically. Direct barely moves.
+- Right: Utility steps up ~+0.02 at t=+1 and sustains through t=+8.
+- Reading: The system absorbs raids gracefully. A small rebalancing, a modest welfare improvement.
 
-**The correct approach** requires:
-1. For each iteration, identify burst events from per_iter_raiding.json or per_iter_burst_analysis.json
-2. For each burst event, extract the per-step community counts and utility from that *specific iteration's* raw trajectory (not the cross-iteration average)
-3. Align those per-event windows to t=0 and average across events
+**Middle row (N_p=9, α=10 — moderate diversity, strong parasitism):**
+- Left: Coalition drops ~3.8 at t=0, algorithmic rises ~3.7. The signal is clean and clearly significant (SE bands separate from zero).
+- Right: Utility jumps +0.045 at t=+1, oscillates between +0.035 and +0.050. Sustained improvement.
+- Reading: Raids push communities from coalition to algorithmic. Mainstream welfare improves because the concentrated extremist presence is temporarily broken.
 
-The data to do this exists — per_iter_raiding.json and per_iter_burst_analysis.json contain per-iteration burst step information, and raw.csv contains per-iteration summary data (though we may need per-step-per-iteration data, which might need to be regenerated from the simulation).
+**Top row (N_p=3, α=10 — concentrated, strong parasitism):**
+- Left: Wild oscillation — ±5 communities per step, no stable pre/post pattern. All three governance types swing erratically.
+- Right: Utility swings ±0.12 per step. A +0.12 spike at t=+1, then -0.03 at t=+2, then +0.08 at t=+3. No recovery to baseline — continuous turbulence.
+- Reading: This is the continuous-raiding regime. "Raid events" are not discrete disruptions but part of ongoing chaos. There is no stable state between events.
 
-**Alternatively**: If per-step-per-iteration data isn't available, a simpler version could use the *flow.npz* matrices directly. These are per-step platform-to-platform flow matrices (already averaged across iterations). For each step, sum flows FROM direct platforms TO {algorithmic, coalition} platforms, and flows FROM {algorithmic, coalition} TO direct. Then align these to burst events detected in the stepwise.csv and plot the epoch.
+**Critical narrative revision**: The epoch tells a different directional story than RESULTS_NARRATIVE_MAP predicted. The map expected "extremists depart direct → arrive algorithmic → mainstream flees → some flow to coalition." What actually happens is that the displacement at t=0 is primarily **coalition losing communities to algorithmic** — not direct losing to algorithmic. Direct barely moves in system-level counts. This is because direct platforms are already small and extremist-dominated; the action happens in the rebalancing between the two larger governance pools. The utility jump occurs because the raid temporarily disperses concentrated extremists, improving mainstream welfare system-wide. See updated Result 8 framing in RESULTS_NARRATIVE_MAP.md.
 
-**Recommended path forward**:
-- If per-step-per-iteration data exists: rebuild the epoch from iteration-level trajectories.
-- If not: use flow.npz to build a directional flow epoch (which would be even more informative — it shows WHERE communities go, not just how counts change).
-- Consider reducing the window to ±3 or ±4 steps if the burst events are short-lived.
-- If the epoch signal remains genuinely flat even with correct methodology, that itself is a finding worth discussing ("displacement events are absorbed within a single simulation step").
+**Remaining polish**: The figure is somewhat dense at 3×2. Consider whether the N_p=3 row (continuous raiding) is better described in text than shown, since its visual message is "chaos" which is harder to read than the clean signals in the other two rows. On balance, keeping all three rows is probably right — the contrast between clean signal and chaos IS the story.
 
-**Do not include this figure in the paper in its current form.** It adds no information and could undermine confidence in the burst analysis.
+**Verdict**: Paper-ready. The three-regime comparison across rows is powerful.
 
 ---
 
 ## B7: Extremist Concentration Bar Chart
-**Impact: MEDIUM — Usable but consider redesign**
+**Impact: LOW-MEDIUM — Functional but too busy for its finding**
 
-**Strengths**: Complete 9-panel factorial. The "equal share" reference line is helpful. The pattern is clear: orange (direct) bars dominate at ~50% across all configs while holding only 10–20% of total population.
+The 9-panel layout correctly shows ~50% of extremists on direct across all configs. But the visual complexity is disproportionate to the simplicity of the finding. The α variation across columns is minimal (bars barely change), making the 9-panel grid look like it's documenting non-variation.
 
-**Issues**:
-1. **Too busy.** Nine panels × 3 bars × 3 clusters = the reader's eye bounces everywhere. The main finding is simple (extremists overconcentrate on direct), and this layout obscures it.
-2. **The denominator problem.** Showing "fraction of extremists" at 50% looks moderate. The real impact comes from comparing that to the fraction of *total population* on direct (~10–20%). The overrepresentation ratio (50% of extremists ÷ 10% of population = 5× overrepresentation) is the more compelling number.
-3. The α variation across columns is minimal (the bars barely change), which makes the 9-panel layout seem like it's showing non-variation.
+**Planned redesign**: Two alternatives will be produced:
+1. **Simplified 3-panel version** — collapse across α, one panel per ρ_e, N_p on x-axis.
+2. **Overrepresentation ratio format** — show the ratio of extremist share to population share by governance type, making the 3–5× overrepresentation on direct visually immediate.
 
-**Recommended redesign options** (pick one):
-- **Option A: Overrepresentation ratio plot.** A single heatmap or grouped bar chart showing the ratio of extremist share to population share for each governance type. Direct would show 3–5× overrepresentation; coalition and algorithmic would be near or below 1×.
-- **Option B: Simplified 3-panel version.** Collapse across α (since it barely matters) and show one panel per ρ_e, with just N_p on the x-axis. This reduces 9 panels to 3.
-- **Option C: Table instead of figure.** Given the stability of the ~50% finding, this might be better communicated as a single sentence in the text with a supporting table in the appendix.
+**Verdict**: Replace with one or both redesigned versions.
 
 ---
 
-## Summary: Figure Disposition
+## Summary: Updated Figure Disposition
 
-| Figure | Status | Priority |
-|--------|--------|----------|
-| B1: Interaction heatmap | ✅ Keep — minor revisions (add Δ annotations) | Low |
-| B2: Escalation heatmap | ✅ Keep — switch to sequential scale, fix NaN cell | Medium |
-| B3: Governance divergence | 🔴 **CRITICAL FIX** — wrong metric, must regenerate | **Highest** |
-| B4: Burst heatmap | ⚠️ Fix readability (white text on dark cells) | Medium |
-| B5: Enclave trajectory | ✅ Keep — add failure-case companion panel | Medium |
-| B6: Superposed epoch | 🔴 **Rework from scratch** — no visible signal | High |
-| B7: Extremist concentration | ⚠️ Redesign as overrepresentation ratio or simplify | Low |
+| Figure | Status | Action needed |
+|--------|--------|---------------|
+| B1: Interaction heatmap | ✅ Publication-ready | Optional Δ annotations |
+| B2: Escalation heatmap | ✅ Publication-ready | Minor: relabel NaN cell, consider sequential scale |
+| B3: Governance divergence | ✅ **Fixed — paper's strongest figure** | Optional below-baseline shading |
+| B4: Burst heatmap | ⚠️ Readability fix needed | **White text on dark cells** (R tweak) |
+| B5: Enclave trajectory | ✅ Good, upgrade planned | **Add failure-case companion panel** (Claude Code) |
+| B6: Superposed epoch | ✅ **Fixed — three-regime comparison** | None required |
+| B7: Extremist concentration | ⚠️ Too busy | **Simplify + overrepresentation ratio** (Claude Code) |
+
+## Figures not yet produced (from VISUALIZATION_CONCEPTS)
+
+| Concept | Status | Priority |
+|---------|--------|----------|
+| Platform biography (Viz 4.2) | Not started | **HIGH** — single most impactful addition |
+| Alluvial/Sankey (Viz 4.5) | Not started | Medium — consider for revision |
+| Network flow (Viz 4.6) | Not started | Low — save for talks |
 
 ---
 
 ## Narrative Additions Suggested by the Visualizations
 
 ### 1. The 3.29 headline (from corrected B3)
-The corrected governance divergence figure reveals the paper's most dramatic number: mainstream communities on direct platforms at {N_p=27, ρ_e=0.15, α=10} have utility of **3.29** — a full 1.7 points below random assignment and barely half the utility of their counterparts on coalition (6.15) or algorithmic (6.20) platforms. This isn't just underperformance; it's a governance failure so complete that the affected communities would be better off if sorting didn't exist at all. This deserves a dedicated paragraph in the results and a callback in the discussion.
+Mainstream communities on direct platforms at {N_p=27, ρ_e=0.15, α=10} have utility of **3.29** — 1.7 points below random assignment and barely half the utility of their counterparts on coalition (6.15) or algorithmic (6.20) platforms. Governance failure so complete that affected communities would be better off without sorting.
 
-### 2. The asymmetry between extremist and mainstream utility on direct platforms
-The bug in B3 accidentally revealed an important finding: `avg_utility_gov_direct` (all residents) *rises* with α because extremists thrive on direct platforms as α increases. Meanwhile `avg_utility_mainstream_direct` collapses. This asymmetry — the same platform producing increasing utility for parasites and decreasing utility for hosts — is the essence of the parasitism dynamic. Consider adding a small inset or annotation to the corrected B3 showing extremist utility rising alongside the mainstream collapse. Or present this as a separate table in the text.
+### 2. The parasitism asymmetry
+The B3 bug accidentally revealed: `avg_utility_gov_direct` (all residents) *rises* with α because extremists thrive, while `avg_utility_mainstream_direct` collapses. The same platform simultaneously produces increasing utility for parasites and decreasing utility for hosts. Consider presenting this asymmetry as a table or annotation.
 
-### 3. The enclave disruption-and-recovery cycle (from B5)
-The late-game dips visible in the enclave trajectory (steps 70–100) suggest that even stable enclaves occasionally suffer disruptions. If these can be linked to burst events in the raiding data (from per_iter_raiding.json), this creates a rich micro-narrative: "Coalition enclaves form quickly, resist most raids, but occasionally suffer transient disruptions from which they recover within 2–3 steps." This bridges the static enclave finding (Result 5) and the dynamic raiding finding (Result 7) into a unified mechanism story.
+### 3. The displacement paradox (from corrected B6)
+Raids produce a *system-wide welfare improvement* — mainstream utility jumps +0.02 to +0.045 after a raid event and sustains for 8+ steps. This is paradoxical: the event that triggers the displacement (an extremist burst) temporarily improves outcomes by dispersing concentrated parasites. The policy implication is subtle: the raiding cycle is costly in volatility but may be self-correcting in aggregate welfare.
 
-### 4. The continuous-raiding regime at N_p=3 (from B4)
-The near-black cells at N_p=3 in the burst heatmap (burst rate ≈ 1.0, median burst size 58–66) indicate that with only 3 platforms, the system is in **continuous raiding** — there are no stable periods between raids. This is qualitatively different from the intermittent burst pattern at N_p=9 and N_p=27. The narrative should name this: "At low platform diversity, the system transitions from intermittent raiding to continuous raiding, where extremist displacement becomes the norm rather than the exception."
+### 4. Three displacement regimes (from B6)
+The epoch reveals qualitatively distinct dynamics at each N_p level: graceful absorption (N_p=27), oscillatory recovery (N_p=9), continuous turbulence (N_p=3). These correspond to the intermittent vs. continuous raiding distinction identified in B4.
 
-### 5. Flow-based displacement direction (data available, not yet visualized)
-The flow.npz files contain complete platform-to-platform transition matrices per step. These could reveal the *direction* of displacement after raids: do mainstream communities primarily flee from direct to algorithmic? To coalition? Is the direction different at different α levels? This would answer the question left open by the flat superposed epoch: even if the aggregate counts don't move much (because the system quickly rebalances), the underlying flow rates could be enormous. A Sankey diagram or flow-arrow figure showing mean directional flows at t=0 vs t=-5 would be a powerful addition.
+### 5. The enclave disruption-and-recovery cycle (from B5)
+Late-game dips in the enclave trajectory suggest coalitions occasionally suffer transient disruptions from which they recover within 2–3 steps. If linkable to burst events, this bridges the static enclave finding (R5) and the dynamic raiding finding (R7).
+
+### 6. The continuous-raiding regime (from B4 + B6)
+At N_p=3, burst rate ≈ 1.0 and median burst size 58–66. The system is in continuous raiding — no stable periods between events. This is qualitatively different from intermittent bursting at N_p≥9 and deserves explicit naming in the narrative.
