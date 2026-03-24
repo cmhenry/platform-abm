@@ -193,10 +193,10 @@ if (nrow(count_all) == 0) {
 
 
 # ===========================================================================
-# B7: Extremist Concentration Bar Chart
+# B7a: Simplified Extremist Concentration (3-panel, averaged over alpha)
 # ===========================================================================
 
-message("\n--- B7: Extremist Concentration ---")
+message("\n--- B7a: Simplified Extremist Concentration ---")
 
 load_summary_row <- function(np, rho, alpha, measure) {
   cfg <- config_name(np, rho, alpha)
@@ -247,40 +247,132 @@ for (np in np_levels) {
 ext_data <- bind_rows(ext_rows)
 
 if (nrow(ext_data) == 0) {
-  message("  SKIPPING B7: no extremist count data")
+  message("  SKIPPING B7a: no extremist count data")
 } else {
-  ext_data <- ext_data %>%
+  # Average fraction across alpha values, track min/max for error bars
+  ext_summary <- ext_data %>%
+    group_by(np, rho, governance) %>%
+    summarise(
+      frac_mean = mean(fraction),
+      frac_min  = min(fraction),
+      frac_max  = max(fraction),
+      .groups = "drop"
+    ) %>%
     mutate(
       governance = factor(governance, levels = c("Direct", "Coalition", "Algorithmic")),
-      alpha_f = factor(alpha, levels = alpha_levels),
-      np_f = factor(np, levels = rev(np_levels)),
-      np_lab = factor(paste0("N[p] == ", np), levels = paste0("N[p] == ", np_levels)),
+      np_f = factor(np, levels = np_levels),
       rho_lab = paste0("rho[e] == ", sprintf("%.2f", rho))
     )
 
-  p_b7 <- ggplot(ext_data, aes(x = factor(alpha_f), y = fraction, fill = governance)) +
+  p_b7a <- ggplot(ext_summary, aes(x = np_f, y = frac_mean, fill = governance)) +
     geom_col(position = position_dodge(width = 0.75), width = 0.65) +
+    geom_errorbar(aes(ymin = frac_min, ymax = frac_max),
+                  position = position_dodge(width = 0.75), width = 0.25, linewidth = 0.4) +
     geom_hline(yintercept = 1/3, linetype = "dashed", colour = "grey50", linewidth = 0.4) +
-    facet_grid(np_lab ~ rho_lab, labeller = label_parsed) +
+    facet_wrap(~ rho_lab, ncol = 3, labeller = label_parsed) +
     scale_fill_manual(name = "Governance", values = gov_colours) +
     scale_y_continuous(
-      limits = c(0, 0.7),
-      breaks = seq(0, 0.7, 0.1),
+      limits = c(0, 0.6),
+      breaks = seq(0, 0.6, 0.1),
       labels = scales::percent_format(accuracy = 1)
     ) +
-    annotate("text", x = 0.6, y = 0.35, label = "Equal share",
-             size = 2.5, colour = "grey50", hjust = 0) +
     labs(
-      x = expression("Parasitism intensity (" * alpha * ")"),
+      x = expression(N[p]),
       y = "Fraction of extremists",
-      title = "Extremist concentration by governance type"
+      title = expression("Extremist concentration by governance type (averaged over " * alpha * ")")
     ) +
     theme(
       legend.position = "bottom",
       panel.grid.major.x = element_blank()
     )
 
-  save_fig(p_b7, "fig_extremist_concentration", width = 10, height = 8)
+  save_fig(p_b7a, "fig_extremist_concentration_simple", width = 10, height = 4)
+}
+
+
+# ===========================================================================
+# B7b: Overrepresentation Ratio Heatmap (rho = 0.15 only)
+# ===========================================================================
+
+message("\n--- B7b: Overrepresentation Ratio Heatmap ---")
+
+# Collect both extremist and total community counts
+ratio_rows <- list()
+for (np in np_levels) {
+  for (alpha in alpha_levels) {
+    rho <- 0.15
+
+    # Extremist counts
+    ext_d <- load_summary_row(np, rho, alpha, "final_count_extremist_direct")
+    ext_c <- load_summary_row(np, rho, alpha, "final_count_extremist_coalition")
+    ext_a <- load_summary_row(np, rho, alpha, "final_count_extremist_algorithmic")
+
+    # Total community counts
+    tot_d <- load_summary_row(np, rho, alpha, "final_count_direct")
+    tot_c <- load_summary_row(np, rho, alpha, "final_count_coalition")
+    tot_a <- load_summary_row(np, rho, alpha, "final_count_algorithmic")
+
+    if (is.null(ext_d) || is.null(ext_c) || is.null(ext_a)) next
+    if (is.null(tot_d) || is.null(tot_c) || is.null(tot_a)) next
+
+    total_ext <- ext_d$Mean + ext_c$Mean + ext_a$Mean
+    total_pop <- tot_d$Mean + tot_c$Mean + tot_a$Mean
+
+    if (is.na(total_ext) || total_ext == 0 || is.na(total_pop) || total_pop == 0) next
+
+    for (info in list(
+      list(gov = "Direct",      ext = ext_d$Mean, pop = tot_d$Mean),
+      list(gov = "Coalition",   ext = ext_c$Mean, pop = tot_c$Mean),
+      list(gov = "Algorithmic", ext = ext_a$Mean, pop = tot_a$Mean)
+    )) {
+      ext_frac <- info$ext / total_ext
+      pop_frac <- info$pop / total_pop
+      ratio <- if (pop_frac > 0) ext_frac / pop_frac else NA_real_
+
+      ratio_rows[[length(ratio_rows) + 1]] <- tibble(
+        np = np, alpha = alpha,
+        governance = info$gov,
+        ratio = ratio
+      )
+    }
+  }
+}
+
+ratio_data <- bind_rows(ratio_rows)
+
+if (nrow(ratio_data) == 0) {
+  message("  SKIPPING B7b: no data for overrepresentation ratio")
+} else {
+  # Average ratio across alpha values
+  ratio_summary <- ratio_data %>%
+    group_by(np, governance) %>%
+    summarise(ratio_mean = mean(ratio, na.rm = TRUE), .groups = "drop") %>%
+    mutate(
+      governance = factor(governance, levels = c("Direct", "Coalition", "Algorithmic")),
+      np_f = factor(np, levels = np_levels),
+      label = sprintf("%.1f\u00d7", ratio_mean)
+    )
+
+  p_b7b <- ggplot(ratio_summary, aes(x = np_f, y = governance, fill = ratio_mean)) +
+    geom_tile(colour = "white", linewidth = 0.8) +
+    geom_text(aes(label = label), size = 5) +
+    scale_fill_gradient2(
+      low = "#0072B2", mid = "white", high = "#D55E00", midpoint = 1,
+      name = "Overrepresentation\nratio"
+    ) +
+    labs(
+      x = expression(N[p]),
+      y = NULL,
+      title = "Extremist overrepresentation ratio",
+      subtitle = expression(rho[e] == 0.15 ~ ", averaged over " ~ alpha)
+    ) +
+    theme(
+      panel.grid = element_blank(),
+      axis.ticks = element_blank(),
+      plot.subtitle = element_text(hjust = 0.5, size = 11)
+    )
+
+  save_fig(p_b7b, "fig_overrepresentation_ratio", width = 7, height = 4)
 }
 
 
