@@ -1,3 +1,4 @@
+# Feedback on Draft Structure and Results
 
 The paper has a strong theoretical scaffold, but I think there's a tension between the framing and what the results are best positioned to deliver. Let me unpack that.
 
