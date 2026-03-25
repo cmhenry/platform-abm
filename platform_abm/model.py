@@ -38,6 +38,8 @@ class MiniTiebout(ap.Model):
         self._last_n_relocations = 0
         self._last_relocations_by_type: dict[str, int] = {}
         self.step_log: list[dict] = []
+        if getattr(self.p, 'log_platform_detail', False):
+            self.platform_detail_log: list[dict] = []
         self.step_series: dict = {
             'steps': [],
             'avg_utility': [],
@@ -241,6 +243,32 @@ class MiniTiebout(ap.Model):
             entry["per_type_relocations"] = dict(self._last_relocations_by_type)
 
         self.step_log.append(entry)
+
+        if getattr(self.p, 'log_platform_detail', False):
+            for platform in self.platforms:
+                mainstream_utils = [
+                    c.current_utility for c in platform.communities
+                    if c.type == 'mainstream'
+                ]
+                extremist_utils = [
+                    c.current_utility for c in platform.communities
+                    if c.type == 'extremist'
+                ]
+                self.platform_detail_log.append({
+                    "step": self.t,
+                    "platform_id": platform.id,
+                    "governance_type": platform.institution,
+                    "n_mainstream": len(mainstream_utils),
+                    "n_extremist": len(extremist_utils),
+                    "utility_mainstream": (
+                        sum(mainstream_utils) / len(mainstream_utils)
+                        if mainstream_utils else None
+                    ),
+                    "utility_extremist": (
+                        sum(extremist_utils) / len(extremist_utils)
+                        if extremist_utils else None
+                    ),
+                })
 
         # Populate columnar step_series
         ss = self.step_series
