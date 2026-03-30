@@ -1,18 +1,22 @@
 MAIN = main
+OUTDIR = manuscript
+
+export BIBINPUTS := .:../:
+export BSTINPUTS := .:../:
 
 .PHONY: all clean watch wc
 
 all:
-	latexmk -pdf $(MAIN)
+	latexmk -f -pdf -outdir=$(OUTDIR) $(OUTDIR)/$(MAIN)
 
 watch:
-	latexmk -pdf -pvc $(MAIN)
+	latexmk -pdf -pvc -outdir=$(OUTDIR) $(OUTDIR)/$(MAIN)
 
 clean:
-	latexmk -C
+	latexmk -C -outdir=$(OUTDIR) $(OUTDIR)/$(MAIN)
 
 open: all
-	open $(MAIN).pdf
+	open $(OUTDIR)/$(MAIN).pdf
 
 wc:
-	@detex $(MAIN).tex | wc -w
+	@detex $(OUTDIR)/$(MAIN).tex | wc -w
