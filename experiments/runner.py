@@ -410,6 +410,10 @@ class ExperimentRunner:
         except ValueError:
             pass  # no step_series data (e.g. loaded from skipped config)
 
+        # Save per-platform per-step detail log when log_platform_detail is enabled
+        if getattr(config, 'log_platform_detail', False):
+            self._save_platform_detail_csv(config_dir, iteration_results)
+
         # Save dynamics
         if config.tracking_enabled and last_model is not None:
             self._save_dynamics(config_dir, dynamics_scalars, last_model)
@@ -826,6 +830,40 @@ class ExperimentRunner:
         if data:
             with open(config_dir / "step_metrics.json", "w") as f:
                 json.dump(data, f, indent=2)
+
+    def _save_platform_detail_csv(
+        self,
+        config_dir: Path,
+        iteration_results: list,
+    ) -> None:
+        """Write platform_detail.csv from per-iteration platform_detail_log data.
+
+        One row per platform per step per iteration.
+        Columns: iteration, step, platform_id, governance_type,
+                 n_mainstream, n_extremist, utility_mainstream, utility_extremist.
+        """
+        _PLATFORM_DETAIL_COLUMNS = [
+            "iteration", "step", "platform_id", "governance_type",
+            "n_mainstream", "n_extremist", "utility_mainstream", "utility_extremist",
+        ]
+        output_path = config_dir / "platform_detail.csv"
+        with open(output_path, "w", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=_PLATFORM_DETAIL_COLUMNS)
+            writer.writeheader()
+            for i, result in enumerate(iteration_results):
+                if result.platform_detail_log is None:
+                    continue
+                for row in result.platform_detail_log:
+                    writer.writerow({
+                        "iteration": i,
+                        "step": row.get("step"),
+                        "platform_id": row.get("platform_id"),
+                        "governance_type": row.get("governance_type"),
+                        "n_mainstream": row.get("n_mainstream"),
+                        "n_extremist": row.get("n_extremist"),
+                        "utility_mainstream": row.get("utility_mainstream"),
+                        "utility_extremist": row.get("utility_extremist"),
+                    })
 
     def _count_existing_rows(self, raw_path: Path) -> int:
         """Count data rows in existing raw.csv for crash recovery."""

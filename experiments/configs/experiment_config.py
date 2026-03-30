@@ -28,6 +28,7 @@ class ExperimentConfig:
     tracking_enabled: bool = False
     n_iterations: int = 200
     seed_base: int = 42
+    log_platform_detail: bool = False
 
     def to_params(self, iteration: int) -> dict[str, Any]:
         """Convert to AgentPy params dict for a specific iteration."""
@@ -50,6 +51,7 @@ class ExperimentConfig:
             "mu": self.mu,
             "initial_distribution": self.initial_distribution,
             "seed": self.seed_base + iteration,
+            "log_platform_detail": self.log_platform_detail,
         }
 
     def to_dict(self) -> dict[str, Any]:
@@ -73,6 +75,7 @@ class ExperimentConfig:
             "tracking_enabled": self.tracking_enabled,
             "n_iterations": self.n_iterations,
             "seed_base": self.seed_base,
+            "log_platform_detail": self.log_platform_detail,
         }
 
     @staticmethod

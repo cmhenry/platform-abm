@@ -35,6 +35,7 @@ class IterationResult:
     tracker_log: dict[int, StepRecord] | None = None
     step_log: list[dict] | None = None
     step_series: dict | None = None
+    platform_detail_log: list[dict] | None = None
 
 
 @dataclass
@@ -78,6 +79,7 @@ class SimulationReporter:
 
         step_log = getattr(model, "step_log", None)
         step_series = getattr(model, "step_series", None)
+        platform_detail_log = getattr(model, "platform_detail_log", None)
 
         return IterationResult(
             n_comms=model.p.n_comms,
@@ -97,6 +99,7 @@ class SimulationReporter:
             tracker_log=tracker_log,
             step_log=step_log,
             step_series=step_series,
+            platform_detail_log=platform_detail_log,
         )
 
     def add_iteration(self, result: IterationResult) -> None:
