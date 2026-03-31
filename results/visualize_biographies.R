@@ -150,7 +150,7 @@ make_panel <- function(cfg) {
     ) +
     theme_bw(base_size = 10) +
     theme(
-      legend.position  = "bottom",
+      legend.position  = "none",
       plot.title       = element_text(size = 9, face = "bold"),
       plot.subtitle    = element_text(size = 7.5, colour = "grey40"),
       axis.title       = element_text(size = 8),

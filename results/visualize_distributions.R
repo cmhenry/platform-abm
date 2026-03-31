@@ -49,7 +49,10 @@ if (!file.exists(slopes_path)) {
   # Compute fraction with n_bursts >= 3 per cell (already filtered, but annotate cell counts)
   slopes <- slopes %>%
     mutate(
-      n_platforms_label = paste0("N[p] == ", n_platforms),
+      n_platforms_label = factor(
+        paste0("N[p] == ", n_platforms),
+        levels = paste0("N[p] == ", sort(unique(n_platforms)))
+      ),
       alpha_label        = factor(paste0("alpha == ", alpha),
                                   levels = paste0("alpha == ", sort(unique(alpha)))),
       alpha_fac          = factor(alpha, levels = sort(unique(alpha)))
@@ -168,7 +171,7 @@ if (!file.exists(spaghetti_json)) {
         linewidth = 1.2
       ) +
       labs(
-        title    = "Superposed Epoch: Individual Platform Trajectories (np=27, \u03c1=0.15, \u03b1=10)",
+        title    = expression(paste("Superposed Epoch: Individual Platform Trajectories  (", N[p], "=27, ", rho, "=0.15, ", alpha, "=10)")),
         subtitle = "Light grey = individual platform-iteration traces; red = mean",
         x        = "Event number (burst rank within platform-iteration)",
         y        = "Calendar step of burst"
