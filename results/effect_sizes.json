@@ -1,0 +1,173 @@
+{
+  "eta_squared": {
+    "rho_005": {
+      "N_p": {
+        "eta_squared": 0.423753,
+        "F": 1982.1785,
+        "df_effect": 2,
+        "df_error": 5391,
+        "p_value": 0.0
+      },
+      "alpha": {
+        "eta_squared": 0.26209,
+        "F": 957.3868,
+        "df_effect": 2,
+        "df_error": 5391,
+        "p_value": 1.6446251300562177e-283
+      },
+      "interaction": {
+        "eta_squared": 0.02295,
+        "F": 31.657,
+        "df_effect": 4,
+        "df_error": 5391,
+        "p_value": 1.6244943417772144e-25
+      }
+    },
+    "rho_01": {
+      "N_p": {
+        "eta_squared": 0.482331,
+        "F": 2511.4942,
+        "df_effect": 2,
+        "df_error": 5391,
+        "p_value": 0.0
+      },
+      "alpha": {
+        "eta_squared": 0.377647,
+        "F": 1635.6409,
+        "df_effect": 2,
+        "df_error": 5391,
+        "p_value": 0.0
+      },
+      "interaction": {
+        "eta_squared": 0.073481,
+        "F": 106.8886,
+        "df_effect": 4,
+        "df_error": 5391,
+        "p_value": 9.567636715956814e-82
+      }
+    },
+    "rho_015": {
+      "N_p": {
+        "eta_squared": 0.471624,
+        "F": 2405.982,
+        "df_effect": 2,
+        "df_error": 5391,
+        "p_value": 0.0
+      },
+      "alpha": {
+        "eta_squared": 0.352201,
+        "F": 1465.5101,
+        "df_effect": 2,
+        "df_error": 5391,
+        "p_value": 0.0
+      },
+      "interaction": {
+        "eta_squared": 0.064044,
+        "F": 92.2214,
+        "df_effect": 4,
+        "df_error": 5391,
+        "p_value": 2.2476428974575754e-71
+      }
+    }
+  },
+  "pairwise_comparisons": {
+    "direct_vs_coalition_alpha10": [
+      {
+        "n_platforms": 3,
+        "direct_mean": 4.61098,
+        "coalition_mean": 4.737099,
+        "raw_diff": -0.1261190000000001,
+        "note": "Cohen's d unavailable without per-iteration per-governance SD; reporting raw mean difference"
+      },
+      {
+        "n_platforms": 9,
+        "direct_mean": 3.912659,
+        "coalition_mean": 5.722509,
+        "raw_diff": -1.8098499999999995,
+        "note": "Cohen's d unavailable without per-iteration per-governance SD; reporting raw mean difference"
+      },
+      {
+        "n_platforms": 27,
+        "direct_mean": 3.289776,
+        "coalition_mean": 6.148891,
+        "raw_diff": -2.859115,
+        "note": "Cohen's d unavailable without per-iteration per-governance SD; reporting raw mean difference"
+      }
+    ],
+    "direct_vs_algorithmic_alpha10": [
+      {
+        "n_platforms": 3,
+        "direct_mean": 4.61098,
+        "algorithmic_mean": 5.315238,
+        "raw_diff": -0.7042580000000003,
+        "note": "Cohen's d unavailable without per-iteration per-governance SD; reporting raw mean difference"
+      },
+      {
+        "n_platforms": 9,
+        "direct_mean": 3.912659,
+        "algorithmic_mean": 5.82749,
+        "raw_diff": -1.914831,
+        "note": "Cohen's d unavailable without per-iteration per-governance SD; reporting raw mean difference"
+      },
+      {
+        "n_platforms": 27,
+        "direct_mean": 3.289776,
+        "algorithmic_mean": 6.19702,
+        "raw_diff": -2.9072440000000004,
+        "note": "Cohen's d unavailable without per-iteration per-governance SD; reporting raw mean difference"
+      }
+    ],
+    "low_alpha_vs_high_alpha_direct": [
+      {
+        "n_platforms": 3,
+        "alpha_low_mean": 5.559118,
+        "alpha_high_mean": 4.61098,
+        "raw_diff_low_minus_high": 0.9481380000000001,
+        "note": "Direct governance mainstream utility: alpha=2 minus alpha=10"
+      },
+      {
+        "n_platforms": 9,
+        "alpha_low_mean": 6.512911,
+        "alpha_high_mean": 3.912659,
+        "raw_diff_low_minus_high": 2.600252,
+        "note": "Direct governance mainstream utility: alpha=2 minus alpha=10"
+      },
+      {
+        "n_platforms": 27,
+        "alpha_low_mean": 7.012072,
+        "alpha_high_mean": 3.289776,
+        "raw_diff_low_minus_high": 3.722296,
+        "note": "Direct governance mainstream utility: alpha=2 minus alpha=10"
+      }
+    ],
+    "methodology_note": "Per-governance per-iteration SD not available in master_summary.csv. Cohen's d requires raw per-iteration per-governance utility; reporting raw mean differences. See bootstrap_diversification_premium for a full distributional comparison."
+  },
+  "bootstrap_diversification": {
+    "diversification_premium": {
+      "description": "mean(utility_mainstream, np=27) - mean(utility_mainstream, np=3) at alpha=10, rho=0.15",
+      "observed_diff": 0.980067,
+      "ci_lower_95": 0.932082,
+      "ci_upper_95": 1.027403,
+      "n_bootstrap": 10000,
+      "n_np27": 200,
+      "n_np3": 200,
+      "mean_np27": 6.091834,
+      "mean_np3": 5.111767,
+      "mean_np9": 5.667326
+    },
+    "diversification_premium_alpha5": {
+      "description": "mean(utility_mainstream, np=27) - mean(utility_mainstream, np=3) at alpha=5, rho=0.15",
+      "observed_diff": 0.68528,
+      "ci_lower_95": 0.653595,
+      "ci_upper_95": 0.718063,
+      "n_bootstrap": 10000
+    },
+    "did_premium_alpha10_vs_alpha5": {
+      "description": "DiD: (premium_alpha10) - (premium_alpha5), rho=0.15",
+      "observed_did": 0.294787,
+      "ci_lower_95": 0.237897,
+      "ci_upper_95": 0.351092,
+      "n_bootstrap": 10000
+    }
+  }
+}
