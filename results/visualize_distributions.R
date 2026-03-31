@@ -114,7 +114,9 @@ if (!file.exists(spaghetti_json)) {
   # jsonlite for JSON parsing
   suppressPackageStartupMessages(library(jsonlite))
 
-  burst_json <- fromJSON(spaghetti_json, simplifyVector = FALSE)
+  raw_text   <- readLines(spaghetti_json, warn = FALSE)
+  raw_text   <- gsub("\\bNaN\\b", "null", raw_text)
+  burst_json <- fromJSON(paste(raw_text, collapse = "\n"), simplifyVector = FALSE)
 
   # Build long data frame: one row per (iteration, platform, event_number)
   spag_rows <- list()
