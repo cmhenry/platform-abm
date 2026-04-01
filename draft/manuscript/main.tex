@@ -15,7 +15,7 @@
 \maketitle
 
 \begin{abstract}
-How do political communities move between social media platforms? This paper develops and tests a modified Tiebout model of community sorting across online platforms, conceptualizing platforms as quasi-governments offering public goods in the form of attention distribution to user-generated content. Using agent-based computational simulations, I examine how different platform governance structures---direct voting, coalition formation, and algorithmic recommendation---affect the distribution of utility among communities. The results demonstrate that platform consolidation, extremist presence, and governance mechanisms significantly shape community outcomes. Extremist communities act as ``utility vampires,'' extracting utility from mainstream communities through hostile action. The simulations reveal that an online informational environment with few platform options, vague content moderation policies, and limited community autonomy drives political communities toward radicalization, while platform diversity and coalition-based governance can mitigate these effects. \\
+Extremist communities do not simply get deplatformed and disappear; they cycle across the platform ecosystem---concentrating, raiding mainstream spaces, retreating, and re-entering. What structural features enable this pattern? I adapt the Tiebout model of citizen sorting to conceptualize platforms as quasi-governments offering public goods and communities as mobile citizen-voters choosing among governance regimes. Using an agent-based model with three simulation experiments in a $3 \times 3 \times 3$ factorial design crossing platform count, extremist proportion, and parasitism intensity, I find that the sorting mechanism is remarkably resilient to parasitism on average but breaks down under identifiable structural conditions. Three results emerge. First, platform diversification protects mainstream communities, and the premium grows with threat severity as the mechanism shifts from preference matching to target dilution. Second, coalition-based governance provides the strongest structural firewall: mediocre without extremists, it generates endogenous enclaves that sever the parasitism channel under threat. Third, the concentration--raid--retreat cycle is an emergent property of decentralized sorting, not coordinated strategy. The policy implication is that platform-system architecture---the mix of governance types and jurisdictional diversity---rather than individual moderation decisions, determines whether mainstream communities are structurally protected or exposed.
 
 \textbf{Keywords:} social media platforms, community sorting, Tiebout model, content moderation, online extremism, agent-based modeling
 \end{abstract}
@@ -30,11 +30,11 @@ More broadly, political communication work makes clear that where audiences are 
 
 To model community sorting across a system of heterogeneous platforms, I adapt the Tiebout model of citizen sorting across jurisdictions \citep{tiebout1956pure}. Tiebout (1956) showed that if citizens can move freely among municipalities offering different bundles of public goods, they can ``vote with their feet,'' producing efficient sorting onto preferred jurisdictions. I reconceptualize platforms as quasi-governments offering public goods in the form of attention distribution to user-generated content (UGC), and communities as mobile citizen-voters choosing among these jurisdictions. This theoretical move captures two features missing from existing accounts: communities respond to a \emph{bundle} of governance choices rather than any single policy, and their movement decisions are shaped by the composition of the \emph{entire} platform system, not only the platform they currently occupy.
 
-Within this framework, platform-system structure shapes extremist strategy and, through it, the distribution of attention and safety for mainstream communities. Unlike classic citizen-sorting models, extremists can generate utility by imposing costs on other groups. In the simulations, extremist communities act as ``utility vampires,'' extracting utility from mainstream communities through hostile action. As a result, some platform ecosystems generate a stable cycle of extremist concentration, raiding, and re-entry, while others dampen it.
+Within this framework, platform-system structure shapes extremist strategy and, through it, the distribution of attention and safety for mainstream communities. Unlike classic citizen-sorting models, extremists can generate utility by imposing costs on other groups. In the simulations, extremist communities act as ``utility vampires,'' extracting utility from mainstream communities through hostile action. Crucially, the Tiebout mechanism proves remarkably resilient to this parasitism on average---but breaks down under identifiable structural conditions, and those conditions are the paper's central finding.
 
 My argument is threefold. First, community sorting across platforms is sensitive to governance type and to system concentration: more diverse platform systems produce more efficient sorting, increasing the ability of communities to find jurisdictions that match their preferences. Second, and more importantly, platform-system structure shapes extremist strategy. Extremist communities act as ``utility vampires,'' extracting value from mainstream communities, and the mix of platform governance types determines whether they concentrate in enclaves, raid mainstream spaces cyclically, or diffuse more evenly across the ecosystem. Third, coalition-based governance---where communities form movements to shift platform policy---paradoxically provides the strongest protection for mainstream communities by hardening platforms into ideologically coherent spaces that extremists either dominate or abandon.
 
-To demonstrate these dynamics, I develop an agent-based model (ABM) of community sorting across a system of platforms that vary in governance type. In the model, mainstream and extremist communities ``vote with their feet'' by moving among platforms that allocate attention to user-generated content under one of three governance regimes: direct voting, coalition formation, or algorithmic recommendation. I run three simulation experiments. The first establishes baseline sorting dynamics and asks whether communities efficiently sort onto preferred platforms under each governance regime. The second varies platform-system structure---in particular, concentration versus diversity and the degree of community autonomy---to identify the conditions under which sorting becomes inefficient and radicalization pressures emerge. The third introduces extremists as strategic actors that can extract utility from mainstream communities through hostile action, and tests how different mixes of governance regimes shape whether extremists concentrate in enclaves, cyclically raid mainstream spaces, or diffuse across the ecosystem. The policy-relevant implication is that online environments with few platform options, vague moderation, and limited community autonomy systematically worsen outcomes for mainstream communities while creating structural advantages for extremists.
+To demonstrate these dynamics, I develop an agent-based model (ABM) of community sorting across a system of platforms that vary in governance type. In the model, mainstream and extremist communities ``vote with their feet'' by moving among platforms that allocate attention to user-generated content under one of three governance regimes: direct voting, coalition formation, or algorithmic recommendation. I run three simulation experiments. The first establishes baseline sorting dynamics and asks whether communities efficiently sort onto preferred platforms under each governance regime. The second varies platform-system structure---in particular, concentration versus diversity and the degree of community autonomy---to identify the structural conditions under which the sorting mechanism's resilience breaks down and concentrated harm emerges. The third introduces extremists as strategic actors that can extract utility from mainstream communities through hostile action, and tests how different mixes of governance regimes shape whether extremists concentrate in enclaves, cyclically raid mainstream spaces, or diffuse across the ecosystem. The policy-relevant implication is that online environments with few platform options, vague moderation, and limited community autonomy systematically worsen outcomes for mainstream communities while creating structural advantages for extremists.
 
 % To solve this puzzle and explore the strategic interaction between platforms and communities, I turn to a simple classic model of ``voting with your feet." The Tiebout model of citizen sorting argues that local governments efficiently allocate public goods if voters can move freely between municipalities, effectively ``voting with their feet" on preferred policies \citep{tiebout1956pure}. The pure Tiebout hypothesis relies on a number of assumptions about voters and municipal governments. ``Consumer-voters" have complete information and full mobility to move between municipalities. They have many options and moving is costless, both in terms of friction and obtaining housing or employment in a new home. Municipalities are constrained by the optimal community size necessary to provide services and will seek to attract or shed voters to settle on this optimum. With just these base assumptions, Tiebout argues that local governments can meet voters' preferences for public projects efficiently. The theoretical literature on public good distribution has extensively tested and refined the ``pure" model. \cite{bewley1981critique}, for example, shows that the original hypothesis that local governments can find efficient distribution equilibria only holds when there are at least as many voters as community options. Relaxing some of the baseline assumptions can overcome this limitation: by assuming there are fractional costs to moving \citep{wooders1994large}, particularizing preferences \citep{konishi1996voting}, or changing the nature of public goods \citep{berglas1976distribution, rose1979market}. The pure model and subsequent refinements focus on a political environment in which public goods are concrete, material things and municipal institutions are strictly majority-rule. 
 
@@ -777,214 +777,182 @@ Maximum simulation steps & $t_{\max}$ & 100 & $\{50, 100, 200\}$ \\
 
 \textbf{Reporting.} For OAT analysis, I report the percentage change in each outcome measure (mainstream utility, extremist utility, average moves, settling time) relative to the baseline when each parameter is set to its minimum and maximum values. For Sobol indices, I report first-order and total-effect indices with bootstrap confidence intervals following \cite{saltelli2010variance}. Results that are qualitatively sensitive to parameter choices---where the direction of a key finding reverses---are flagged and discussed in the results section.
 
+
 \section{Results}
 \label{sec:results}
 
-% ============================================================
-% STRUCTURE NOTES (remove before submission)
-% 
-% Narrative arc: Tiebout baseline works → extremists break it in 
-% specific ways → the breaks reveal something about platform system design.
-%
-% Experiment 1 establishes two baselines that Experiment 2 complicates.
-% Experiment 2 is the main event: four cross-sectional findings plus
-% a dynamics subsection on raiding.
-% ============================================================
+The results are organized in three parts. First, Experiment~1 establishes that the Tiebout sorting mechanism translates to the platform context: communities sort efficiently onto preferred platforms, and platform diversification improves welfare (\S\ref{sec:results_exp1}). Second, the main factorial experiment introduces extremist communities and identifies where the sorting mechanism remains resilient and where it breaks down (\S\ref{sec:results_exp2}). Third, time-series evidence reveals the dynamic mechanism behind the cross-sectional patterns: emergent raiding cycles that no individual community plans but that platform-system structure produces (\S\ref{sec:results_raiding}).
 
 \subsection{Experiment 1: Sorting Without Extremists}
 \label{sec:results_exp1}
 
-% This section should be relatively compact — the machinery section,
-% not the payoff. Two results that set up the question Experiment 2 answers.
-
 \subsubsection{Result 1: Governance type shapes sorting efficiency, but the ranking depends on system composition}
 
-% In homogeneous systems (single governance type across all platforms):
-%   - Algorithmic: 6.49 avg utility (highest)
-%   - Coalition: 6.06
-%   - Direct: 5.40 (lowest)
-% Gap between algorithmic and direct exceeds 1.0 (>10% of max).
-% Mechanism: algorithmic platforms serve heterogeneous preferences 
-% simultaneously via per-group bundles. Direct forces single majority-rule 
-% bundle — losers eat full cost.
-%
-% In mixed systems, the ranking PARTIALLY INVERTS:
-%   - Direct platforms deliver highest per-capita utility 
-%     (6.31 at N_p=3, 7.05 at N_p=9, 7.61 at N_p=27)
-%   - Mechanism: most communities (59–76%) evacuate to algorithmic platforms.
-%     Residual population on direct platforms is self-selected for preference
-%     alignment. Direct voting works beautifully when electorate agrees.
-%   - Selection effect strengthens with system size: at N_p=27, direct platforms 
-%     hold 4.8% of communities but deliver utility 1.0+ above system average.
-%
-% Coalition platforms stable at 19–20% across all N_p, utility 5.84–6.54.
-% Serve niche: too heterogeneous for direct, prefer explicit coalition 
-% structure over opaque algorithms.
-%
-% Key tables: homogeneous comparison (3 rows), mixed comparison by N_p (3×3).
-% Convergence diagnostics in footnote: utility converges within 10–15 steps; 
-% behavioral convergence slower (lateral shuffling).
+In homogeneous systems---where all $N_p = 9$ platforms share a single governance type---algorithmic platforms produce the highest average community utility (6.49), followed by coalition (6.06) and direct voting (5.40). The gap between algorithmic and direct exceeds 1.0 utility units, more than 10\% of the theoretical maximum. The mechanism is straightforward: algorithmic governance serves heterogeneous preferences simultaneously by constructing per-group content bundles, whereas direct voting forces a single majority-rule bundle on all tenant communities, imposing the full cost of preference misalignment on minority groups.
+
+This ranking partially inverts, however, in mixed systems containing equal shares of all three governance types. When communities can sort freely across governance regimes, direct-voting platforms deliver the \textit{highest} per-capita utility: 6.31 at $N_p = 3$, 7.05 at $N_p = 9$, and 7.61 at $N_p = 27$. The explanation is selection. Most communities (59--76\%, increasing with $N_p$) migrate to algorithmic platforms, which offer acceptable utility to a wide range of preferences. The residual population on direct platforms is self-selected for preference alignment: communities that remain under majority rule do so because they share the majority preference. At $N_p = 27$, direct platforms hold only 4.8\% of all communities but deliver utility more than 1.0 units above the system average. Coalition platforms occupy a stable middle ground, attracting 19--20\% of communities across all system sizes, serving communities too heterogeneous for direct voting but preferring explicit coalition structure over opaque algorithmic recommendations.
+
+This result establishes two baselines that Experiment~2 will complicate. First, algorithmic governance dominates in uniform systems but becomes a refuge platform in diverse ones. Second, direct-voting platforms function as high-utility boutique spaces---\textit{provided} their electorates are homogeneous. The question is what happens when that homogeneity is disrupted.
 
 \subsubsection{Result 2: Platform diversification improves welfare}
 
-% System-wide utility increases monotonically: 
-%   6.20 (N_p=3) → 6.42 (N_p=9) → 6.63 (N_p=27)
-% Every governance type benefits. Variance decreases (SD 0.144 → 0.116).
-% More platforms produce higher AND more equal outcomes.
-% Gain diminishing (~0.2 per tripling) but consistent.
-%
-% This is the core Tiebout prediction confirmed in the platform context.
-% Sets up the Experiment 2 question: does this hold when some communities 
-% are parasitic?
+System-wide utility increases monotonically with the number of available platforms: 6.20 ($N_p = 3$), 6.42 ($N_p = 9$), and 6.63 ($N_p = 27$). The gain is approximately 0.2 utility units per tripling of platforms, consistent across governance types. Variance simultaneously decreases (SD from 0.144 to 0.116), so diversification produces both higher and more equal outcomes. This is the core Tiebout prediction confirmed in the platform context: more jurisdictions allow finer-grained matching between community preferences and governance bundles.
 
-\subsection{Experiment 2: Extremist Dynamics in Mixed Platform Systems}
+The diversification premium is modest in absolute terms---roughly 7\% of system-average utility across the full range of $N_p$. This sets up the central question for Experiment~2: does the premium persist, shrink, or grow when some communities are parasitic?
+
+\subsection{Experiment 2: Sorting with Extremist Communities}
 \label{sec:results_exp2}
 
-% Main event. 3×3×3 factorial: N_p ∈ {3,9,27}, ρ_e ∈ {0.05,0.10,0.15}, 
-% α ∈ {2,5,10}. N_c=900, N_a=10, t_max=100, μ=0.05, mixed governance 
-% (equal thirds). 200 iterations per config.
+Experiment~2 introduces extremist communities into the mixed-governance ecosystem. The design is a $3 \times 3 \times 3$ factorial crossing platform count ($N_p \in \{3, 9, 27\}$), extremist proportion ($\rho_e \in \{0.05, 0.10, 0.15\}$), and vampirism intensity ($\alpha \in \{2, 5, 10\}$), with $N_c = 900$ communities, $t_{\max} = 100$ steps, and 200 iterations per configuration.
 
-\subsubsection{Result 3: Diversification protects mainstream communities, and the protection premium grows with extremist threat}
+The headline finding is one of resilience: the Tiebout sorting mechanism absorbs parasitism remarkably well on average. Across the full factorial, the range of mean normalized mainstream utility spans only 0.135 (from 0.511 at the worst-case configuration to 0.646 at the best). This is not a system in catastrophic failure. But the average masks structurally concentrated costs, and the conditions under which those costs concentrate constitute the policy-relevant finding.
 
-% Central quantitative finding. Frame around N_p × α interaction at ρ_e=0.15:
-%
-% Normalized mainstream utility:
-%                   N_p=3    N_p=9    N_p=27   Δ(27 vs 3)
-%   α=2             0.593    0.619    0.642    +0.049
-%   α=5             0.562    0.600    0.630    +0.068
-%   α=10            0.511    0.567    0.609    +0.098
-%
-% Diversification premium nearly doubles from low to high parasitism.
-% Difference-in-differences: (0.098 - 0.049) = 0.049 on normalized scale.
-%
-% Mechanism change from Experiment 1: no longer just preference matching 
-% but also target dilution. More platforms spread extremists thinner, 
-% reducing parasitism density on any given platform.
-%
-% CENTRAL CLAIM: Platform system structure and extremist behavior are not 
-% independent. The welfare cost of consolidation depends on what kind of 
-% extremists inhabit the system, and the benefit of diversification is 
-% greatest precisely when the extremist threat is most severe.
+A three-way ANOVA on normalized mainstream utility at $\rho_e = 0.15$ confirms that platform count and parasitism intensity are the dominant drivers: $N_p$ accounts for 47\% of variance ($\eta^2 = 0.47$, $F = 2{,}406$, $p < 0.001$) and $\alpha$ for 35\% ($\eta^2 = 0.35$, $F = 1{,}466$, $p < 0.001$). Their interaction contributes a further 6.4\% ($\eta^2 = 0.064$, $F = 92$, $p < 0.001$). The large $F$-statistics reflect the 5,400 iterations at this $\rho_e$ level; the $\eta^2$ values are the substantively meaningful quantities.\footnote{All ANOVA results are substantively identical at $\rho_e = 0.05$ and $\rho_e = 0.10$, with slightly smaller effect sizes for $\alpha$.}
 
-\subsubsection{Result 4: Parasitism intensity produces qualitatively distinct extremist regimes}
+\subsubsection{Result 3: The diversification premium grows with extremist threat}
 
-% The α parameter changes WHAT extremists DO, not just how much they earn.
-%
-% Ideologue regime (α=2): 
-%   - Extremists on direct platforms earn 10.4–11.3 utility
-%   - Most payoff from policy alignment (left side of utility function)
-%   - Mainstream on same direct platforms still earn 5.6–7.2 — functional
-%
-% Griefer regime (α=10):
-%   - Extremists on direct platforms earn 12.7–17.8
-%   - Parasitism bonus dominates
-%   - Mainstream on direct collapses to 3.41 (worst config) — BELOW random baseline of 5.0
-%
-% The regime boundary falls between α=5 and α=10 in most configurations.
-% Evidence: direct/algorithmic utility ratio for extremists grows with α.
-%
-%                              Ext.Direct  Ext.Algo  Ratio
-%   α=2,  N_p=9, ρ=0.10       10.90       6.91      1.58
-%   α=5,  N_p=9, ρ=0.10       12.77       7.74      1.65
-%   α=10, N_p=9, ρ=0.10       15.69       9.42      1.67
-%
-% Connection to extremism literature: ideologue/griefer distinction is not 
-% a binary type assignment but an emergent behavioral regime driven by the 
-% payoff structure.
+The small range of mean effects documented above is itself evidence of resilience: the Tiebout mechanism absorbs parasitism without catastrophic welfare loss. But the \textit{distribution} of those effects across system configurations tells a different story. Platform diversification continues to protect mainstream communities in the presence of extremists, and the protection premium \textit{increases} as parasitism intensifies. Table~\ref{tab:divpremium} reports normalized mainstream utility at $\rho_e = 0.15$ across the $N_p \times \alpha$ grid:
 
-\subsubsection{Result 5: Coalition governance creates protective enclaves}
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lcccr}
+\hline
+ & $N_p = 3$ & $N_p = 9$ & $N_p = 27$ & $\Delta$(27 vs.\ 3) \\
+\hline
+$\alpha = 2$  & 0.593 & 0.619 & 0.642 & +0.049 \\
+$\alpha = 5$  & 0.562 & 0.600 & 0.630 & +0.068 \\
+$\alpha = 10$ & 0.511 & 0.567 & 0.609 & +0.098 \\
+\hline
+\end{tabular}
+\caption{Normalized mainstream utility by platform count and parasitism intensity ($\rho_e = 0.15$). The diversification premium (rightmost column) nearly doubles from low to high parasitism.}
+\label{tab:divpremium}
+\end{table}
 
-% Coalition platforms deliver most stable mainstream utility across α range:
-%   6.35 → 6.13 (decline of 0.22 as α: 2→10)
-%   vs. direct: 7.01 → 3.41 (decline of 3.60)
-%
-% Mechanism: enclave formation.
-%   - Mean coalition homogeneity: 0.92–0.98
-%   - 74–92% of simulation steps above 0.9 enclave threshold
-%   - Segregation completes within 25–30 steps
-%   - Once extremists and mainstream occupy separate coalitions, parasitism 
-%     channel is severed
-%
-% Reframes Experiment 1 finding: coalition platforms looked mediocre 
-% without extremists. Their movement formation mechanism turns out to 
-% be a natural firewall against parasitic neighbors.
-%
-% Temporal pattern from enclave data: early turbulence (steps 1–25), 
-% then sustained near-perfect homogeneity. Rare disruptions coincide 
-% with incoming raids from direct platforms; coalition mechanism re-sorts 
-% within a few steps.
+The diversification premium---the utility gain from moving from a consolidated ($N_p = 3$) to a diverse ($N_p = 27$) platform system---nearly doubles from +0.049 at $\alpha = 2$ to +0.098 at $\alpha = 10$. In raw utility units, the bootstrap estimate of the premium at $\alpha = 10$, $\rho_e = 0.15$ is 0.98 [95\% CI: 0.93, 1.03]. A difference-in-differences test comparing the premium at $\alpha = 10$ versus $\alpha = 5$ yields 0.29 [0.24, 0.35], confirming that the interaction is not merely additive.
 
-\subsubsection{Result 6: Extremists concentrate on direct platforms and exploit the direct–algorithmic interface}
+The mechanism has shifted from Experiment~1. Without extremists, diversification improved welfare through finer preference matching. With extremists, an additional channel opens: \textit{target dilution}. More platforms spread extremist communities across a larger number of jurisdictions, reducing the parasitism density on any given platform. The welfare cost of platform consolidation thus depends on what kinds of communities inhabit the system, and the benefit of diversification is greatest precisely when the extremist threat is most severe.
 
-% ~50% of extremists end up on direct platforms regardless of system parameters.
-% Direct platforms hold only 5–23% of all communities.
-% Concentration stable across all factor levels:
-%   ρ_e=0.05: 22.1/45 on direct (49%)
-%   ρ_e=0.10: 44.9/90 on direct (50%)
-%   ρ_e=0.15: 67.4/135 on direct (50%)
-%
-% Mechanism: combination of capturable majority-rule governance and 
-% unprotected mainstream neighbors. Direct platforms offer no structural 
-% protection — all communities are neighbors under direct voting.
-%
-% This concentration is the setup for the raiding dynamics below.
+\subsubsection{Result 4: Parasitism intensity produces qualitatively distinct behavioral regimes}
+
+The parameter $\alpha$ does not simply scale extremist payoffs---it changes \textit{what extremists do}. At low parasitism intensity, extremists behave as ideologues: they seek platforms whose governance bundles align with their polarized preferences. At high intensity, the same communities become griefers, concentrating wherever mainstream targets are most accessible. This behavioral regime shift is visible in the divergent trajectories of direct-voting platforms across the $\alpha$ range.
+
+At $\alpha = 2$ and $N_p = 27$, mainstream communities on direct platforms earn 5.84 average utility---below the system mean but well above the random baseline of 5.0. Direct platforms function as boutique spaces: high utility for well-matched residents, with extremists present but earning most of their payoff from policy alignment rather than parasitism. At $\alpha = 10$ and $N_p = 27$, however, mainstream utility on direct platforms collapses to 3.39---\textit{below} the random baseline. Extremist utility on the same platforms rises to 12.7--17.8, with the parasitism bonus dominating the base-match component of the utility function. Direct-voting platforms have shifted from boutique to vulnerable: the same governance mechanism that rewarded preference-aligned communities at low $\alpha$ now exposes unprotected mainstream communities to exploitation.
+
+The regime shift is confirmed by tracking the ratio of extremist utility on direct versus algorithmic platforms. At $\alpha = 2$ ($N_p = 9$, $\rho_e = 0.10$), extremists earn 10.90 on direct platforms versus 6.91 on algorithmic, a ratio of 1.58. At $\alpha = 5$, the ratio rises to 1.65 (12.77 vs.\ 7.74); at $\alpha = 10$, to 1.67 (15.69 vs.\ 9.42). The growing premium that direct platforms offer to extremists reflects a shift in the composition of extremist payoffs: as $\alpha$ increases, the parasitism channel accounts for a larger share of total utility, and direct platforms---where all communities are neighbors under majority rule---become the optimal environment for extraction.
+
+A counterintuitive detail underscores the structural nature of this failure mode. At $\alpha = 10$, mainstream utility on direct platforms is \textit{higher} in consolidated systems ($N_p = 3$: 4.62) than in diverse ones ($N_p = 27$: 3.39). The explanation is turbulence: with only three platforms, communities churn continuously, and no stable exploitation equilibrium forms. The high-$\alpha$, high-$N_p$ configuration is the worst case precisely because diversification allows extremists to settle into a stable concentration on direct platforms---the failure mode identified in Result~3's interaction term.
+
+% \begin{figure}[t]
+%   \includegraphics[width=\linewidth]{../figures/biography_panel.pdf}
+%   \caption{Platform biography panels across four behavioral regimes. Bold lines show governance-type means; thin lines show individual platforms. Red: direct voting; blue: algorithmic; green: coalition. Top-left: worst case ($N_p = 27$, $\alpha = 10$); top-right: oscillatory; bottom-left: turbulence ($N_p = 3$, $\alpha = 10$); bottom-right: moderate. Direct platforms diverge sharply from algorithmic and coalition as $\alpha$ increases.}
+%   \label{fig:biography}
+% \end{figure}
+
+\subsubsection{Result 5: Coalition governance creates structural immunity through enclave formation}
+
+Coalition-based governance provides the most stable mainstream welfare across the full range of parasitism intensity. Mainstream utility on coalition platforms declines by only 0.22 units as $\alpha$ increases from 2 to 10 (from 6.35 to 6.13), compared to a decline of 3.60 on direct platforms (from 7.01 to 3.41). This stability is not a product of excluding extremists from coalition platforms---extremists do arrive---but of the enclave mechanism that coalition governance produces.
+
+On coalition platforms, communities form ideological blocs that jointly shift platform policy. Because coalitions aggregate preferences within groups, extremist and mainstream communities naturally sort into separate coalitions, each controlling different policy dimensions. Once this internal segregation occurs, the parasitism channel is structurally severed: extremists and mainstream communities are no longer effective neighbors. Mean coalition enclave homogeneity ranges from 0.92 to 0.98, with 74--92\% of simulation steps exceeding the 0.9 homogeneity threshold. The enclave mechanism is not instantaneous---settling takes a median of 23 steps at $N_p = 27$, $\alpha = 10$---but once established, it proves durable.
+
+% \begin{figure}[t]
+%   \includegraphics[width=\linewidth]{../figures/enclave_settling.pdf}
+%   \caption{Histogram of coalition enclave settling steps, colored by the number of post-settlement disruptions. At $\alpha = 2$ (left), enclaves form rapidly (modal settling at steps 2--5) with 1--2 post-settlement disruptions. At $\alpha = 10$ (right), the settling distribution flattens, extending to step 90, with disruptions spreading to 2+ events.}
+%   \label{fig:enclave}
+% \end{figure}
+
+The temporal pattern reveals the mechanism's resilience. At low $\alpha$, enclaves form within the first five steps and experience at most one or two subsequent disruptions (Figure~\ref{fig:enclave}). At high $\alpha$, settling is delayed---the distribution of settling steps flattens, extending past step 90 in some iterations---and post-settlement disruptions become more frequent, typically coinciding with incoming raids from direct platforms. But the coalition mechanism re-sorts within a few steps of each disruption, restoring enclave homogeneity. The key insight is that coalition governance, which appeared mediocre without extremists (Result~1), turns out to be a natural firewall. The same movement-formation mechanism that made coalitions slower to converge in Experiment~1 now provides structural immunity against parasitic neighbors. Communities do not need to anticipate extremist behavior for the protection to emerge; the coalition structure produces it endogenously.
+
+\subsubsection{Result 6: Extremists concentrate on direct platforms through endogenous selection}
+
+Approximately 50\% of all extremist communities reside on direct-voting platforms at the end of each simulation, regardless of extremist proportion: 49\% at $\rho_e = 0.05$, 50\% at $\rho_e = 0.10$, and 50\% at $\rho_e = 0.15$. Since direct platforms hold only 5--23\% of all communities (depending on $N_p$ and $\alpha$), this represents a 3--10$\times$ overrepresentation relative to population share. The concentration is stable across all levels of $\alpha$ and $N_p$.
+
+This concentration is not a parameter choice---it is an emergent selection equilibrium. Extremists are not assigned to direct platforms; they migrate there because direct voting offers the combination of capturable majority-rule governance and unprotected mainstream neighbors. On algorithmic platforms, the recommendation system partially insulates communities from neighbors with incompatible preferences. On coalition platforms, the enclave mechanism structurally separates extremists from targets (Result~5). Only direct-voting platforms leave all communities exposed under a single shared policy bundle, making them the optimal jurisdiction for parasitic extraction.
+
+The stability of the 50\% concentration across all factor levels is striking. It suggests that the extremist sorting equilibrium is determined primarily by governance structure rather than by the intensity of parasitism or the total number of extremists in the system. Whether the system contains 45 or 135 extremist communities, half end up on direct platforms---the governance mechanism, not the threat level, sets the attractor.
 
 \subsection{Raiding Dynamics}
 \label{sec:results_raiding}
 
-% Separate subsection: most novel finding, requires different evidence 
-% (time series vs cross-sectional averages). Replaces the qualitative 
-% network graph descriptions in the existing draft with proper statistics.
+\subsubsection{Result 7: Extremist movement follows emergent raiding cycles}
 
-\subsubsection{Result 7: Extremist movement follows a bursty raiding pattern}
+The cross-sectional results above describe where extremists end up. The time-series evidence reveals \textit{how they get there}---through bursty, coordinated-looking movement events that are in fact emergent properties of the sorting process, not the product of strategic planning by any individual community.
 
-% On direct platforms, 94–100% of extremist outflow occurs in burst events 
-% (≥10 departures in a single step).
-%   - Median burst: 31 extremists
-%   - Max burst: 74
-%   - Median inter-burst interval: 9 steps
-%   - ACF detection: 3/27 platforms; burst detection: 18/27
-%
-% The mechanism: extremists accumulate on direct platform → shift bundle 
-% toward polarized preferences → extract vampire utility from remaining 
-% mainstream → mainstream gradually departs → balance tips → large group 
-% simultaneously discovers better base utility elsewhere → departs en masse 
-% → arrives on algorithmic platform → temporarily disrupts SVD groupings 
-% (cold-start problem) → extracts utility from mixed groups → algorithm 
-% re-sorts → cycle restarts.
-%
-% PENDING: Aggregated escalation test from full 200-iteration pipeline.
-% If mean slope > 0 for high-α configs: "raids escalate over the simulation"
-% If null: "raids are bursty and large but don't systematically grow — 
-% steady-state cycle rather than runaway process"
-%
-% Coalition contrast: near-zero outflow after first 25 steps. Rare 
-% disruptions from incoming raids restore to high homogeneity within 
-% a few steps. Dynamics-level evidence for the enclave finding.
+On direct platforms, 94--100\% of extremist outflow occurs in burst events, defined as ten or more departures in a single simulation step. The median burst involves 31 extremist communities (56 in the biography configurations at $N_p = 3$, where turbulence dominates). Median inter-burst intervals are approximately nine steps (Figure~\ref{fig:burst}). The mechanism is a tipping dynamic: extremists accumulate on a direct platform, gradually shifting the policy bundle toward their polarized preferences. As the bundle shifts, mainstream communities suffer increasing parasitism costs and begin to depart. When enough mainstream communities leave, the parasitism payoff on that platform drops below the base-match utility available on algorithmic platforms, and a large group of extremists simultaneously discovers better options elsewhere---departing en masse, arriving on an algorithmic platform, temporarily disrupting its recommendation groupings, extracting utility from the mixed environment, and then dispersing as the algorithm re-sorts.
+
+% \begin{figure}[t]
+%   \includegraphics[width=\linewidth]{../figures/burst_marginals.pdf}
+%   \caption{Burst size distributions across the $N_p \times \alpha$ factorial. Each panel shows the distribution of extremist burst sizes ($\geq 10$ departures per step) on direct platforms. At $N_p = 3$ and $\alpha = 10$ (bottom-left), the panel is nearly empty: continuous turbulence replaces discrete bursts. At $N_p = 27$ and $\alpha = 10$ (bottom-right), bursts are large and frequent.}
+%   \label{fig:burst}
+% \end{figure}
+
+% \begin{figure}[t]
+%   \includegraphics[width=\linewidth]{../figures/spaghetti_epoch.pdf}
+%   \caption{Superposed epoch analysis of burst timing. Grey traces show individual platform trajectories; red line shows the mean across all platforms. Mean burst timing follows a log-deceleration pattern---each successive burst takes longer---but individual traces fan out widely, reflecting a bimodal population of platforms: those that stop experiencing bursts and those that continue.}
+%   \label{fig:spaghetti}
+% \end{figure}
+
+The escalation dynamics of raiding differ sharply across system structures. At $N_p = 27$ and $\alpha = 10$, the mean per-platform escalation slope is 0.76 ($p = 0.008$)---statistically significant but modest, indicating gradual intensification. At $N_p = 3$ and $\alpha = 10$, the mean slope jumps to 15.1 ($p \approx 0$), reflecting continuous escalation in a turbulent system with few platforms. The superposed epoch analysis (Figure~\ref{fig:spaghetti}) reveals that the mean trajectory follows a log-deceleration pattern---each successive burst takes longer to arrive---but individual platform traces fan out widely. The distribution is bimodal: roughly 75\% of platforms show near-zero escalation slopes even at $\alpha = 10$, while the remaining 25\% exhibit strong positive escalation (Figure~\ref{fig:slope}). This heterogeneity is the signature of the failure mode: the system does not uniformly degrade, but a subset of direct platforms absorb disproportionate raiding pressure. The biography data confirm the distinction: at $N_p = 27$, the modal convergence pattern is \textit{still-climbing}---platforms that have not yet reached equilibrium by $t = 100$, with bursts decelerating but not ceasing. At $N_p = 3$, the modal pattern shifts to \textit{oscillating}---continuous turbulence with no convergence trajectory (Figure~\ref{fig:biography}).
+
+% \begin{figure}[t]
+%   \includegraphics[width=\linewidth]{../figures/slope_distribution.pdf}
+%   \caption{Distribution of per-platform escalation slopes across the $3 \times 3$ factorial ($N_p$ columns, $\alpha$ rows). At low $\alpha$, slopes cluster near zero. At high $\alpha$, a long right tail emerges: approximately 25\% of direct platforms show strong positive escalation, while the majority remain near zero.}
+%   \label{fig:slope}
+% \end{figure}
+
+A final detail reinforces the resilience frame. The biography data reveal a displacement paradox: when raids displace mainstream communities from direct platforms, those communities typically land on platforms offering better preference matches. The mean displacement utility delta is +0.044 at $N_p = 27$, $\alpha = 10$, and no displacement events produce negative utility changes at this configuration ($\text{frac\_negative} = 0.00$). At $N_p = 3$, where turbulence limits sorting options, 6.1\% of displacements are negative---small but nonzero. Raids are costly for the direct platforms that experience them, but the system as a whole absorbs the shock: displaced communities find better homes, and short-term system utility marginally \textit{improves} after each burst. The Tiebout mechanism self-corrects, provided there are enough platforms to absorb the displaced.
 
 \subsection{Summary}
 \label{sec:results_summary}
 
-% Three-sentence synthesis:
-% (1) The Tiebout mechanism works for platform sorting but produces 
-%     asymmetric outcomes when communities have parasitic utility functions.
-% (2) System structure (N_p) and governance design interact with extremist 
-%     behavior (α) to determine mainstream welfare.
-% (3) The dynamics of extremist movement reveal emergent raiding patterns 
-%     that no individual community plans but that the system structure produces.
-%
-% Transition to discussion.
+Three sets of findings address the paper's core claims. First, the Tiebout sorting mechanism translates robustly to the platform context: diversification improves welfare, and the diversification premium grows with extremist threat (Results~1--3). The mechanism is remarkably resilient to parasitism on average---the full range of normalized mainstream utility spans only 0.135 across the factorial---and the system self-corrects after raiding events when platform diversity is sufficient. Second, platform-system structure shapes extremist strategy in ways that cross-sectional averages obscure. Parasitism intensity produces qualitatively distinct behavioral regimes (Result~4), and extremists endogenously concentrate on direct-voting platforms regardless of system parameters (Result~6). The identifiable failure mode is the intersection of high parasitism intensity and direct-voting governance in diverse ecosystems: the same diversification that protects the system on average allows extremists to form stable exploitation equilibria on unprotected platforms (Results~3--4). Third, coalition-based governance paradoxically provides the strongest structural protection for mainstream communities, not by outperforming other governance types in benign conditions, but by hardening platforms into ideologically coherent enclaves that sever the parasitism channel (Result~5). The emergent raiding cycles that characterize the failure mode are system-level properties---no individual community plans them, but the architecture of the platform system makes them inevitable (Result~7). The policy implication is that platform-system design, not individual moderation decisions, determines whether mainstream communities are structurally protected or structurally exposed.
 
-% \section{Discussion}
+\section{Discussion}
+\label{sec:discussion}
 
-% Results from the modified Tiebout simluation experiments show that platform dynamics are more complicated than previously suggested. Community interactions, especially across platforms with different regime types, have the potential to radicalize or provide substantial utility gains to extremist communities. These results from the simulation experiments should be interpreted as a device for building theory and directing empirical inquiry. We are left with the intuition that communities are competing for public goods on these platforms, different types of platforms deliver goods in more or less efficient methods, and communities obtain utility from competition in different ways. Integrating these intuitions into existing theories to produce testable implications is our next task. 
+The central finding of this paper is that the Tiebout sorting mechanism is remarkably resilient to parasitism. When extremist communities capable of extracting utility from mainstream neighbors enter a diverse platform ecosystem, the sorting process absorbs the threat without catastrophic welfare loss: the full range of normalized mainstream utility across the entire factorial spans only 0.135, a margin that would be difficult to distinguish from noise in most empirical settings. Communities displaced by extremist raids typically land on better-matched platforms, and the system self-corrects after each disruption. This resilience, however, is not unconditional. The model identifies a specific structural failure mode---the intersection of high parasitism intensity, direct-voting governance, and sufficient platform diversity for extremists to form stable exploitation equilibria---under which a subset of platforms absorbs disproportionate harm while the rest of the system appears healthy. The policy-relevant story is therefore not about average damage but about the conditions under which structural protection breaks down and the communities least equipped to defend themselves bear concentrated costs.
 
-%  First, these results suggest that more platforms---and a wider variety of platforms---improve the overall utility of political communities. Consolidation into huge platforms leaves utility on the table for users. And there is certainly empirical evidence to support this. The contemporary landscape of social media platforms is not characterized by variety, but rather consolidation. Meta alone gobbles up billions of users on just three platforms; TikTok commands one-third of all social media users on the planet. Single platforms acting as gatekeepers to community social graphs may be more susceptible to interference by states interested in disrupting challengers at the application layer. Interfering with internet access at the infrastructure level, including complete blackouts, can be a double-edged sword for repressive regimes]; when monopolistic platforms act as pseudo-infrastructure, it may reduce those costs. Variety in media systems is also important for viewpoint and news diversity in democracies. Algorithm-shaped information spaces flatten community boundaries and can drive viral misinformation or homogeneous political information into platform-created bubbles.
- 
-%  Second, it suggests that extremist communities may profitably pursue strategies of frequent movement between platforms. Journalists working on the online extremist beat have long published stories on harassment or hate campaigns organized off-platform---see, for example, the case of Kiwi Farms, a small ``direct"-type platform that became famous for organizing violent harassment campaigns in mainstream spaces. Many possible motivations for this behavior have been suggested: recruitment, ``trolling," persuasion, and so forth. Simulation results suggest that the motivation or strategy for extremist movement between platforms may depend on the social media structure itself.
- 
-%  Finally, the Tiebout simulation model highlights the importance of community competition within a larger structural system of many platforms. Community competition for public goods is not necessarily an inefficient means of distributing things like attention, engagement, monetization tools, community management features, and other aspects of discourse architecture. However, the online media system in which competition happens may produce more costs than benefits. Communities competing within just a few massive platforms generates lower utility for mainstream users, and makes it easier for extremists to find and target their hated out-group. It may also make extremism worse, as extremist communities find themselves competing with each other for the spoils of both victimizing out-group communities and shifting public good bundles towards their preferred outcome.
+\subsection{Platform Design and the Consolidation Problem}
 
+The diversification premium---the welfare gain from expanding the number of available platforms---is one of the most robust findings in the simulation. More platforms produce better outcomes, lower variance, and finer preference matching, consistent with the core Tiebout prediction. What the extremism experiments add is that this premium is not merely additive: it grows with the severity of the threat. The premium nearly doubles from low to high parasitism intensity, and the mechanism shifts from preference matching (which dominates in benign environments) to target dilution (which dominates under threat). More platforms spread extremist communities across more jurisdictions, reducing parasitism density on any given platform and preserving the sorting mechanism's ability to match mainstream communities with compatible governance.
+
+This finding speaks directly to the contemporary platform landscape. The social media ecosystem is not characterized by the jurisdictional diversity that the Tiebout mechanism requires. A small number of firms---Meta, TikTok, Google---command the vast majority of user attention, and market dynamics continue to push toward consolidation rather than diversification. Scholars of media systems have long argued that viewpoint diversity depends on structural diversity in the media landscape \citep{tufekci2017twitter}; the model adds a sharper claim. Platform consolidation does not merely reduce preference matching---it systematically worsens outcomes for mainstream communities, and the magnitude of the harm scales with the extremist threat present. In a benign environment, consolidation leaves modest utility on the table. In a hostile one, it erodes the structural buffer that protects mainstream communities from parasitic exploitation. The tension is structural: the Tiebout mechanism requires a minimum of jurisdictional diversity to function, but the network effects and economies of scale that characterize platform markets push relentlessly toward consolidation.
+
+Two qualifications temper this implication. First, the model's effects are modest on average. Consolidation alone does not produce catastrophe; it removes the system's capacity to absorb shocks when they arrive. The case for platform diversity is therefore less about preventing everyday harm and more about preserving structural resilience against tail-risk events---the platform equivalent of maintaining biodiversity not for its average-day benefits but for its insurance value. Second, the model treats platforms as passive and homogeneous within governance type. Real platforms differ in scale, network effects, content niche, and strategic behavior in ways that complicate a simple ``more is better'' prescription. The theoretical prediction is that jurisdictional diversity is protective; the policy translation requires attention to what kinds of new platforms would actually absorb communities and dilute extremist density, rather than simply fragmenting audiences across functionally identical services.
+
+\subsection{Governance Design and the Coalition Paradox}
+
+Coalition-based governance emerges as the strongest structural firewall against parasitic exploitation, and it does so through a mechanism that is genuinely counterintuitive. In the baseline experiments without extremists, coalition platforms appeared mediocre---slower to converge, lower in average utility than algorithmic platforms, and attracting a stable but unremarkable share of communities. Only when extremists entered the system did the coalition mechanism reveal its protective value. Mainstream utility on coalition platforms declined by just 0.22 units across the full range of parasitism intensity, compared to a decline of 3.60 on direct-voting platforms. The mechanism is enclave formation: coalition governance induces communities to form ideological blocs that jointly control policy dimensions, and this internal structure naturally segregates extremist and mainstream communities into separate coalitions. Once segregated, the parasitism channel is structurally severed---extremists and mainstream communities are no longer effective neighbors even when they share the same platform.
+
+This enclave mechanism provides a structural analog to what the moderation literature describes as community self-governance. Platforms that support movement-formation tools---coalition voting, co-moderation, community-created rules---enable communities to construct internal boundaries that insulate members from hostile neighbors. The finding resonates with empirical observations from platforms like Reddit and Discord, where subreddit and server structures allow communities to establish and enforce their own norms, and where the most stable communities are those with the strongest internal governance \citep{chandrasekharan2017you}. The model suggests that the protective value of these structures derives not from their moderation rules per se but from the coalition-formation process itself: the act of aggregating preferences within blocs produces ideological coherence that extremists cannot easily penetrate.
+
+The practical implication is that governance mechanisms supporting coalition formation---community voting systems, co-moderation structures, movement-building tools---may be more protective than either algorithmic sorting or direct majority rule. Algorithmic platforms serve as effective refuges in mixed systems, absorbing the largest share of communities and delivering acceptable utility to heterogeneous preferences. But they do not actively protect against parasitism; they merely dilute it. Direct-voting platforms, by contrast, shift from boutique to vulnerable as parasitism intensifies: the same governance mechanism that rewarded preference-aligned communities at low threat levels exposes unprotected mainstream communities to exploitation at high ones. Coalition governance occupies a distinct structural position---it actively generates protection through endogenous segregation, and this protection strengthens rather than weakens as the threat grows.
+
+A significant limitation applies here. The model assumes that community coalitions can form organically---that communities possess the information, motivation, and institutional support to identify compatible partners and negotiate joint control of policy dimensions. Real platforms vary enormously in how much they support this process. Many mainstream platforms offer no coalition-formation mechanisms at all, relying entirely on algorithmic personalization or platform-level policy. The finding therefore identifies a design principle---governance that supports community-level coalition formation is structurally protective---rather than a description of existing platform behavior.
+
+\subsection{Extremist Strategy as a System Property}
+
+The empirical puzzle that motivated this paper---why extremist movements cycle across platforms in the specific pattern of concentration, raiding, retreat, and re-entry---receives a structural explanation from the simulation results. The raiding pattern is an emergent property of the sorting process under mixed governance, not the product of strategic planning by any individual community. No extremist community in the model plans a raid cycle; the cycle emerges from individual utility-maximizing moves given the payoff structure of the platform ecosystem. Extremists accumulate on direct-voting platforms where unprotected mainstream neighbors offer parasitic payoffs, gradually shift platform policy toward their preferences, drive mainstream communities out, experience declining parasitic returns, and then disperse to platforms where new targets are available. The cycle repeats because the structural conditions that produced it persist.
+
+The simulation results further reveal that parasitism intensity does not merely scale the magnitude of extremist harm---it produces qualitatively distinct behavioral regimes. At low intensity, extremists behave as ideologues, seeking platforms whose governance bundles align with their polarized preferences. At high intensity, the same communities become griefers, concentrating wherever mainstream targets are most accessible regardless of policy alignment. This regime shift means that the character of the extremist threat, not just its magnitude, changes with the structural conditions of the ecosystem.
+
+This finding reframes how we interpret empirically observed cross-platform coordination. Episodes like the Kiwi Farms harassment campaigns, GamerGate-era cross-platform mobilization, and recurring patterns of extremist return to mainstream spaces after deplatforming look planned, and some coordination certainly occurs. But the model demonstrates that much of this cycling behavior can arise from purely structural incentives: given a platform ecosystem containing direct-voting platforms with unprotected mainstream neighbors, the raiding pattern is the equilibrium outcome of decentralized utility-maximizing behavior. The distinction matters for policy. If cycling is purely strategic, then disrupting coordination channels---encrypted messaging, off-platform planning spaces---should break the cycle. If cycling is substantially structural, then disrupting channels alone is insufficient; the cycle will re-emerge as long as the ecosystem contains the governance configurations that sustain it.
+
+The displacement paradox reinforces this structural interpretation. When raids displace mainstream communities from direct platforms, those communities typically find better matches elsewhere---mean displacement utility is positive, and at high platform diversity no displacement events produce negative utility changes. The Tiebout mechanism self-corrects: raids are costly for the platforms that experience them but beneficial, in net, for the displaced communities and the system as a whole. This self-correction is itself a form of resilience, and it depends on the same jurisdictional diversity identified in the diversification results. At low platform counts, where sorting options are scarce, displacement occasionally produces negative outcomes. The system's capacity to absorb raiding shocks is a function of its structural diversity, closing the loop between the consolidation and extremist-strategy findings.
+
+The policy implication is that deplatforming from a single platform does not break the extremist cycle if the structural conditions---direct-voting platforms with unprotected mainstream neighbors, sufficient platform diversity for re-entry---persist elsewhere in the ecosystem. Effective intervention requires attention to the architecture of the platform system, not only to the moderation decisions of individual platforms.
+
+\subsection{Limitations}
+
+Several modeling choices constrain the scope of these findings. First, community preferences are fixed throughout each simulation. Real communities update their preferences in response to platform experiences, including exposure to extremist content, and preference dynamics could amplify or dampen the sorting patterns observed here. Second, platforms are passive actors: governance type is assigned and does not change. Real platforms strategically adjust their moderation, algorithms, and features to attract or repel communities, and these adjustments would introduce feedback loops absent from the current model. Third, the three governance types---direct voting, coalition formation, and algorithmic recommendation---are stylizations of a much more complex reality. Most real platforms combine elements of all three, and the boundaries between types shift over time as platforms redesign their systems.
+
+Fourth, while the experimental design specifies planned sensitivity analyses, those results are not yet reported. The robustness of the core findings to alternative parameterizations, utility functional forms, and movement rules remains to be confirmed. Fifth, the parameter ranges for platform count, extremist proportion, and parasitism intensity are theoretically motivated but not calibrated to specific real-world platforms or communities. The model is a theoretical device for identifying structural mechanisms, not a predictive tool for forecasting outcomes in particular platform ecosystems. These limitations are characteristic of the exploratory modeling tradition in which this work sits \citep{bankesExploratoryModelingPolicy1993}: the aim is to build theory and identify mechanisms that can guide empirical inquiry, not to generate point predictions.
+
+\subsection{Conclusion}
+
+This paper began with an empirical puzzle: why do extremist communities cycle across the platform ecosystem in the specific pattern of concentration, raiding, retreat, and re-entry? The deplatforming literature treats platform access as binary, and the moderation literature focuses on within-platform governance. Neither framework explains the system-level dynamics that make cycling both rational and emergent. The modified Tiebout model developed here provides that explanation. Community sorting across a system of heterogeneous platforms produces an equilibrium in which extremists endogenously concentrate on direct-voting platforms, exploit unprotected mainstream neighbors, and disperse when parasitic returns decline---generating the cycling pattern as a structural property of the ecosystem rather than a product of coordinated strategy.
+
+The theoretical contribution is to extend the Tiebout framework to multi-governance platform ecosystems and to identify the structural conditions under which parasitic exploitation becomes self-sustaining. The policy contribution is to redirect attention from individual moderation decisions to the architecture of the platform system itself. It is the mix of governance types, the degree of jurisdictional diversity, and the availability of coalition-formation mechanisms that determine whether mainstream communities are structurally protected or structurally exposed. Future work should pursue empirical calibration against observed platform migration data, introduce dynamic governance that allows platforms to respond strategically to community composition, and model preference updating to capture the feedback between extremist exposure and community radicalization.
 \newpage
 
 \bibliographystyle{plainnat}

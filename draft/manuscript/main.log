@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.3.27)  30 MAR 2026 21:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.3.27)  1 APR 2026 14:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -422,32 +422,6 @@ Package hyperref Info: Link coloring OFF on input line 13.
 \@outlinefile=\write3
 \openout3 = `main.out'.
 
-
-Underfull \hbox (badness 1097) in paragraph at lines 18--19
-\OT1/ptm/m/n/12 on-line plat-forms, con-cep-tu-al-iz-ing plat-forms as quasi-go
-vernments of-fer-ing
- []
-
-
-Underfull \hbox (badness 1087) in paragraph at lines 18--19
-\OT1/ptm/m/n/12 gov-er-nance structures---direct vot-ing, coali-tion for-ma-tio
-n, and al-go-rith-mic
- []
-
-
-Underfull \hbox (badness 1028) in paragraph at lines 18--19
-\OT1/ptm/m/n/12 com-mu-ni-ties act as ``util-ity vam-pires,'' ex-tract-ing util
--ity from main-stream
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 18--19
-
- []
-
-
-Underfull \vbox (badness 2080) has occurred while \output is active []
-
  [1
 
 
@@ -461,10 +435,7 @@ LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [3]
+) [3]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [4]
@@ -517,23 +488,50 @@ Underfull \vbox (badness 1062) has occurred while \output is active []
 Package natbib Warning: Citation `saltelli2010variance' on page 14 undefined on
  input line 778.
 
-[14] (manuscript/main.bbl [15])
+[14] [15] [16]
+
+LaTeX Warning: Reference `fig:enclave' on page 17 undefined on input line 864.
+
+[17]
+
+LaTeX Warning: Reference `fig:burst' on page 18 undefined on input line 881.
+
+
+LaTeX Warning: Reference `fig:spaghetti' on page 18 undefined on input line 895
+.
+
+
+LaTeX Warning: Reference `fig:slope' on page 18 undefined on input line 895.
+
+
+LaTeX Warning: Reference `fig:biography' on page 18 undefined on input line 895
+.
+
+[18] [19]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [20]
+[21] [22] [23] [24] (manuscript/main.bbl [25])
 
 Package natbib Warning: There were undefined citations.
 
-[16] (manuscript/main.aux)
+[26] (manuscript/main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: E1B6AE7F22987B7D453EC9B2763C7C6C;7502.
+(rerunfilecheck)             Checksum: 3947D62850D3C25BE426635A7481F36B;8407.
  ) 
 Here is how much of TeX's memory you used:
- 10404 strings out of 474222
- 159246 string characters out of 5748733
+ 10436 strings out of 474222
+ 159619 string characters out of 5748733
  1936975 words of memory out of 5000000
- 32419 multiletter control sequences out of 15000+600000
+ 32433 multiletter control sequences out of 15000+600000
  585420 words of font info for 85 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,13n,79p,1948b,579s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -546,14 +544,15 @@ mf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist
 type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cms
-y8.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on manuscript/main.pdf (16 pages, 220885 bytes).
+cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
+0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/urw/times/utmri8a.pfb>
+Output written on manuscript/main.pdf (26 pages, 265409 bytes).
 PDF statistics:
- 433 PDF objects out of 1000 (max. 8388607)
- 383 compressed objects within 4 object streams
- 101 named destinations out of 1000 (max. 500000)
- 225 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 522 PDF objects out of 1000 (max. 8388607)
+ 459 compressed objects within 5 object streams
+ 119 named destinations out of 1000 (max. 500000)
+ 273 words of extra memory for PDF output out of 10000 (max. 10000000)
 
