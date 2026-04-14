@@ -843,11 +843,11 @@ The regime shift is confirmed by tracking the ratio of extremist utility on dire
 
 A counterintuitive detail underscores the structural nature of this failure mode. At $\alpha = 10$, mainstream utility on direct platforms is \textit{higher} in consolidated systems ($N_p = 3$: 4.62) than in diverse ones ($N_p = 27$: 3.39). The explanation is turbulence: with only three platforms, communities churn continuously, and no stable exploitation equilibrium forms. The high-$\alpha$, high-$N_p$ configuration is the worst case precisely because diversification allows extremists to settle into a stable concentration on direct platforms---the failure mode identified in Result~3's interaction term.
 
-% \begin{figure}[t]
-%   \includegraphics[width=\linewidth]{../figures/biography_panel.pdf}
-%   \caption{Platform biography panels across four behavioral regimes. Bold lines show governance-type means; thin lines show individual platforms. Red: direct voting; blue: algorithmic; green: coalition. Top-left: worst case ($N_p = 27$, $\alpha = 10$); top-right: oscillatory; bottom-left: turbulence ($N_p = 3$, $\alpha = 10$); bottom-right: moderate. Direct platforms diverge sharply from algorithmic and coalition as $\alpha$ increases.}
-%   \label{fig:biography}
-% \end{figure}
+\begin{figure}[t]
+  \includegraphics[width=\linewidth]{../../results/figures/biography_panel.pdf}
+  \caption{Platform biography panels across four behavioral regimes. Bold lines show governance-type means; thin lines show individual platforms. Red: direct voting; blue: algorithmic; green: coalition. Top-left: worst case ($N_p = 27$, $\alpha = 10$); top-right: oscillatory ($N_p = 9$, $\alpha = 10$); bottom-left: continuous turbulence ($N_p = 3$, $\alpha = 10$); bottom-right: moderate ($N_p = 27$, $\alpha = 5$). Direct platforms diverge sharply from algorithmic and coalition as $\alpha$ increases.}
+  \label{fig:biography}
+\end{figure}
 
 \subsubsection{Result 5: Coalition governance creates structural immunity through enclave formation}
 
@@ -855,11 +855,11 @@ Coalition-based governance provides the most stable mainstream welfare across th
 
 On coalition platforms, communities form ideological blocs that jointly shift platform policy. Because coalitions aggregate preferences within groups, extremist and mainstream communities naturally sort into separate coalitions, each controlling different policy dimensions. Once this internal segregation occurs, the parasitism channel is structurally severed: extremists and mainstream communities are no longer effective neighbors. Mean coalition enclave homogeneity ranges from 0.92 to 0.98, with 74--92\% of simulation steps exceeding the 0.9 homogeneity threshold. The enclave mechanism is not instantaneous---settling takes a median of 23 steps at $N_p = 27$, $\alpha = 10$---but once established, it proves durable.
 
-% \begin{figure}[t]
-%   \includegraphics[width=\linewidth]{../figures/enclave_settling.pdf}
-%   \caption{Histogram of coalition enclave settling steps, colored by the number of post-settlement disruptions. At $\alpha = 2$ (left), enclaves form rapidly (modal settling at steps 2--5) with 1--2 post-settlement disruptions. At $\alpha = 10$ (right), the settling distribution flattens, extending to step 90, with disruptions spreading to 2+ events.}
-%   \label{fig:enclave}
-% \end{figure}
+\begin{figure}[t]
+  \includegraphics[width=\linewidth]{../../results/figures/enclave_settling.pdf}
+  \caption{Histogram of coalition enclave settling steps, colored by the number of post-settlement disruptions (green: 0, orange: 1, blue: 2+), shown across three parasitism levels. At $\alpha = 2$ (center), enclaves form rapidly with a sharp modal peak near steps 1--3 and 2+ disruptions common even at low $\alpha$. At $\alpha = 5$ (right), the distribution broadens moderately. At $\alpha = 10$ (left), the settling distribution flattens substantially, extending beyond step 75, with 2+ disruptions prevalent throughout.}
+  \label{fig:enclave}
+\end{figure}
 
 The temporal pattern reveals the mechanism's resilience. At low $\alpha$, enclaves form within the first five steps and experience at most one or two subsequent disruptions (Figure~\ref{fig:enclave}). At high $\alpha$, settling is delayed---the distribution of settling steps flattens, extending past step 90 in some iterations---and post-settlement disruptions become more frequent, typically coinciding with incoming raids from direct platforms. But the coalition mechanism re-sorts within a few steps of each disruption, restoring enclave homogeneity. The key insight is that coalition governance, which appeared mediocre without extremists (Result~1), turns out to be a natural firewall. The same movement-formation mechanism that made coalitions slower to converge in Experiment~1 now provides structural immunity against parasitic neighbors. Communities do not need to anticipate extremist behavior for the protection to emerge; the coalition structure produces it endogenously.
 
@@ -880,25 +880,25 @@ The cross-sectional results above describe where extremists end up. The time-ser
 
 On direct platforms, 94--100\% of extremist outflow occurs in burst events, defined as ten or more departures in a single simulation step. The median burst involves 31 extremist communities (56 in the biography configurations at $N_p = 3$, where turbulence dominates). Median inter-burst intervals are approximately nine steps (Figure~\ref{fig:burst}). The mechanism is a tipping dynamic: extremists accumulate on a direct platform, gradually shifting the policy bundle toward their polarized preferences. As the bundle shifts, mainstream communities suffer increasing parasitism costs and begin to depart. When enough mainstream communities leave, the parasitism payoff on that platform drops below the base-match utility available on algorithmic platforms, and a large group of extremists simultaneously discovers better options elsewhere---departing en masse, arriving on an algorithmic platform, temporarily disrupting its recommendation groupings, extracting utility from the mixed environment, and then dispersing as the algorithm re-sorts.
 
-% \begin{figure}[t]
-%   \includegraphics[width=\linewidth]{../figures/burst_marginals.pdf}
-%   \caption{Burst size distributions across the $N_p \times \alpha$ factorial. Each panel shows the distribution of extremist burst sizes ($\geq 10$ departures per step) on direct platforms. At $N_p = 3$ and $\alpha = 10$ (bottom-left), the panel is nearly empty: continuous turbulence replaces discrete bursts. At $N_p = 27$ and $\alpha = 10$ (bottom-right), bursts are large and frequent.}
-%   \label{fig:burst}
-% \end{figure}
+\begin{figure}[t]
+  \includegraphics[width=\linewidth]{../../results/figures/burst_marginals.pdf}
+  \caption{Burst size distributions across the $N_p \times \alpha$ factorial. Each panel shows the distribution of extremist burst sizes ($\geq 10$ departures per step). At $N_p = 3$ and $\alpha = 10$ (bottom-left), the panel is nearly empty: continuous turbulence replaces discrete bursts. At $N_p = 27$ and $\alpha = 2$ (top-right), bursts are large and frequent; at $N_p = 27$ and $\alpha = 10$ (bottom-right), bursts remain frequent but are concentrated at moderate sizes.}
+  \label{fig:burst}
+\end{figure}
 
-% \begin{figure}[t]
-%   \includegraphics[width=\linewidth]{../figures/spaghetti_epoch.pdf}
-%   \caption{Superposed epoch analysis of burst timing. Grey traces show individual platform trajectories; red line shows the mean across all platforms. Mean burst timing follows a log-deceleration pattern---each successive burst takes longer---but individual traces fan out widely, reflecting a bimodal population of platforms: those that stop experiencing bursts and those that continue.}
-%   \label{fig:spaghetti}
-% \end{figure}
+\begin{figure}[t]
+  \includegraphics[width=\linewidth]{../../results/figures/spaghetti_epoch.pdf}
+  \caption{Superposed epoch analysis of burst timing. Grey traces show individual platform trajectories; red line shows the mean across all platforms. Mean burst timing follows a log-deceleration pattern---each successive burst takes longer---but individual traces fan out widely, reflecting a bimodal population of platforms: those that stop experiencing bursts and those that continue.}
+  \label{fig:spaghetti}
+\end{figure}
 
 The escalation dynamics of raiding differ sharply across system structures. At $N_p = 27$ and $\alpha = 10$, the mean per-platform escalation slope is 0.76 ($p = 0.008$)---statistically significant but modest, indicating gradual intensification. At $N_p = 3$ and $\alpha = 10$, the mean slope jumps to 15.1 ($p \approx 0$), reflecting continuous escalation in a turbulent system with few platforms. The superposed epoch analysis (Figure~\ref{fig:spaghetti}) reveals that the mean trajectory follows a log-deceleration pattern---each successive burst takes longer to arrive---but individual platform traces fan out widely. The distribution is bimodal: roughly 75\% of platforms show near-zero escalation slopes even at $\alpha = 10$, while the remaining 25\% exhibit strong positive escalation (Figure~\ref{fig:slope}). This heterogeneity is the signature of the failure mode: the system does not uniformly degrade, but a subset of direct platforms absorb disproportionate raiding pressure. The biography data confirm the distinction: at $N_p = 27$, the modal convergence pattern is \textit{still-climbing}---platforms that have not yet reached equilibrium by $t = 100$, with bursts decelerating but not ceasing. At $N_p = 3$, the modal pattern shifts to \textit{oscillating}---continuous turbulence with no convergence trajectory (Figure~\ref{fig:biography}).
 
-% \begin{figure}[t]
-%   \includegraphics[width=\linewidth]{../figures/slope_distribution.pdf}
-%   \caption{Distribution of per-platform escalation slopes across the $3 \times 3$ factorial ($N_p$ columns, $\alpha$ rows). At low $\alpha$, slopes cluster near zero. At high $\alpha$, a long right tail emerges: approximately 25\% of direct platforms show strong positive escalation, while the majority remain near zero.}
-%   \label{fig:slope}
-% \end{figure}
+\begin{figure}[t]
+  \includegraphics[width=\linewidth]{../../results/figures/slope_distribution.pdf}
+  \caption{Distribution of per-platform escalation slopes across the $3 \times 3$ factorial. Each panel shows one level of $N_p$ (columns: $N_p \in \{3, 9, 27\}$); $\alpha$ varies along the x-axis within each panel. At low $\alpha$, slopes cluster tightly near zero across all $N_p$ conditions. At high $\alpha$, the distribution widens substantially---particularly at $N_p = 3$---with a subset of platforms showing strong positive escalation while the majority remain near zero, consistent with the bimodal pattern in which approximately 25\% of direct platforms absorb disproportionate raiding pressure.}
+  \label{fig:slope}
+\end{figure}
 
 A final detail reinforces the resilience frame. The biography data reveal a displacement paradox: when raids displace mainstream communities from direct platforms, those communities typically land on platforms offering better preference matches. The mean displacement utility delta is +0.044 at $N_p = 27$, $\alpha = 10$, and no displacement events produce negative utility changes at this configuration ($\text{frac\_negative} = 0.00$). At $N_p = 3$, where turbulence limits sorting options, 6.1\% of displacements are negative---small but nonzero. Raids are costly for the direct platforms that experience them, but the system as a whole absorbs the shock: displaced communities find better homes, and short-term system utility marginally \textit{improves} after each burst. The Tiebout mechanism self-corrects, provided there are enough platforms to absorb the displaced.
 
