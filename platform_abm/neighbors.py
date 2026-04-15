@@ -30,15 +30,23 @@ def get_neighbors(community: Community, platform: Platform) -> list[Community]:
 
 
 def get_neighbor_counts(community: Community, platform: Platform) -> dict[str, int]:
-    """Return counts of mainstream and extremist neighbors."""
+    """Return counts of mainstream, ideologue, and griefer neighbors."""
     neighbors = get_neighbors(community, platform)
-    n_mainstream = sum(
-        1 for c in neighbors if c.type == CommunityType.MAINSTREAM.value
-    )
-    n_extremist = sum(
-        1 for c in neighbors if c.type == CommunityType.EXTREMIST.value
-    )
-    return {"n_mainstream": n_mainstream, "n_extremist": n_extremist}
+    n_mainstream = 0
+    n_ideologue = 0
+    n_griefer = 0
+    for c in neighbors:
+        if c.type == CommunityType.MAINSTREAM.value:
+            n_mainstream += 1
+        elif getattr(c, "subtype", "") == "griefer":
+            n_griefer += 1
+        else:
+            n_ideologue += 1
+    return {
+        "n_mainstream": n_mainstream,
+        "n_ideologue": n_ideologue,
+        "n_griefer": n_griefer,
+    }
 
 
 def _neighbors_direct(community: Community, platform: Platform) -> list[Community]:

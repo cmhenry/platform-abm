@@ -45,7 +45,7 @@ def compute_utility(community: Community, platform: Platform) -> float:
     u_base = compute_base_utility(community, platform)
     counts = get_neighbor_counts(community, platform)
     n_main = counts["n_mainstream"]
-    n_ext = counts["n_extremist"]
+    n_ext = counts["n_ideologue"] + counts["n_griefer"]
     total = n_main + n_ext
     alpha = getattr(community, "alpha", 1.0)
 
