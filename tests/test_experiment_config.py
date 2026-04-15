@@ -4,6 +4,7 @@ from experiments.configs.experiment_config import ExperimentConfig
 from experiments.configs.builders import (
     build_exp1_configs,
     build_exp2_configs,
+    build_exp2b_configs,
     build_interaction_configs,
     build_oat_configs,
 )
@@ -69,11 +70,14 @@ def test_unique_config_names_across_builders():
     all_configs = (
         build_exp1_configs()
         + build_exp2_configs()
+        + build_exp2b_configs()
         + build_oat_configs()
         + build_interaction_configs()
     )
     names = [c.name for c in all_configs]
-    assert len(names) == len(set(names)), f"Duplicate names found: {[n for n in names if names.count(n) > 1]}"
+    assert len(names) == len(set(names)), (
+        f"Duplicate names found: {[n for n in names if names.count(n) > 1]}"
+    )
 
 
 def test_exp1_config_count():
@@ -199,3 +203,29 @@ def test_from_dict_accepts_legacy_dict_missing_new_fields():
     assert cfg.alpha_ideologue is None
     assert cfg.alpha_griefer is None
     assert cfg.frac_griefer == 0.0
+
+
+def test_exp2b_config_count():
+    """Experiment 2b produces 3 configs (f_g in {0.25, 0.50, 0.75})."""
+    assert len(build_exp2b_configs()) == 3
+
+
+def test_exp2b_configs_have_disaggregated_alpha():
+    for cfg in build_exp2b_configs():
+        assert cfg.experiment == "exp2b"
+        assert cfg.alpha_ideologue == 2.0
+        assert cfg.alpha_griefer == 10.0
+        assert cfg.rho_extremist == 0.10
+        assert cfg.n_platforms == 9
+        assert cfg.institution == "mixed"
+        assert cfg.tracking_enabled is True
+
+
+def test_exp2b_frac_griefer_sweep():
+    fracs = sorted(cfg.frac_griefer for cfg in build_exp2b_configs())
+    assert fracs == [0.25, 0.50, 0.75]
+
+
+def test_exp2b_names():
+    names = sorted(cfg.name for cfg in build_exp2b_configs())
+    assert names == ["exp2b_fg025", "exp2b_fg050", "exp2b_fg075"]
