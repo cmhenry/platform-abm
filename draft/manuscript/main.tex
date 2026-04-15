@@ -849,6 +849,36 @@ A counterintuitive detail underscores the structural nature of this failure mode
   \label{fig:biography}
 \end{figure}
 
+\subsubsection{Result 4b: The behavioral regime generalizes to mixed extremist populations}
+
+Result~4 established the ideologue-griefer distinction under pure-type populations. Experiment~2b tests whether that distinction holds when the two subtypes are mixed within a fixed extremist share ($\rho_e = 0.10$, $N_p = 9$, $t_{\max} = 100$, 200 iterations per configuration). Griefer fraction $f_g \in \{0.25, 0.50, 0.75\}$ varies across three intermediate configurations, anchored at $f_g = 0$ (pure ideologues, $\alpha_i = 2$) and $f_g = 1$ (pure griefers, $\alpha_g = 10$) from the exp2 baselines. The three narrative results are reported in turn.
+
+\paragraph{Welfare degradation is monotone in $f_g$ but governance-type-specific.}
+Mainstream welfare declines continuously across the full $f_g$ gradient on all three governance types (Figure~\ref{fig:exp2b_governance}), but the magnitude of that decline differs sharply by institution. On direct platforms, welfare falls from 6.55 at $f_g = 0$ to 4.52 at $f_g = 1.00$, a loss of 2.03 utility units. On coalition platforms the corresponding loss is 0.34 (6.09 to 5.75); on algorithmic platforms, 0.31 (6.22 to 5.91). Direct platforms bear nearly the entire cost of the griefer gradient while coalition and algorithmic platforms remain substantially buffered throughout.
+
+The damage on direct platforms is front-loaded. At $f_g = 0.25$---a population in which griefers constitute 25\% of an already-minority extremist group, or approximately 2.5\% of all communities---mainstream welfare on direct platforms has already fallen to 6.01, capturing the majority of the degradation ultimately observed at $f_g = 1.00$. Coalition welfare at the same point is 5.92 and algorithmic welfare 6.10, both close to their respective $f_g = 0$ baselines. This pattern sharpens the interaction finding from Result~3: the worst-performing configuration is produced disproportionately by the griefer subpopulation, and direct-voting governance is the institutional locus of that failure.
+
+\begin{figure}[t]
+  \includegraphics[width=\linewidth]{../../results/figures/exp2b_governance.pdf}
+  \caption{Mainstream welfare by governance type across the griefer fraction gradient ($N_p = 9$, $\rho_e = 0.10$). Left: absolute mainstream utility (direct: red; coalition: green; algorithmic: blue). Right: welfare loss relative to the pure-ideologue baseline ($f_g = 0$). Filled circles indicate exp2 baseline endpoints; open diamonds indicate exp2b intermediate configurations. Direct-platform welfare declines 2.03 units across the $f_g$ range; coalition and algorithmic platforms lose 0.34 and 0.31 units respectively.}
+  \label{fig:exp2b_governance}
+\end{figure}
+
+\paragraph{Burst dynamics shift from concentrated to escalating as $f_g$ increases.}
+The change in burst structure across the $f_g$ gradient is qualitative, not merely a rescaling (Figure~\ref{fig:exp2b_dynamics}). At $f_g = 0.25$, raiding produces large, concentrated bursts (median 31 communities) with no significant time-trend in escalation (slope $= 0.07$, $p = 0.34$). As $f_g$ increases, burst size declines monotonically while escalation slope rises sharply: at $f_g = 0.50$, slope $= 0.24$ ($p = 0.001$); at $f_g = 0.75$, slope $= 1.27$ ($p < 0.001$). Ideologue-dominated populations produce policy-driven mass departures---large, discrete bursts when a platform's governance bundle no longer matches preferences. Griefer-dominated populations produce repeated low-grade disruption---smaller but escalating bursts as communities continuously seek accessible mainstream targets regardless of bundle. The $f_g$ gradient traces the continuous transition between these two regimes.
+
+\paragraph{Enclave formation is slowed but not defeated by mixed extremist populations.}
+Coalition enclave settling time rises from a mean of 21.8 steps at $f_g = 0.25$ to 39.7 steps at $f_g = 0.75$. At $f_g \geq 0.50$, at least 10\% of iterations do not achieve enclave equilibrium within $t_{\max} = 100$ (convergence mode: \textsc{still\_climbing}; 90th-percentile settling step $= 100$), a convergence failure absent at $f_g = 0.25$. Enclave homogeneity declines from 0.94 to 0.92 across the same range, remaining high throughout. The enclave mechanism is not defeated by mixed extremist populations; it is slowed. This qualification matters for Result~5's protection claim: coalition governance provides structural immunity, but the timeline for that immunity to materialize is longer when griefers constitute a larger share of the extremist population.
+
+\begin{figure}[t]
+  \includegraphics[width=\linewidth]{../../results/figures/exp2b_dynamics.pdf}
+  \caption{Burst and enclave dynamics across the griefer fraction gradient ($N_p = 9$, $\rho_e = 0.10$). Left: median burst size (red bars, left axis) and escalation slope (blue line, right axis) at $f_g \in \{0.25, 0.50, 0.75\}$; asterisk indicates significant escalation ($p < 0.05$). Right: coalition enclave settling time (mean $\pm$ 1 SD, green line and ribbon, left axis) and enclave homogeneity (dashed grey, right axis). The vertical dashed line at $f_g = 0.50$ marks the onset of convergence failure in $\geq 10\%$ of iterations.}
+  \label{fig:exp2b_dynamics}
+\end{figure}
+
+\paragraph{Validation of the $\alpha$ proxy.}
+These results validate the use of $\alpha$ as a continuous behavioral proxy in the main factorial design. The ideologue-griefer transition is smooth and continuous in both welfare outcomes and burst dynamics across the $f_g$ gradient; the distinction between the two subtypes is not categorical. The intermediate value $\alpha = 5$ used in exp2 corresponds behaviorally to realistic mixed populations rather than a degenerate special case. The composite $\rho_e$ parameter, which conflates ideologue and griefer counts at fixed $\alpha$, is therefore a reasonable simplification for the factorial design. The $f_g$ results confirm that the simplification does not produce qualitatively misleading results.
+
 \subsubsection{Result 5: Coalition governance creates structural immunity through enclave formation}
 
 Coalition-based governance provides the most stable mainstream welfare across the full range of parasitism intensity. Mainstream utility on coalition platforms declines by only 0.22 units as $\alpha$ increases from 2 to 10 (from 6.35 to 6.13), compared to a decline of 3.60 on direct platforms (from 7.01 to 3.41). This stability is not a product of excluding extremists from coalition platforms---extremists do arrive---but of the enclave mechanism that coalition governance produces.
