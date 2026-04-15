@@ -37,24 +37,33 @@ def compute_base_utility(community: Community, platform: Platform) -> int:
 def compute_utility(community: Community, platform: Platform) -> float:
     """Full utility with proportional vampirism.
 
-    Mainstream: u_base - alpha * (n_ext / (n_ext + n_main))
-    Extremist:  u_base + alpha * (n_main / (n_main + n_ext))
+    Mainstream: u_base - (alpha_i * n_ideologue + alpha_g * n_griefer) / total
+    Extremist:  u_base + community.alpha * (n_mainstream / total)
 
-    Division-by-zero guard: vampirism term is 0 when denominator is 0 (solo community).
+    alpha_i and alpha_g default to community.alpha when the model does not
+    expose disaggregated alpha params (legacy experiments).
+
+    Division-by-zero guard: vampirism term is 0 when denominator is 0.
     """
     u_base = compute_base_utility(community, platform)
     counts = get_neighbor_counts(community, platform)
     n_main = counts["n_mainstream"]
-    n_ext = counts["n_extremist"]
-    total = n_main + n_ext
-    alpha = getattr(community, "alpha", 1.0)
+    n_ideologue = counts["n_ideologue"]
+    n_griefer = counts["n_griefer"]
+    total = n_main + n_ideologue + n_griefer
 
     if total == 0:
         return float(u_base)
 
     if community.type == CommunityType.EXTREMIST.value:
+        alpha = getattr(community, "alpha", 1.0)
         return u_base + alpha * (n_main / total)
     elif community.type == CommunityType.MAINSTREAM.value:
-        return u_base - alpha * (n_ext / total)
+        model_p = community.model.p
+        alpha_i = getattr(model_p, "alpha_ideologue",
+                          getattr(community, "alpha", 1.0))
+        alpha_g = getattr(model_p, "alpha_griefer",
+                          getattr(community, "alpha", 1.0))
+        return u_base - (alpha_i * n_ideologue + alpha_g * n_griefer) / total
     else:
         return float(u_base)

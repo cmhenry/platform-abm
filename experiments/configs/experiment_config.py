@@ -20,6 +20,9 @@ class ExperimentConfig:
     rho_extremist: float  # maps to percent_extremists = int(rho * 100)
     alpha: float
     mu: float = 0.05
+    alpha_ideologue: float | None = None
+    alpha_griefer: float | None = None
+    frac_griefer: float = 0.0
     coalitions: int = 5
     mutations: int = 3
     svd_groups: int = 10
@@ -33,6 +36,8 @@ class ExperimentConfig:
     def to_params(self, iteration: int) -> dict[str, Any]:
         """Convert to AgentPy params dict for a specific iteration."""
         percent = int(self.rho_extremist * 100)
+        alpha_i = self.alpha_ideologue if self.alpha_ideologue is not None else self.alpha
+        alpha_g = self.alpha_griefer if self.alpha_griefer is not None else self.alpha
         return {
             "n_comms": self.n_communities,
             "n_plats": self.n_platforms,
@@ -48,6 +53,9 @@ class ExperimentConfig:
             "svd_groups": self.svd_groups,
             "stop_condition": "steps",
             "alpha": self.alpha,
+            "alpha_ideologue": alpha_i,
+            "alpha_griefer": alpha_g,
+            "frac_griefer": self.frac_griefer,
             "mu": self.mu,
             "initial_distribution": self.initial_distribution,
             "seed": self.seed_base + iteration,
@@ -66,6 +74,9 @@ class ExperimentConfig:
             "institution": self.institution,
             "rho_extremist": self.rho_extremist,
             "alpha": self.alpha,
+            "alpha_ideologue": self.alpha_ideologue,
+            "alpha_griefer": self.alpha_griefer,
+            "frac_griefer": self.frac_griefer,
             "mu": self.mu,
             "coalitions": self.coalitions,
             "mutations": self.mutations,

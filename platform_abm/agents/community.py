@@ -28,6 +28,7 @@ class Community(ap.Agent):
     moves: int
     last_move_step: int
     alpha: float
+    subtype: str
 
     def setup(self) -> None:
         """Initialize a new community agent."""
@@ -42,6 +43,7 @@ class Community(ap.Agent):
         self.moves = 0
         self.last_move_step = 0
         self.alpha = self.p.alpha if hasattr(self.p, 'alpha') else 1.0
+        self.subtype = ""
 
     def utility(self, policies: NDArray[np.int_] | list[int]) -> int:
         """Calculate utility as preference-policy alignment."""
