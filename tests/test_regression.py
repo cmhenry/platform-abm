@@ -72,3 +72,54 @@ class TestRegressionBaselines:
         r2 = _run_model("algorithmic")
         assert r1["average_moves"] == r2["average_moves"]
         assert r1["average_utility"] == r2["average_utility"]
+
+
+from platform_abm.metrics import compute_extremist_metrics
+from tests.conftest import make_model
+
+
+class TestExtremistMetricsSubtypes:
+    def test_both_subtypes_reported_when_present(self):
+        model = make_model({
+            "n_comms": 100, "n_plats": 1,
+            "extremists": "yes", "percent_extremists": 40,
+            "alpha": 3.0,
+            "alpha_ideologue": 2.0, "alpha_griefer": 10.0,
+            "frac_griefer": 0.5,
+        })
+        # Force utility update so current_utility is populated.
+        for comm in model.communities:
+            comm.update_utility()
+        metrics = compute_extremist_metrics(model.communities)
+        assert "average_mainstream_utility" in metrics
+        assert "average_extremist_utility" in metrics
+        assert "average_ideologue_utility" in metrics
+        assert "average_griefer_utility" in metrics
+
+    def test_ideologue_key_omitted_when_no_ideologues(self):
+        model = make_model({
+            "n_comms": 100, "n_plats": 1,
+            "extremists": "yes", "percent_extremists": 40,
+            "alpha": 10.0,
+            "alpha_ideologue": 2.0, "alpha_griefer": 10.0,
+            "frac_griefer": 1.0,
+        })
+        for comm in model.communities:
+            comm.update_utility()
+        metrics = compute_extremist_metrics(model.communities)
+        assert "average_griefer_utility" in metrics
+        assert "average_ideologue_utility" not in metrics
+
+    def test_griefer_key_omitted_when_no_griefers(self):
+        model = make_model({
+            "n_comms": 100, "n_plats": 1,
+            "extremists": "yes", "percent_extremists": 40,
+            "alpha": 2.0,
+            "alpha_ideologue": 2.0, "alpha_griefer": 10.0,
+            "frac_griefer": 0.0,
+        })
+        for comm in model.communities:
+            comm.update_utility()
+        metrics = compute_extremist_metrics(model.communities)
+        assert "average_ideologue_utility" in metrics
+        assert "average_griefer_utility" not in metrics
