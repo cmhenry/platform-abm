@@ -9,108 +9,130 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/simple.css">
 
   <style>
-    /* ── Typography ─────────────────────────────────────────────────── */
-    .reveal { font-family: "Georgia", serif; }
-    .reveal h1, .reveal h2, .reveal h3 {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      font-weight: 700; letter-spacing: -0.02em;
-      text-transform: none;
-    }
-    .reveal h1 { font-size: 1.6em; line-height: 1.2; }
-    .reveal h2 { font-size: 1.3em; line-height: 1.2; }
-    .reveal p, .reveal li { font-size: 0.82em; line-height: 1.6; }
-    .reveal .slides section { text-align: left; }
-    .reveal .slides > section.title-slide { text-align: center; }
-
-    /* ── Palette ─────────────────────────────────────────────────────── */
     :root {
-      --direct:     #c0392b;
-      --coalition:  #27ae60;
-      --algo:       #2980b9;
-      --accent:     #e67e22;
-      --muted:      #7f8c8d;
-      --bg-card:    #f8f9fa;
+      --direct:    #c0392b;
+      --coalition: #27ae60;
+      --algo:      #2980b9;
+      --accent:    #d35400;
+      --muted:     #7f8c8d;
+      --card:      #f4f4f4;
     }
 
-    /* ── Utility classes ─────────────────────────────────────────────── */
+    .reveal {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+      font-weight: 700; text-transform: none;
+      letter-spacing: -0.01em; color: #111;
+    }
+    .reveal h1 { font-size: 1.5em; line-height: 1.2; }
+    .reveal h2 { font-size: 1.05em; line-height: 1.2; margin-bottom: 0.4em; border-bottom: 2px solid #ddd; padding-bottom: 0.2em; }
+    .reveal h4 { font-size: 0.75em; margin: 0 0 0.25em 0; }
+    .reveal p  { font-size: 0.65em; line-height: 1.5; margin: 0.2em 0; }
+    .reveal .slides section { text-align: left; }
+
+    .sub  { font-size: 0.62em; color: var(--muted); }
+    .mute { font-size: 0.60em; color: var(--muted); margin-top: 0.3em; }
+    .bold { font-weight: 700; }
+
+    /* Key claim bar */
     .claim {
-      font-family: "Helvetica Neue", sans-serif;
-      font-size: 1.0em; font-weight: 700;
-      color: #1a1a2e; border-left: 4px solid var(--accent);
-      padding: 0.4em 0.8em; margin: 0.6em 0;
-      background: var(--bg-card); line-height: 1.4;
+      border-left: 3px solid var(--accent);
+      padding: 0.25em 0.6em;
+      margin: 0.35em 0;
+      background: var(--card);
+      font-size: 0.68em;
+      font-weight: 600;
+      line-height: 1.4;
+      color: #1a1a1a;
     }
-    .evidence { font-size: 0.75em; color: #444; margin-top: 0.3em; }
-    .muted { color: var(--muted); font-size: 0.72em; }
-    .tag {
-      display: inline-block; font-size: 0.6em; font-family: sans-serif;
-      padding: 0.15em 0.5em; border-radius: 3px;
-      color: white; vertical-align: middle; margin-right: 0.3em;
-    }
-    .tag-direct     { background: var(--direct); }
-    .tag-coalition  { background: var(--coalition); }
-    .tag-algo       { background: var(--algo); }
-    .tag-accent     { background: var(--accent); }
 
-    /* ── Three-column governance grid ───────────────────────────────── */
+    /* Governance type grid */
     .gov-grid {
-      display: grid; grid-template-columns: 1fr 1fr 1fr;
-      gap: 0.8em; margin: 0.5em 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.5em;
+      margin: 0.4em 0;
     }
     .gov-card {
-      padding: 0.6em 0.8em; border-radius: 4px; border-top: 4px solid;
-      background: var(--bg-card);
+      padding: 0.4em 0.55em;
+      border-top: 3px solid;
+      background: var(--card);
     }
-    .gov-card h3 { font-size: 0.82em; margin: 0 0 0.3em 0; }
-    .gov-card p  { font-size: 0.68em; margin: 0; color: #333; }
-    .gov-card.direct     { border-color: var(--direct); }
-    .gov-card.coalition  { border-color: var(--coalition); }
-    .gov-card.algo       { border-color: var(--algo); }
+    .gov-card h4 { font-size: 0.68em; }
+    .gov-card p  { font-size: 0.60em; color: #333; margin: 0; }
+    .gov-card.direct    { border-color: var(--direct); }
+    .gov-card.coalition { border-color: var(--coalition); }
+    .gov-card.algo      { border-color: var(--algo); }
 
-    /* ── Gradient table ──────────────────────────────────────────────── */
+    /* Data table */
     .data-table {
-      width: 100%; border-collapse: collapse; font-size: 0.72em;
-      font-family: monospace; margin: 0.5em 0;
+      width: 100%; border-collapse: collapse;
+      font-size: 0.63em; font-family: monospace;
+      margin: 0.4em 0;
     }
     .data-table th {
-      background: #2c3e50; color: white;
-      padding: 0.4em 0.6em; text-align: center; font-weight: 600;
+      background: #2c3e50; color: #fff;
+      padding: 0.3em 0.5em; text-align: center;
     }
     .data-table td {
-      padding: 0.35em 0.6em; text-align: center; border-bottom: 1px solid #ddd;
+      padding: 0.25em 0.5em; text-align: center;
+      border-bottom: 1px solid #ddd;
     }
-    .data-table tr:nth-child(even) { background: var(--bg-card); }
-    .data-table .row-direct     { color: var(--direct); font-weight: bold; }
-    .data-table .row-coalition  { color: var(--coalition); }
-    .data-table .row-algo       { color: var(--algo); }
-    .data-table .highlight-cell { font-weight: bold; }
+    .data-table tr:nth-child(even) { background: var(--card); }
+    .hl { font-weight: 700; }
 
-    /* ── Paradox two-column layout ──────────────────────────────────── */
+    /* Two-column layout */
     .two-col {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 1.2em; margin-top: 0.5em;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6em;
+      margin: 0.35em 0;
     }
     .col-box {
-      padding: 0.7em 0.9em; border-radius: 4px;
-      background: var(--bg-card); font-size: 0.72em;
-    }
-    .col-box h4 { margin: 0 0 0.4em 0; font-size: 1em; }
-
-    /* ── Slide numbering ─────────────────────────────────────────────── */
-    .slide-number {
-      position: fixed; bottom: 12px; right: 16px;
-      font-size: 0.55em; color: var(--muted); font-family: monospace;
+      padding: 0.4em 0.6em;
+      background: var(--card);
+      font-size: 0.63em;
+      line-height: 1.4;
     }
 
-    /* ── Discussion card ─────────────────────────────────────────────── */
+    /* Color-coded label */
+    .lbl {
+      display: inline-block;
+      font-size: 0.55em; font-weight: 700;
+      padding: 0.1em 0.4em;
+      border-radius: 2px;
+      color: #fff;
+      vertical-align: middle;
+    }
+    .lbl-d { background: var(--direct); }
+    .lbl-k { background: var(--coalition); }
+    .lbl-a { background: var(--algo); }
+
+    /* Discussion card */
     .q-card {
-      border-left: 3px solid #2c3e50; padding: 0.4em 0.8em;
-      margin: 0.5em 0; background: var(--bg-card); font-size: 0.78em;
+      border-left: 2px solid #999;
+      padding: 0.25em 0.6em;
+      margin: 0.3em 0;
+      background: var(--card);
+      font-size: 0.65em;
+      line-height: 1.4;
     }
-    .q-card strong { color: #2c3e50; }
 
-    .subtitle { color: var(--muted); font-size: 0.75em; margin-top: 0.2em; }
-    .speaker  { font-size: 0.68em; color: var(--muted); font-style: italic; }
+    /* stat callout row */
+    .stats {
+      display: flex; gap: 1.2em;
+      margin: 0.4em 0;
+    }
+    .stat-box {
+      background: var(--card);
+      padding: 0.35em 0.7em;
+      font-size: 0.65em;
+      text-align: center;
+      flex: 1;
+    }
+    .stat-box .num { font-size: 1.5em; font-weight: 700; display: block; color: #1a1a1a; }
+    .stat-box .lbl2 { font-size: 0.75em; color: var(--muted); }
   </style>
 </head>
 <body>
@@ -118,293 +140,299 @@
 <div class="slides">
 
 
-<!-- ══════════════════════════════════════════════════════════════════ -->
-<!-- SLIDE 1 — Title                                                    -->
-<!-- ══════════════════════════════════════════════════════════════════ -->
-<section class="title-slide">
-  <h1>Platform Architecture<br>as Political System</h1>
-  <p class="subtitle">A Tiebout approach to extremist cycling<br>across platform ecosystems</p>
-  <br>
-  <p class="speaker">Team meeting · April 16, 2026 · 10 min</p>
+<!-- 1 ─ Title ──────────────────────────────────────────────────────────── -->
+<section style="text-align:center; padding-top: 1.5em;">
+  <h1>Platform Architecture as Political System</h1>
+  <p class="sub" style="margin-top:0.5em;">Tiebout sorting, extremist cycling, and structural protection<br>in multi-platform ecosystems</p>
+  <p class="sub" style="margin-top:1.2em;">Team meeting · April 16, 2026</p>
   <aside class="notes">
-    Welcome — thanks for the time. I want to use this to pressure-test the framing and get your read on whether the theory holds water before I submit. The presentation is deliberately fast; I'll leave 3–4 minutes for pushback at the end. The key question I want you sitting with the whole time: is Tiebout the right theoretical lens for this?
+    10 minutes + discussion. Goal: validate the framing, theory, and ABM strategy before submission. Two pillars: (1) how platform-system structure shapes welfare outcomes; (2) how that structure produces the empirically observed extremist movement patterns.
   </aside>
 </section>
 
 
-<!-- ══════════════════════════════════════════════════════════════════ -->
-<!-- SLIDE 2 — The puzzle                                               -->
-<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- 2 ─ Puzzle ─────────────────────────────────────────────────────────── -->
 <section>
-  <h2>The puzzle: deplatforming doesn't work</h2>
+  <h2>The empirical puzzle</h2>
+
+  <p>Extremist communities don't disappear after bans — they cycle.
+  The observable pattern has two signatures:</p>
+
+  <div class="two-col" style="margin-top:0.5em;">
+    <div class="col-box">
+      <h4>WHERE they end up</h4>
+      Extremists concentrate stably on specific platform types, overrepresented 3–10× relative to platform capacity.
+      This is not random drift.
+    </div>
+    <div class="col-box">
+      <h4>HOW they move</h4>
+      Movement is bursty: 94–100% of outflow occurs in mass departure events.
+      This looks coordinated but recurs even when platforms are unconnected.
+    </div>
+  </div>
+
+  <div class="claim" style="margin-top:0.6em;">
+    Both signatures are system-level properties. Neither follows from individual-platform accounts
+    (content moderation, network lock-in, coordination failure).
+  </div>
+
+  <aside class="notes">
+    Frame the puzzle as having two parts from the start — the WHERE and the HOW. Standard deplatforming literature addresses neither: it treats the destination as unpredictable and treats the movement as coordinated. Both of those assumptions are wrong, and the Tiebout model explains why.
+  </aside>
+</section>
+
+
+<!-- 3 ─ Theory ─────────────────────────────────────────────────────────── -->
+<section>
+  <h2>Theoretical frame: Tiebout sorting</h2>
+
+  <p>Tiebout (1956): citizens choose among competing jurisdictions based on the public goods
+  bundle each offers. The equilibrium is system-level — it depends on the composition of alternatives,
+  not any single jurisdiction's policy.</p>
 
   <div class="claim">
-    Extremist communities don't disappear after bans — they cycle.
-    Concentration on one platform → raid elsewhere → retreat → repeat.
-  </div>
-
-  <p>Standard explanations invoke <strong>coordination</strong> or <strong>network lock-in</strong>.
-  Both are individual-platform accounts. Neither explains why the cycling
-  is <em>system-level</em> and <em>self-reproducing</em>.</p>
-
-  <p class="fragment">What's missing: the role of <strong>platform-system architecture</strong> —
-  the mix of governance types across which communities can sort.</p>
-
-  <aside class="notes">
-    You all know the empirical puzzle: Infowars, the chans, Gab, Parler, Truth Social. The pattern recurs across cases. The current literature explains this at the level of individual communities or individual platforms. That's not wrong, but it's incomplete — the cycling is a property of the system, not of any single community or platform. That's the gap I'm trying to fill.
-  </aside>
-</section>
-
-
-<!-- ══════════════════════════════════════════════════════════════════ -->
-<!-- SLIDE 3 — Theoretical move                                         -->
-<!-- ══════════════════════════════════════════════════════════════════ -->
-<section>
-  <h2>Theoretical move: platforms as jurisdictions</h2>
-
-  <p>Tiebout (1956): in a system of competing local governments,
-  citizens <em>vote with their feet</em> — choosing jurisdictions
-  by the public goods bundle they offer.</p>
-
-  <div class="claim fragment">
     Platforms are quasi-governments offering governance bundles.
-    Communities are mobile agents that sort across them.
-    The cycling pattern is a structural equilibrium — not a coordination failure.
+    Communities sort across them by voting with their feet.
+    Concentration and cycling are sorting equilibria — not coordination failures.
   </div>
 
-  <p class="fragment muted">
-    This reframes the unit of analysis from <em>individual platforms</em>
-    to the <em>platform system</em> — what matters is the mix of governance types,
-    not any one platform's policy.
-  </p>
+  <p style="margin-top:0.5em;">Key move: the unit of analysis shifts from individual platforms
+  to the <span class="bold">platform system</span> — governance type mix, jurisdictional diversity,
+  and the structural positions available to different community types.</p>
 
   <aside class="notes">
-    The Tiebout move is doing a lot of work here. Two features make it apt: (1) communities respond to a governance *bundle*, not a single policy; (2) the sorting outcome depends on what else is in the ecosystem. Whether this framing is convincing to reviewers is one of the things I want your read on. The alternative would be a network-theoretic frame — I'll explain why I rejected that if you ask.
+    Two features make the Tiebout analogy tractable: (1) communities respond to a governance bundle, not a single policy; (2) the sorting equilibrium depends on what else is in the ecosystem. The question for the room: does the bundle-response assumption hold empirically for extremist communities, or only for fandom communities (which is where most migration evidence comes from)?
   </aside>
 </section>
 
 
-<!-- ══════════════════════════════════════════════════════════════════ -->
-<!-- SLIDE 4 — Model                                                    -->
-<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- 4 ─ Model ──────────────────────────────────────────────────────────── -->
 <section>
-  <h2>The model (briefly)</h2>
+  <h2>The model</h2>
 
   <div class="gov-grid">
     <div class="gov-card direct">
-      <h3><span class="tag tag-direct">D</span> Direct voting</h3>
-      <p>Communities set policy by majority rule. All neighbors interact.
-         <em>Real analogue: Reddit, early forums.</em></p>
+      <h4><span class="lbl lbl-d">D</span> Direct voting</h4>
+      <p>Majority rule; all neighbors interact.<br><em>Reddit, early forums.</em></p>
     </div>
     <div class="gov-card coalition">
-      <h3><span class="tag tag-coalition">K</span> Coalition formation</h3>
-      <p>Preference blocs compete for platform control via hill-climbing search.
-         <em>Real analogue: Discord servers, federated platforms.</em></p>
+      <h4><span class="lbl lbl-k">K</span> Coalition formation</h4>
+      <p>Preference blocs compete for platform control.<br><em>Discord, federated platforms.</em></p>
     </div>
     <div class="gov-card algo">
-      <h3><span class="tag tag-algo">A</span> Algorithmic</h3>
-      <p>SVD-based recommendation groups communities by affinity.
-         <em>Real analogue: TikTok, YouTube, Facebook.</em></p>
+      <h4><span class="lbl lbl-a">A</span> Algorithmic</h4>
+      <p>SVD-based recommendation by affinity.<br><em>TikTok, YouTube, Facebook.</em></p>
     </div>
   </div>
 
-  <p class="muted fragment">
-    Two extremist subtypes: <strong>ideologues</strong> (α=2, preference-driven)
-    and <strong>griefers</strong> (α=10, target-seeking).
-    3×3×3 factorial: N<sub>p</sub> × ρ<sub>e</sub> × α · 200 iterations · 900 communities.
-  </p>
+  <p style="margin-top:0.4em;">Community types: <span class="bold">mainstream</span>;
+  <span class="bold">ideologues</span> (α=2, preference-seeking);
+  <span class="bold">griefers</span> (α=10, target-seeking).
+  Extremist utility: u<sub>base</sub> + α·(n<sub>mainstream</sub>/total).
+  Mainstream utility: u<sub>base</sub> − (α<sub>i</sub>·n<sub>ideo</sub> + α<sub>g</sub>·n<sub>grief</sub>)/total.</p>
+
+  <p class="mute">3×3×3 factorial: N<sub>p</sub> ∈ {3, 9, 27} × ρ<sub>e</sub> ∈ {0.05, 0.10, 0.15} × α ∈ {2, 5, 10}.
+  900 communities · 200 iterations · t<sub>max</sub>=100.</p>
 
   <aside class="notes">
-    Don't get lost in the model spec. The three governance types map to real platform families — that's what motivates the typology. The "α" parameter is the behavioral lever: low α = ideologues who care about policy alignment, high α = griefers who care about accessing mainstream targets. The factorial design lets us test how these three factors interact — is the system compositional, or is it driven by one dominant factor?
+    Don't linger here. The governance typology is motivated by real platform families. The utility formula is the core mechanism: griefers are explicitly target-seeking (high α means the mainstream term dominates their payoff), ideologues are preference-seeking (low α means base utility dominates). The factorial design tests whether system composition or threat intensity is the dominant driver.
   </aside>
 </section>
 
 
-<!-- ══════════════════════════════════════════════════════════════════ -->
-<!-- SLIDE 5 — Results 1–3: Diversification premium                    -->
-<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- 5 ─ System structure I: Diversification ────────────────────────────── -->
 <section>
-  <h2>Finding 1 — Platform diversity is structural protection</h2>
+  <h2>System structure I — Platform diversity as protection</h2>
 
-  <div class="claim">
-    Diversification premium nearly <em>doubles</em> as parasitism intensifies.
-    At high threat (α=10), mainstream communities gain 0.98 utility units
-    from a consolidated → diverse ecosystem [95% CI: 0.93, 1.03].
-  </div>
-
-  <table class="data-table fragment">
+  <table class="data-table">
     <thead>
-      <tr><th>Parasitism (α)</th><th>N<sub>p</sub>=3</th><th>N<sub>p</sub>=9</th><th>N<sub>p</sub>=27</th><th>Premium</th></tr>
+      <tr>
+        <th>α (parasitism)</th>
+        <th>N<sub>p</sub> = 3</th>
+        <th>N<sub>p</sub> = 9</th>
+        <th>N<sub>p</sub> = 27</th>
+        <th>Premium</th>
+      </tr>
     </thead>
     <tbody>
-      <tr><td>2 (ideologue)</td><td>0.593</td><td>0.619</td><td>0.642</td><td>+0.049</td></tr>
-      <tr><td>5 (mixed)</td>    <td>0.562</td><td>0.600</td><td>0.630</td><td>+0.068</td></tr>
-      <tr><td>10 (griefer)</td> <td>0.511</td><td>0.577</td><td>0.609</td><td class="highlight-cell">+0.098</td></tr>
+      <tr><td>2 — ideologue</td><td>0.593</td><td>0.619</td><td>0.642</td><td>+0.049</td></tr>
+      <tr><td>5 — mixed</td>    <td>0.562</td><td>0.600</td><td>0.630</td><td>+0.068</td></tr>
+      <tr><td>10 — griefer</td> <td>0.511</td><td>0.577</td><td>0.609</td><td class="hl">+0.098</td></tr>
     </tbody>
   </table>
 
-  <p class="fragment evidence">
-    N<sub>p</sub> accounts for 47% of variance (η²=0.47); α for 35% (η²=0.35).
-    <strong>System structure beats threat intensity</strong> as the dominant predictor.
-  </p>
+  <p>Normalized mainstream utility (ρ<sub>e</sub>=0.15). Premium at α=10: 0.98 [95% CI: 0.93, 1.03].</p>
+
+  <div class="claim">
+    N<sub>p</sub> accounts for 47% of outcome variance (η²=0.47);
+    α for 35% (η²=0.35). Platform count is the dominant structural predictor —
+    and the diversification premium grows as the threat intensifies.
+  </div>
 
   <aside class="notes">
-    This is the basic result that validates the Tiebout intuition. More important than the magnitude: platform count explains *more* variance than the intensity of the threat. That's the structural argument in one number. The implication: you can't moderate your way out of this — you need diversity in the ecosystem.
-
-    The bootstrap CI for the premium at α=10 is 0.98 [0.93, 1.03] — economically meaningful.
+    The key number is η²=0.47 for N_p versus η²=0.35 for α. System structure explains more variance than threat intensity. The premium doubling (0.049 → 0.098) across the α range means diversification matters most precisely when the threat is worst.
   </aside>
 </section>
 
 
-<!-- ══════════════════════════════════════════════════════════════════ -->
-<!-- SLIDE 6 — Result 5: The coalition paradox                          -->
-<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- 6 ─ System structure II: Coalition paradox ─────────────────────────── -->
 <section>
-  <h2>Finding 2 — The coalition paradox</h2>
+  <h2>System structure II — The coalition governance paradox</h2>
 
   <div class="two-col">
     <div class="col-box">
       <h4>Without extremists</h4>
-      <p>Coalition governance is <strong>mediocre</strong> — slower to converge,
-         lower average welfare than direct or algorithmic platforms.</p>
+      Coalition governance is <span class="bold">mediocre</span>: slower convergence,
+      lower average welfare than direct or algorithmic platforms.
     </div>
-    <div class="col-box fragment">
+    <div class="col-box">
       <h4>Under extremist threat</h4>
-      <p>Coalition governance becomes the <strong>strongest firewall</strong>.
-         Mainstream welfare on coalition platforms declines only 0.22 units
-         as α doubles; direct platforms lose 3.60.</p>
+      Coalition governance is the <span class="bold" style="color: var(--coalition);">strongest firewall</span>:
+      mainstream welfare declines 0.22 units as α doubles;
+      direct platforms lose 3.60.
     </div>
   </div>
 
-  <div class="claim fragment">
-    Mechanism: extremists' coherent preference vectors win plurality voting
-    → homogeneous extremist enclaves form → mainstream communities depart
-    → parasitism channel is structurally severed. Enclave homogeneity: 0.92–0.98.
+  <div class="claim" style="margin-top:0.4em;">
+    Mechanism: extremists share coherent preference vectors → win plurality voting →
+    set extremist platform policy → mainstream communities depart →
+    parasitism channel severed. Enclave homogeneity: 0.92–0.98.
+    No coordinated moderation required.
   </div>
 
-  <p class="muted fragment">
-    Communities don't anticipate extremist behavior. No coordinated moderation required.
-    The coalition structure produces enclave segregation endogenously.
-  </p>
+  <p class="mute">Enclave settling: median 23 steps at N<sub>p</sub>=27, α=10.
+  Post-settlement disruptions re-sort within a few steps.</p>
 
   <aside class="notes">
-    This is the finding I'm most excited about, and the one I want your read on. It's counterintuitive: the governance type that looks worst at baseline is actually the best firewall under threat. The mechanism is clear in the model — extremists are a coherent bloc that wins plurality voting, which sets extremist policy, which drives mainstream communities out. Once they're out, the parasitism channel is gone.
+    The coalition paradox is the clearest governance-type finding. The mechanism is purely structural: extremists' preference coherence gives them bloc-voting power, which sets extremist policy, which pushes mainstream communities out. Once the mainstream leaves, the parasitism channel is gone. This happens automatically — it's not a moderation decision.
 
-    The question for you: is this a plausible description of how coalition-based platforms (like Discord servers) actually behave? That's the empirical validity question.
+    Question for room: does this mechanism have analogs in how Discord servers or federated platforms (like Mastodon instances) actually behave?
   </aside>
 </section>
 
 
-<!-- ══════════════════════════════════════════════════════════════════ -->
-<!-- SLIDE 7 — Result 7: Emergent raiding                               -->
-<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- 7 ─ Movement I: Concentration ──────────────────────────────────────── -->
 <section>
-  <h2>Finding 3 — The raiding cycle is emergent, not coordinated</h2>
+  <h2>Extremist movement I — Stable concentration on direct platforms</h2>
+
+  <div class="stats">
+    <div class="stat-box">
+      <span class="num">~50%</span>
+      <span class="lbl2">of all extremists on direct platforms at simulation end</span>
+    </div>
+    <div class="stat-box">
+      <span class="num">3–10×</span>
+      <span class="lbl2">overrepresentation relative to platform capacity</span>
+    </div>
+    <div class="stat-box">
+      <span class="num">stable</span>
+      <span class="lbl2">across all α and N<sub>p</sub> values</span>
+    </div>
+  </div>
 
   <div class="claim">
-    94–100% of extremist outflow occurs in mass departure bursts.
+    Extremists are not assigned to direct platforms — they migrate there.
+    Algorithmic platforms partially insulate communities by affinity grouping.
+    Coalition platforms segregate extremists into enclaves.
+    Only direct voting leaves all communities unprotected under a shared policy.
+  </div>
+
+  <p>The 50% concentration figure is invariant to extremist prevalence (ρ<sub>e</sub>=0.05, 0.10, 0.15)
+  and parasitism intensity. Governance structure, not threat level, sets the attractor.</p>
+
+  <aside class="notes">
+    This is the WHERE finding. The stability of 50% concentration across all factor levels is the key. It's not that more extremists → more concentration on direct platforms. The rate is fixed by the governance structure. Direct platforms are the optimal jurisdiction for parasitic extraction regardless of how many extremists are in the system.
+  </aside>
+</section>
+
+
+<!-- 8 ─ Movement II: Raiding dynamics ──────────────────────────────────── -->
+<section>
+  <h2>Extremist movement II — Raiding cycles are emergent</h2>
+
+  <div class="claim">
+    94–100% of extremist outflow occurs in burst events (≥10 departures/step).
     Median burst: 31 communities. Median inter-burst interval: 9 steps.
-    <br>No community plans this. It's a tipping dynamic.
+    No community coordinates this.
   </div>
 
-  <p class="fragment"><strong>The mechanism:</strong> Extremists accumulate on a direct platform
-  → shift policy toward their preferences → mainstream communities' utility drops →
-  mainstream departs → parasitism payoff collapses → extremists simultaneously discover
-  better options → mass departure → hit algorithmic platforms → algorithm re-sorts →
-  disperse → repeat.</p>
+  <p style="margin-top:0.4em;"><span class="bold">Tipping dynamic:</span>
+  Extremists accumulate on a direct platform → shift policy toward their preferences →
+  mainstream utility drops → mainstream departs → parasitism payoff collapses →
+  extremists discover better options simultaneously → mass departure → repeat.</p>
 
-  <p class="fragment evidence">
-    Behavioral type matters: <span class="tag tag-direct" style="font-size:0.8em;">Ideologue</span> populations produce large, concentrated,
-    non-escalating bursts. <span class="tag tag-direct" style="font-size:0.8em;">Griefer</span> populations produce smaller but continuously
-    escalating bursts (slope=1.27, p&lt;0.001 at f<sub>g</sub>=0.75).
-  </p>
+  <p style="margin-top:0.4em;"><span class="bold">Behavioral type shapes the pattern:</span></p>
+  <div class="two-col">
+    <div class="col-box">
+      <span class="lbl lbl-d">Ideologue</span> (low α)<br>
+      Large concentrated bursts (median 31). No escalation trend (p=0.34).
+      Policy-driven mass departures.
+    </div>
+    <div class="col-box">
+      <span class="lbl lbl-d">Griefer</span> (high f<sub>g</sub>)<br>
+      Smaller bursts (median 15 at f<sub>g</sub>=0.75), strong escalation (slope=1.27, p&lt;0.001).
+      Continuous disruption.
+    </div>
+  </div>
 
   <aside class="notes">
-    This is the policy-critical finding. What looks like organized raids — coordinated mass movements — is an emergent property of decentralized sorting, not strategic planning. The implication: if you try to disrupt the coordination (e.g., by monitoring Signal channels where extremists plan raids), you're solving the wrong problem. The structural incentives produce the same behavior regardless of whether anyone coordinates.
-
-    The mixed ideologue/griefer finding (f_g analysis) is new results added this week — shows the transition is continuous, not categorical.
+    The HOW finding. What looks like organized raids is a decentralized tipping dynamic. The policy implication: targeting coordination channels doesn't address the structural incentive. The mixed-type (f_g) analysis is new this week — it shows the ideologue-to-griefer transition is continuous, not categorical, which validates using α as a behavioral proxy.
   </aside>
 </section>
 
 
-<!-- ══════════════════════════════════════════════════════════════════ -->
-<!-- SLIDE 8 — Policy implications                                      -->
-<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- 9 ─ Discussion ──────────────────────────────────────────────────────── -->
 <section>
-  <h2>So what — and what the model can't say</h2>
-
-  <div class="claim">
-    Platform-system design, not individual moderation decisions,
-    determines whether mainstream communities are structurally protected.
-  </div>
-
-  <p class="fragment"><strong>The policy levers:</strong> Governance type composition of the ecosystem;
-  platform diversification; structural separation of governance regimes
-  (not deplatforming, content moderation, or coordination disruption).</p>
-
-  <p class="fragment"><strong>Honest limits:</strong> The model is not calibrated to real platforms.
-  Results establish sufficient conditions for the cycling pattern to arise —
-  not predictive claims. Sensitivity analysis underway (HPC).</p>
-
-  <aside class="notes">
-    I want to be explicit about what the model can and can't claim. The core theoretical contribution is: "structural incentives alone are sufficient to produce this pattern." That's a weaker claim than "this explains what we observe on real platforms," but it's defensible and falsifiable. The sensitivity analysis will test whether the key findings hold across parameter variations — that's the piece reviewers will push on hardest.
-  </aside>
-</section>
-
-
-<!-- ══════════════════════════════════════════════════════════════════ -->
-<!-- SLIDE 9 — Discussion / validate the framing                       -->
-<!-- ══════════════════════════════════════════════════════════════════ -->
-<section>
-  <h2>What I want from this room</h2>
+  <h2>Discussion</h2>
 
   <div class="q-card">
-    <strong>1. Is Tiebout the right frame?</strong><br>
-    The core assumption: communities respond to governance bundles and sort
-    across platforms. Does that match what we actually observe in the empirical cases?
+    <span class="bold">1. Is Tiebout the right frame?</span><br>
+    The core assumption: communities respond to governance bundles and sort accordingly.
+    Does that hold for extremist communities, or only for the fandom-migration cases cited in the literature?
   </div>
 
-  <div class="q-card fragment">
-    <strong>2. Are the governance types the right typology?</strong><br>
+  <div class="q-card">
+    <span class="bold">2. Is the governance typology right?</span><br>
     Direct / coalition / algorithmic maps to Reddit / Discord / TikTok-era platforms.
-    Are there important real-world cases this misses or misclassifies?
+    Are there cases this misclassifies, or a fourth type that matters?
   </div>
 
-  <div class="q-card fragment">
-    <strong>3. What's the empirical traction?</strong><br>
-    The model generates falsifiable predictions — concentration ratios, burst timing,
-    governance-type welfare differentials. Which of these could be tested with
-    available data, and by whom?
+  <div class="q-card">
+    <span class="bold">3. What empirical tests are tractable?</span><br>
+    The model predicts: ~50% extremist concentration on direct-type platforms;
+    burst-structured outflow; governance-type welfare differentials.
+    Which of these can be checked against existing data?
   </div>
 
-  <p class="muted fragment" style="margin-top:0.8em;">
-    Target venues: Computational Communication Research, J. Computational Social Science.
-    Submission after sensitivity analysis returns (~2 weeks).
+  <p class="mute" style="margin-top:0.6em;">
+    Target venues: <em>Computational Communication Research</em>, <em>J. Computational Social Science</em>.
+    Scope claim: sufficient conditions for the cycling pattern to arise from decentralized sorting.
+    Sensitivity analysis currently running on HPC.
   </p>
 
   <aside class="notes">
-    These are genuine questions, not rhetorical. On question 1: the empirical cases I cite (Chandrasekharan et al. on Reddit bans, Fiesler et al. on Tumblr migration) mostly involve fandom communities — reviewers have flagged that strategically sophisticated extremist groups may behave differently. Is that a fatal problem or a limitation worth noting? On question 2: I'm open to splitting the algorithmic type or adding a fourth type if there's a strong case. On question 3: the burst timing prediction (inter-burst intervals, size distributions) could in principle be tested against platform API data — does anyone know of work going in this direction?
+    On question 1: the Chandrasekharan et al. and Fiesler et al. evidence is from fandom communities facing technical barriers — not strategically sophisticated extremist groups. One reviewer flagged this; worth an honest answer from the room. On question 3: burst timing and concentration ratios could potentially be tested with platform API data. Does anyone know of work going in that direction?
   </aside>
 </section>
 
 
-</div> <!-- .slides -->
-</div> <!-- .reveal -->
+</div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
 <script>
   Reveal.initialize({
-    hash:        true,
-    slideNumber: "c/t",
-    transition:  "fade",
+    hash:            true,
+    slideNumber:     "c/t",
+    transition:      "fade",
     transitionSpeed: "fast",
-    controls:    true,
-    progress:    true,
-    center:      false,
-    width:       1050,
-    height:      680,
-    margin:      0.06,
-    plugins:     [],
+    controls:        true,
+    progress:        true,
+    center:          false,
+    width:           1050,
+    height:          680,
+    margin:          0.05,
+    plugins:         [],
   });
 </script>
 </body>
