@@ -4,6 +4,7 @@ from experiments.configs.experiment_config import ExperimentConfig
 from experiments.configs.builders import (
     build_exp1_configs,
     build_exp2_configs,
+    build_exp2b_configs,
     build_interaction_configs,
     build_oat_configs,
 )
@@ -69,11 +70,14 @@ def test_unique_config_names_across_builders():
     all_configs = (
         build_exp1_configs()
         + build_exp2_configs()
+        + build_exp2b_configs()
         + build_oat_configs()
         + build_interaction_configs()
     )
     names = [c.name for c in all_configs]
-    assert len(names) == len(set(names)), f"Duplicate names found: {[n for n in names if names.count(n) > 1]}"
+    assert len(names) == len(set(names)), (
+        f"Duplicate names found: {[n for n in names if names.count(n) > 1]}"
+    )
 
 
 def test_exp1_config_count():
@@ -130,3 +134,98 @@ def test_exp2_all_mixed():
     """All Exp2 configs use mixed institution."""
     for cfg in build_exp2_configs():
         assert cfg.institution == "mixed"
+
+
+def test_new_fields_default_none_and_zero():
+    """New alpha_* fields default to None; frac_griefer defaults to 0.0."""
+    cfg = ExperimentConfig(
+        name="test", experiment="test",
+        n_communities=100, n_platforms=9, p_space=10, t_max=50,
+        institution="mixed", rho_extremist=0.10, alpha=5.0,
+    )
+    assert cfg.alpha_ideologue is None
+    assert cfg.alpha_griefer is None
+    assert cfg.frac_griefer == 0.0
+
+
+def test_to_params_fallback_to_alpha_when_disagg_unset():
+    """When alpha_ideologue/griefer unset, both resolve to alpha."""
+    cfg = ExperimentConfig(
+        name="test", experiment="test",
+        n_communities=100, n_platforms=9, p_space=10, t_max=50,
+        institution="mixed", rho_extremist=0.10, alpha=5.0,
+    )
+    params = cfg.to_params(0)
+    assert params["alpha_ideologue"] == 5.0
+    assert params["alpha_griefer"] == 5.0
+    assert params["frac_griefer"] == 0.0
+
+
+def test_to_params_passes_disaggregated_alphas():
+    """Explicit alpha_ideologue and alpha_griefer flow into params."""
+    cfg = ExperimentConfig(
+        name="test", experiment="exp2b",
+        n_communities=900, n_platforms=9, p_space=10, t_max=100,
+        institution="mixed", rho_extremist=0.10, alpha=2.0,
+        alpha_ideologue=2.0, alpha_griefer=10.0, frac_griefer=0.5,
+    )
+    params = cfg.to_params(0)
+    assert params["alpha_ideologue"] == 2.0
+    assert params["alpha_griefer"] == 10.0
+    assert params["frac_griefer"] == 0.5
+
+
+def test_to_dict_includes_new_fields():
+    cfg = ExperimentConfig(
+        name="test", experiment="exp2b",
+        n_communities=900, n_platforms=9, p_space=10, t_max=100,
+        institution="mixed", rho_extremist=0.10, alpha=2.0,
+        alpha_ideologue=2.0, alpha_griefer=10.0, frac_griefer=0.25,
+    )
+    d = cfg.to_dict()
+    assert d["alpha_ideologue"] == 2.0
+    assert d["alpha_griefer"] == 10.0
+    assert d["frac_griefer"] == 0.25
+
+
+def test_from_dict_accepts_legacy_dict_missing_new_fields():
+    """Loading a pre-disaggregation dict still works; new fields get defaults."""
+    legacy = {
+        "name": "legacy", "experiment": "exp2",
+        "n_communities": 900, "n_platforms": 9, "p_space": 10, "t_max": 100,
+        "institution": "mixed", "rho_extremist": 0.10, "alpha": 5.0,
+        "mu": 0.05, "coalitions": 5, "mutations": 3, "svd_groups": 10,
+        "search_steps": 10, "initial_distribution": "equal",
+        "tracking_enabled": True, "n_iterations": 200, "seed_base": 42,
+        "log_platform_detail": False,
+    }
+    cfg = ExperimentConfig.from_dict(legacy)
+    assert cfg.alpha_ideologue is None
+    assert cfg.alpha_griefer is None
+    assert cfg.frac_griefer == 0.0
+
+
+def test_exp2b_config_count():
+    """Experiment 2b produces 3 configs (f_g in {0.25, 0.50, 0.75})."""
+    assert len(build_exp2b_configs()) == 3
+
+
+def test_exp2b_configs_have_disaggregated_alpha():
+    for cfg in build_exp2b_configs():
+        assert cfg.experiment == "exp2b"
+        assert cfg.alpha_ideologue == 2.0
+        assert cfg.alpha_griefer == 10.0
+        assert cfg.rho_extremist == 0.10
+        assert cfg.n_platforms == 9
+        assert cfg.institution == "mixed"
+        assert cfg.tracking_enabled is True
+
+
+def test_exp2b_frac_griefer_sweep():
+    fracs = sorted(cfg.frac_griefer for cfg in build_exp2b_configs())
+    assert fracs == [0.25, 0.50, 0.75]
+
+
+def test_exp2b_names():
+    names = sorted(cfg.name for cfg in build_exp2b_configs())
+    assert names == ["exp2b_fg025", "exp2b_fg050", "exp2b_fg075"]

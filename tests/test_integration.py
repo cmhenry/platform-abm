@@ -119,3 +119,72 @@ class TestSeedReproducibility:
         assert model1.reporters["average_utility"] == model2.reporters["average_utility"]
 
 
+from platform_abm.config import CommunityType
+from tests.conftest import make_model
+
+
+class TestExtremistSubtypeSplit:
+    def test_all_ideologues_when_frac_griefer_zero(self):
+        params = {
+            "n_comms": 40, "n_plats": 1,
+            "extremists": "yes", "percent_extremists": 50,
+            "alpha": 3.0,
+            "alpha_ideologue": 2.0, "alpha_griefer": 10.0,
+            "frac_griefer": 0.0,
+        }
+        model = make_model(params)
+        ext = [c for c in model.communities
+               if c.type == CommunityType.EXTREMIST.value]
+        assert ext
+        assert all(c.subtype == "ideologue" for c in ext)
+        assert all(c.alpha == 2.0 for c in ext)
+
+    def test_all_griefers_when_frac_griefer_one(self):
+        params = {
+            "n_comms": 40, "n_plats": 1,
+            "extremists": "yes", "percent_extremists": 50,
+            "alpha": 3.0,
+            "alpha_ideologue": 2.0, "alpha_griefer": 10.0,
+            "frac_griefer": 1.0,
+        }
+        model = make_model(params)
+        ext = [c for c in model.communities
+               if c.type == CommunityType.EXTREMIST.value]
+        assert ext
+        assert all(c.subtype == "griefer" for c in ext)
+        assert all(c.alpha == 10.0 for c in ext)
+
+    def test_half_half_split(self):
+        params = {
+            "n_comms": 100, "n_plats": 1,
+            "extremists": "yes", "percent_extremists": 40,
+            "alpha": 3.0,
+            "alpha_ideologue": 2.0, "alpha_griefer": 10.0,
+            "frac_griefer": 0.5,
+        }
+        model = make_model(params)
+        ext = [c for c in model.communities
+               if c.type == CommunityType.EXTREMIST.value]
+        n_griefer = sum(1 for c in ext if c.subtype == "griefer")
+        n_ideologue = sum(1 for c in ext if c.subtype == "ideologue")
+        assert n_griefer + n_ideologue == len(ext)
+        # 40% of 100 = 40 extremists; 50% griefer = 20; allow ±1 for rounding.
+        assert abs(n_griefer - 20) <= 1
+        assert abs(n_ideologue - 20) <= 1
+
+    def test_legacy_params_default_to_ideologue(self):
+        """When alpha_* and frac_griefer are absent, all extremists become ideologues."""
+        params = {
+            "n_comms": 40, "n_plats": 1,
+            "extremists": "yes", "percent_extremists": 50,
+            "alpha": 3.0,
+        }
+        model = make_model(params)
+        ext = [c for c in model.communities
+               if c.type == CommunityType.EXTREMIST.value]
+        assert ext
+        assert all(c.subtype == "ideologue" for c in ext)
+        # alpha fallback: community.alpha stays at self.p.alpha (current behavior)
+        assert all(c.alpha == 3.0 for c in ext)
+
+

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/cohenr/data/projects/platform-abm/experiments/run_biography_configs.py", line 31, in <module>
+    from experiments.runner import ExperimentRunner
+  File "/home/cohenr/data/projects/platform-abm/experiments/runner.py", line 18, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'

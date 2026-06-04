@@ -38,6 +38,8 @@ class MiniTiebout(ap.Model):
         self._last_n_relocations = 0
         self._last_relocations_by_type: dict[str, int] = {}
         self.step_log: list[dict] = []
+        if getattr(self.p, 'log_platform_detail', False):
+            self.platform_detail_log: list[dict] = []
         self.step_series: dict = {
             'steps': [],
             'avg_utility': [],
@@ -163,10 +165,30 @@ class MiniTiebout(ap.Model):
                 platform.policies = platform.institution_strategy.cold_start_policies(platform)
 
     def _setup_community_types(self, extremists: list[int]) -> None:
-        """Set extremist community types and preferences (randomly all-zeros or all-ones)."""
+        """Set extremist community types, preferences, subtypes, and alpha.
+
+        Splits extremists into ideologues and griefers by `frac_griefer`.
+        Defaults (frac_griefer=0, alpha_ideologue=alpha_griefer=alpha)
+        reduce to the pre-disaggregation behavior: all extremists become
+        ideologues with the scalar alpha.
+        """
+        frac_griefer = getattr(self.p, "frac_griefer", 0.0)
+        default_alpha = getattr(self.p, "alpha", 1.0)
+        alpha_i = getattr(self.p, "alpha_ideologue", default_alpha)
+        alpha_g = getattr(self.p, "alpha_griefer", default_alpha)
+
+        n_griefers = int(round(len(extremists) * frac_griefer))
+        griefer_ids = set(self.random.sample(extremists, n_griefers))
+
         for comm_id in extremists:
             comm_sel = self.communities.select(self.communities.id == comm_id)
             comm_sel.type = CommunityType.EXTREMIST.value
+            if comm_id in griefer_ids:
+                comm_sel.subtype = "griefer"
+                comm_sel.alpha = alpha_g
+            else:
+                comm_sel.subtype = "ideologue"
+                comm_sel.alpha = alpha_i
             if self.random.random() < 0.5:
                 comm_sel.preferences = generate_zero_preferences(self.p.p_space)
             else:
@@ -241,6 +263,32 @@ class MiniTiebout(ap.Model):
             entry["per_type_relocations"] = dict(self._last_relocations_by_type)
 
         self.step_log.append(entry)
+
+        if getattr(self.p, 'log_platform_detail', False):
+            for platform in self.platforms:
+                mainstream_utils = [
+                    c.current_utility for c in platform.communities
+                    if c.type == 'mainstream'
+                ]
+                extremist_utils = [
+                    c.current_utility for c in platform.communities
+                    if c.type == 'extremist'
+                ]
+                self.platform_detail_log.append({
+                    "step": self.t,
+                    "platform_id": platform.id,
+                    "governance_type": platform.institution,
+                    "n_mainstream": len(mainstream_utils),
+                    "n_extremist": len(extremist_utils),
+                    "utility_mainstream": (
+                        sum(mainstream_utils) / len(mainstream_utils)
+                        if mainstream_utils else None
+                    ),
+                    "utility_extremist": (
+                        sum(extremist_utils) / len(extremist_utils)
+                        if extremist_utils else None
+                    ),
+                })
 
         # Populate columnar step_series
         ss = self.step_series

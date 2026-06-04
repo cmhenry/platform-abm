@@ -231,3 +231,32 @@ def build_interaction_configs() -> list[ExperimentConfig]:
             ))
 
     return configs
+
+
+def build_exp2b_configs() -> list[ExperimentConfig]:
+    """Experiment 2b: rho_e disaggregation at fixed rho_e=0.10, N_p=9.
+
+    Varies griefer fraction f_g in {0.25, 0.50, 0.75} with alpha_i=2
+    and alpha_g=10. Endpoints (f_g=0 and f_g=1) reuse exp2 runs at
+    analysis time, so only 3 new configs x 200 iterations = 600 runs.
+    """
+    configs = []
+    for fg in [0.25, 0.50, 0.75]:
+        fg_str = f"{fg:.2f}".replace(".", "")
+        configs.append(ExperimentConfig(
+            name=f"exp2b_fg{fg_str}",
+            experiment="exp2b",
+            n_communities=900,
+            n_platforms=9,
+            p_space=10,
+            t_max=100,
+            institution="mixed",
+            rho_extremist=0.10,
+            alpha=2.0,
+            alpha_ideologue=2.0,
+            alpha_griefer=10.0,
+            frac_griefer=fg,
+            tracking_enabled=True,
+            **_COMMON_FIXED,
+        ))
+    return configs

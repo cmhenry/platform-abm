@@ -203,3 +203,67 @@ class TestAlphaValues:
         full = compute_utility(comm, plat)
         # n_ext=1, n_main=1, total=2, penalty = alpha * (1/2) = alpha/2
         assert full == pytest.approx(base - alpha / 2)
+
+
+class TestAttackerWeightedLoss:
+    def test_mixed_subtypes_attacker_weighted(self):
+        """Mainstream loss weights by attacker subtype: alpha_i*n_i + alpha_g*n_g."""
+        model = make_model({
+            "n_comms": 5, "n_plats": 1,
+            "alpha": 2.0,
+        })
+        # Inject disaggregated alphas onto the model's params.
+        model.p.alpha_ideologue = 2.0
+        model.p.alpha_griefer = 10.0
+
+        plat = model.platforms[0]
+        comms = list(plat.communities)
+        # comms[0] mainstream; 2 ideologues, 2 griefers.
+        comms[0].type = CommunityType.MAINSTREAM.value
+        for c in comms[1:3]:
+            c.type = CommunityType.EXTREMIST.value
+            c.subtype = "ideologue"
+            c.alpha = 2.0
+        for c in comms[3:5]:
+            c.type = CommunityType.EXTREMIST.value
+            c.subtype = "griefer"
+            c.alpha = 10.0
+        comm = comms[0]
+        base = compute_base_utility(comm, plat)
+        full = compute_utility(comm, plat)
+        # (2.0 * 2 + 10.0 * 2) / 4 = 6.0
+        assert full == pytest.approx(base - 6.0)
+
+    def test_all_ideologues_equals_alpha_i(self):
+        """With only ideologues, loss is alpha_ideologue * (n_ext / total)."""
+        model = make_model({"n_comms": 4, "n_plats": 1, "alpha": 2.0})
+        model.p.alpha_ideologue = 2.0
+        model.p.alpha_griefer = 10.0
+        plat = model.platforms[0]
+        comms = list(plat.communities)
+        comms[0].type = CommunityType.MAINSTREAM.value
+        for c in comms[1:]:
+            c.type = CommunityType.EXTREMIST.value
+            c.subtype = "ideologue"
+            c.alpha = 2.0
+        comm = comms[0]
+        base = compute_base_utility(comm, plat)
+        full = compute_utility(comm, plat)
+        assert full == pytest.approx(base - 2.0)
+
+    def test_all_griefers_equals_alpha_g(self):
+        """With only griefers, loss is alpha_griefer * (n_ext / total)."""
+        model = make_model({"n_comms": 4, "n_plats": 1, "alpha": 10.0})
+        model.p.alpha_ideologue = 2.0
+        model.p.alpha_griefer = 10.0
+        plat = model.platforms[0]
+        comms = list(plat.communities)
+        comms[0].type = CommunityType.MAINSTREAM.value
+        for c in comms[1:]:
+            c.type = CommunityType.EXTREMIST.value
+            c.subtype = "griefer"
+            c.alpha = 10.0
+        comm = comms[0]
+        base = compute_base_utility(comm, plat)
+        full = compute_utility(comm, plat)
+        assert full == pytest.approx(base - 10.0)

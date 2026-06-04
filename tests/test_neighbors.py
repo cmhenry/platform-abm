@@ -132,22 +132,29 @@ class TestAlgorithmicNeighbors:
 
 class TestNeighborCounts:
     def test_correct_partition(self):
-        """Counts correctly partition neighbors into mainstream and extremist."""
-        model = make_model({"extremists": "yes", "percent_extremists": 30, "n_comms": 20, "n_plats": 1})
+        """Counts partition neighbors into mainstream/ideologue/griefer."""
+        model = make_model({
+            "extremists": "yes", "percent_extremists": 30,
+            "n_comms": 20, "n_plats": 1,
+        })
         plat = model.platforms[0]
         for comm in plat.communities:
             counts = get_neighbor_counts(comm, plat)
             neighbors = get_neighbors(comm, plat)
-            assert counts["n_mainstream"] + counts["n_extremist"] == len(neighbors)
+            assert (
+                counts["n_mainstream"] + counts["n_ideologue"] + counts["n_griefer"]
+                == len(neighbors)
+            )
 
     def test_zero_counts_when_solo(self):
-        """Solo community has zero for both counts."""
+        """Solo community has zero for all subtype counts."""
         model = make_model({"n_comms": 1, "n_plats": 1})
         comm = model.communities[0]
         plat = model.platforms[0]
         counts = get_neighbor_counts(comm, plat)
         assert counts["n_mainstream"] == 0
-        assert counts["n_extremist"] == 0
+        assert counts["n_ideologue"] == 0
+        assert counts["n_griefer"] == 0
 
     def test_all_mainstream(self, direct_model):
         """With no extremists, all neighbors are mainstream."""
@@ -156,5 +163,24 @@ class TestNeighborCounts:
             pytest.skip("Empty platform")
         comm = plat.communities[0]
         counts = get_neighbor_counts(comm, plat)
-        assert counts["n_extremist"] == 0
+        assert counts["n_ideologue"] == 0
+        assert counts["n_griefer"] == 0
         assert counts["n_mainstream"] == len(plat.communities) - 1
+
+    def test_subtype_split(self):
+        """Extremists with subtype='ideologue' counted as ideologues, 'griefer' as griefers."""
+        from platform_abm.config import CommunityType
+        model = make_model({"n_comms": 6, "n_plats": 1})
+        plat = model.platforms[0]
+        comms = list(plat.communities)
+        # Leave comms[0] mainstream. Mark 2 ideologues, 3 griefers.
+        for c in comms[1:3]:
+            c.type = CommunityType.EXTREMIST.value
+            c.subtype = "ideologue"
+        for c in comms[3:6]:
+            c.type = CommunityType.EXTREMIST.value
+            c.subtype = "griefer"
+        counts = get_neighbor_counts(comms[0], plat)
+        assert counts["n_mainstream"] == 0
+        assert counts["n_ideologue"] == 2
+        assert counts["n_griefer"] == 3

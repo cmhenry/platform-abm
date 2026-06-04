@@ -72,3 +72,89 @@ class TestRegressionBaselines:
         r2 = _run_model("algorithmic")
         assert r1["average_moves"] == r2["average_moves"]
         assert r1["average_utility"] == r2["average_utility"]
+
+
+from experiments.configs.builders import build_exp2_configs, build_exp2b_configs
+from platform_abm.metrics import compute_extremist_metrics
+from tests.conftest import make_model
+
+
+class TestExtremistMetricsSubtypes:
+    def test_both_subtypes_reported_when_present(self):
+        model = make_model({
+            "n_comms": 100, "n_plats": 1,
+            "extremists": "yes", "percent_extremists": 40,
+            "alpha": 3.0,
+            "alpha_ideologue": 2.0, "alpha_griefer": 10.0,
+            "frac_griefer": 0.5,
+        })
+        # Force utility update so current_utility is populated.
+        for comm in model.communities:
+            comm.update_utility()
+        metrics = compute_extremist_metrics(model.communities)
+        assert "average_mainstream_utility" in metrics
+        assert "average_extremist_utility" in metrics
+        assert "average_ideologue_utility" in metrics
+        assert "average_griefer_utility" in metrics
+
+    def test_ideologue_key_omitted_when_no_ideologues(self):
+        model = make_model({
+            "n_comms": 100, "n_plats": 1,
+            "extremists": "yes", "percent_extremists": 40,
+            "alpha": 10.0,
+            "alpha_ideologue": 2.0, "alpha_griefer": 10.0,
+            "frac_griefer": 1.0,
+        })
+        for comm in model.communities:
+            comm.update_utility()
+        metrics = compute_extremist_metrics(model.communities)
+        assert "average_griefer_utility" in metrics
+        assert "average_ideologue_utility" not in metrics
+
+    def test_griefer_key_omitted_when_no_griefers(self):
+        model = make_model({
+            "n_comms": 100, "n_plats": 1,
+            "extremists": "yes", "percent_extremists": 40,
+            "alpha": 2.0,
+            "alpha_ideologue": 2.0, "alpha_griefer": 10.0,
+            "frac_griefer": 0.0,
+        })
+        for comm in model.communities:
+            comm.update_utility()
+        metrics = compute_extremist_metrics(model.communities)
+        assert "average_ideologue_utility" in metrics
+        assert "average_griefer_utility" not in metrics
+
+
+class TestExp2bSmoke:
+    def test_single_iteration_per_config(self):
+        """Each exp2b config runs to completion and reports both subtype utilities."""
+        for cfg in build_exp2b_configs():
+            params = cfg.to_params(iteration=0)
+            # Shrink for speed — smoke only checks end-to-end plumbing.
+            params["steps"] = 3
+            params["n_comms"] = 60
+            model = MiniTiebout(params)
+            model.run()
+            metrics = compute_extremist_metrics(model.communities)
+            assert "average_ideologue_utility" in metrics
+            assert "average_griefer_utility" in metrics
+            for v in metrics.values():
+                assert v == v  # not NaN
+
+
+class TestExp2ParamsUnchanged:
+    def test_exp2_params_dict_shape_unchanged_for_existing_keys(self):
+        """Adding new keys to to_params() must not change existing values."""
+        cfg = build_exp2_configs()[0]
+        params = cfg.to_params(iteration=0)
+        # Spot-check the load-bearing keys.
+        assert params["n_comms"] == cfg.n_communities
+        assert params["n_plats"] == cfg.n_platforms
+        assert params["steps"] == cfg.t_max
+        assert params["alpha"] == cfg.alpha
+        assert params["percent_extremists"] == int(cfg.rho_extremist * 100)
+        # New keys exist and fall back to the scalar alpha.
+        assert params["alpha_ideologue"] == cfg.alpha
+        assert params["alpha_griefer"] == cfg.alpha
+        assert params["frac_griefer"] == 0.0

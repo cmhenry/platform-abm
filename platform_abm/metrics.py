@@ -60,10 +60,26 @@ def compute_mixed_institution_metrics(
 
 
 def compute_extremist_metrics(communities: ap.AgentList) -> dict[str, float]:
-    """Compute per-capita utility for extremist and mainstream communities."""
+    """Per-capita utility for mainstream, extremist, and (when present)
+    ideologue and griefer subgroups.
+
+    Ideologue/griefer keys are omitted when their subgroup is empty so
+    endpoints of the f_g sweep don't trigger ZeroDivisionError.
+    """
     extremists = communities.select(communities.type == "extremist")
     mainstream = communities.select(communities.type == "mainstream")
-    return {
+    metrics: dict[str, float] = {
         "average_extremist_utility": sum(extremists.current_utility) / len(extremists),
         "average_mainstream_utility": sum(mainstream.current_utility) / len(mainstream),
     }
+    ideologues = communities.select(communities.subtype == "ideologue")
+    griefers = communities.select(communities.subtype == "griefer")
+    if len(ideologues) > 0:
+        metrics["average_ideologue_utility"] = (
+            sum(ideologues.current_utility) / len(ideologues)
+        )
+    if len(griefers) > 0:
+        metrics["average_griefer_utility"] = (
+            sum(griefers.current_utility) / len(griefers)
+        )
+    return metrics

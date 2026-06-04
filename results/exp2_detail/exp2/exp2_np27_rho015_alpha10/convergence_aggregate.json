@@ -1,0 +1,31 @@
+{
+  "n_iterations": 50,
+  "pattern_counts": {
+    "NOISY_PLATEAU": 16,
+    "STILL_CLIMBING": 29,
+    "OSCILLATING": 5
+  },
+  "settling_step_mean": 99.54,
+  "settling_step_sd": 0.908238932871562,
+  "final_utility_mean": 6.717929551726424,
+  "final_utility_sd": 0.11678413241180391,
+  "second_half_gain_mean": 0.0022150229988456616,
+  "second_half_gain_sd": 0.17290717269816488,
+  "per_governance_pattern_counts": {
+    "algorithmic": {
+      "NOISY_PLATEAU": 7,
+      "STILL_CLIMBING": 30,
+      "OSCILLATING": 13
+    },
+    "coalition": {
+      "STILL_CLIMBING": 20,
+      "OSCILLATING": 26,
+      "NOISY_PLATEAU": 4
+    },
+    "direct": {
+      "STILL_CLIMBING": 25,
+      "OSCILLATING": 24,
+      "NOISY_PLATEAU": 1
+    }
+  }
+}

@@ -1,3 +1,4 @@
+.DS_STORE
 .venv
 .ipynb_checkpoints
 __pycache__
@@ -13,4 +14,19 @@ build/
 htmlcov/
 TASKLIST.md
 .worktrees/
-*.pdf
+
+# LaTeX build artifacts
+draft/*.aux
+draft/*.bbl
+draft/*.blg
+draft/*.fdb_latexmk
+draft/*.fls
+draft/*.log
+draft/*.out
+draft/*.synctex.gz
+draft/*.toc
+draft/*.lof
+draft/*.lot
+draft/*.run.xml
+draft/*-blx.bib
+draft/*.pdf

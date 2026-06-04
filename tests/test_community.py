@@ -99,3 +99,23 @@ class TestCommunityStrategy:
         comm.update_utility()
         comm.set_strategy()
         assert comm.strategy in (Strategy.STAY.value, Strategy.MOVE.value)
+
+
+class TestCommunitySubtype:
+    def test_default_subtype_is_empty(self):
+        """Fresh communities have empty subtype before extremist setup."""
+        model = make_model({"n_comms": 4, "n_plats": 1})
+        for comm in model.communities:
+            assert comm.subtype == ""
+
+    def test_mainstream_subtype_stays_empty_with_extremists(self):
+        """When extremists are flagged, mainstream communities keep subtype ''."""
+        model = make_model({
+            "n_comms": 10, "n_plats": 1,
+            "extremists": "yes", "percent_extremists": 30,
+        })
+        mainstream = [c for c in model.communities
+                      if c.type == CommunityType.MAINSTREAM.value]
+        assert mainstream
+        for comm in mainstream:
+            assert comm.subtype == ""

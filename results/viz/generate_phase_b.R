@@ -305,10 +305,16 @@ burst_015 <- burst_master %>%
     alpha_f = factor(alpha, levels = alpha_levels)
   )
 
+# Compute fill-range midpoints for conditional text colour
+burst_size_mid <- mean(range(burst_015$median_burst_size, na.rm = TRUE))
+burst_rate_mid <- mean(range(burst_015$burst_rate, na.rm = TRUE))
+
 # Panel 1: Median burst size
 p_b4a <- ggplot(burst_015, aes(x = alpha_f, y = np_f, fill = median_burst_size)) +
   geom_tile(colour = "white", linewidth = 0.8) +
-  geom_text(aes(label = sprintf("%.0f", median_burst_size)), size = 4, colour = "black") +
+  geom_text(aes(label = sprintf("%.0f", median_burst_size),
+                colour = median_burst_size > burst_size_mid), size = 4, show.legend = FALSE) +
+  scale_colour_manual(values = c("FALSE" = "black", "TRUE" = "white")) +
   scale_fill_viridis_c(name = "Median\nburst size", option = "magma", direction = -1) +
   labs(
     title = "Median Burst Size",
@@ -320,7 +326,9 @@ p_b4a <- ggplot(burst_015, aes(x = alpha_f, y = np_f, fill = median_burst_size))
 # Panel 2: Burst rate
 p_b4b <- ggplot(burst_015, aes(x = alpha_f, y = np_f, fill = burst_rate)) +
   geom_tile(colour = "white", linewidth = 0.8) +
-  geom_text(aes(label = sprintf("%.2f", burst_rate)), size = 4, colour = "black") +
+  geom_text(aes(label = sprintf("%.2f", burst_rate),
+                colour = burst_rate > burst_rate_mid), size = 4, show.legend = FALSE) +
+  scale_colour_manual(values = c("FALSE" = "black", "TRUE" = "white")) +
   scale_fill_viridis_c(name = "Burst\nrate", option = "magma", direction = -1) +
   labs(
     title = "Burst Rate",
@@ -344,43 +352,56 @@ save_fig(p_b4, "fig_burst_heatmap", width = 10, height = 4.5)
 
 message("\n--- B5: Enclave Trajectory ---")
 
-enclave_path <- file.path(exp2_dir, "exp2_np27_rho015_alpha5",
-                           "dynamics", "enclaves.json")
-enc <- fromJSON(enclave_path)
+build_enclave_panel <- function(config_dir, subtitle_expr) {
+  enclave_path <- file.path(exp2_dir, config_dir, "dynamics", "enclaves.json")
+  enc <- fromJSON(enclave_path)
 
-# Build long-format data from per-platform homogeneity series
-enc_long <- map_dfr(names(enc), function(pid) {
-  tibble(
-    platform = pid,
-    step     = seq_along(enc[[pid]]$homogeneity_series),
-    homogeneity = enc[[pid]]$homogeneity_series
+  enc_long <- map_dfr(names(enc), function(pid) {
+    tibble(
+      platform    = pid,
+      step        = seq_along(enc[[pid]]$homogeneity_series),
+      homogeneity = enc[[pid]]$homogeneity_series
+    )
+  })
+
+  enc_mean <- enc_long %>%
+    group_by(step) %>%
+    summarise(homogeneity = mean(homogeneity), .groups = "drop") %>%
+    mutate(platform = "mean")
+
+  ggplot() +
+    geom_hline(yintercept = 0.9, linetype = "dashed", colour = "grey50", linewidth = 0.5) +
+    geom_line(data = enc_long,
+              aes(x = step, y = homogeneity, group = platform),
+              colour = "grey70", linewidth = 0.4, alpha = 0.7) +
+    geom_line(data = enc_mean,
+              aes(x = step, y = homogeneity),
+              colour = "#009E73", linewidth = 1.2) +
+    scale_y_continuous(limits = c(0, 1.05), breaks = seq(0, 1, 0.2)) +
+    labs(
+      x        = "Simulation step",
+      y        = "Coalition platform homogeneity",
+      subtitle = subtitle_expr
+    )
+}
+
+p_success <- build_enclave_panel(
+  "exp2_np27_rho015_alpha5",
+  expression(N[p] == 27 ~ ", " ~ alpha == 5 ~ " (success)")
+)
+
+p_failure <- build_enclave_panel(
+  "exp2_np3_rho015_alpha10",
+  expression(N[p] == 3 ~ ", " ~ alpha == 10 ~ " (failure)")
+)
+
+fig_enclave_trajectory <- (p_success | p_failure) +
+  plot_annotation(
+    subtitle = expression(rho[e] == 0.15),
+    theme    = theme(plot.subtitle = element_text(hjust = 0.5, size = 12))
   )
-})
 
-# Compute mean across platforms per step
-enc_mean <- enc_long %>%
-  group_by(step) %>%
-  summarise(homogeneity = mean(homogeneity), .groups = "drop") %>%
-  mutate(platform = "mean")
-
-p_b5 <- ggplot() +
-  geom_hline(yintercept = 0.9, linetype = "dashed", colour = "grey50", linewidth = 0.5) +
-  geom_line(data = enc_long,
-            aes(x = step, y = homogeneity, group = platform),
-            colour = "grey70", linewidth = 0.4, alpha = 0.7) +
-  geom_line(data = enc_mean,
-            aes(x = step, y = homogeneity),
-            colour = "#009E73", linewidth = 1.2) +
-  annotate("text", x = 85, y = 0.92, label = "Enclave threshold (0.9)",
-           size = 3, colour = "grey50") +
-  scale_y_continuous(limits = c(0, 1.05), breaks = seq(0, 1, 0.2)) +
-  labs(
-    x = "Simulation step",
-    y = "Coalition platform homogeneity",
-    subtitle = expression(N[p] == 27 ~ ", " ~ rho[e] == 0.15 ~ ", " ~ alpha == 5)
-  )
-
-save_fig(p_b5, "fig_enclave_trajectory", width = 8, height = 5)
+save_fig(fig_enclave_trajectory, "fig_enclave_trajectory", width = 12, height = 5)
 
 
 message("\n=== All Phase B figures generated ===")
