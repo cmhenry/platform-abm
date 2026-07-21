@@ -95,6 +95,7 @@ Communities evaluate their current platform with full utility (including vampiri
 | `search_steps` | Hill-climbing iterations per coalition | 10 |
 | `svd_groups` | Target cluster count for K-means (algorithmic) | 3 |
 | `initial_distribution` | Starting assignment: `random` or `equal` | `random` |
+| `relocation_update_order` | Relocation timing: `simultaneous` (two-phase baseline) or `staggered` (random sequential same-step robustness variant) | `simultaneous` |
 | `stop_condition` | Termination: `steps` or `satisficed` (all agents stay) | `steps` |
 | `seed` | Random seed for reproducibility | `None` |
 

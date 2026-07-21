@@ -1,13 +1,14 @@
 """Tests for ExperimentConfig and config builders."""
 
-from experiments.configs.experiment_config import ExperimentConfig
 from experiments.configs.builders import (
     build_exp1_configs,
     build_exp2_configs,
     build_exp2b_configs,
     build_interaction_configs,
     build_oat_configs,
+    build_staggered_relocation_configs,
 )
+from experiments.configs.experiment_config import ExperimentConfig
 
 
 def test_to_params_maps_correctly():
@@ -130,6 +131,18 @@ def test_mu_default_in_params():
     assert cfg.to_params(0)["mu"] == 0.05
 
 
+def test_relocation_update_order_flows_to_params_and_dict():
+    """Robustness configs can request staggered relocation update order."""
+    cfg = ExperimentConfig(
+        name="test_staggered", experiment="robustness",
+        n_communities=100, n_platforms=9, p_space=10, t_max=50,
+        institution="mixed", rho_extremist=0.10, alpha=5.0,
+        relocation_update_order="staggered",
+    )
+    assert cfg.to_params(0)["relocation_update_order"] == "staggered"
+    assert cfg.to_dict()["relocation_update_order"] == "staggered"
+
+
 def test_exp2_all_mixed():
     """All Exp2 configs use mixed institution."""
     for cfg in build_exp2_configs():
@@ -229,3 +242,15 @@ def test_exp2b_frac_griefer_sweep():
 def test_exp2b_names():
     names = sorted(cfg.name for cfg in build_exp2b_configs())
     assert names == ["exp2b_fg025", "exp2b_fg050", "exp2b_fg075"]
+
+
+def test_staggered_relocation_config_grid_matches_exp2_factorial():
+    configs = build_staggered_relocation_configs()
+    assert len(configs) == 27
+    assert all(cfg.experiment == "robustness_staggered" for cfg in configs)
+    assert all(cfg.institution == "mixed" for cfg in configs)
+    assert all(cfg.tracking_enabled is True for cfg in configs)
+    assert all(cfg.relocation_update_order == "staggered" for cfg in configs)
+    assert sorted({cfg.n_platforms for cfg in configs}) == [3, 9, 27]
+    assert sorted({cfg.rho_extremist for cfg in configs}) == [0.05, 0.10, 0.15]
+    assert sorted({cfg.alpha for cfg in configs}) == [2.0, 5.0, 10.0]

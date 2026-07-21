@@ -31,6 +31,11 @@ class StopCondition(str, Enum):
     SATISFICED = "satisficed"
 
 
+class RelocationUpdateOrder(str, Enum):
+    SIMULTANEOUS = "simultaneous"
+    STAGGERED = "staggered"
+
+
 # Named constants
 MAJORITY_THRESHOLD = 0.5
 COLD_START_BUNDLE_COUNT = 5
@@ -58,6 +63,7 @@ class SimulationConfig(BaseModel):
     alpha: float = 1.0
     mu: float = 0.05
     initial_distribution: str = "random"
+    relocation_update_order: RelocationUpdateOrder = RelocationUpdateOrder.SIMULTANEOUS
     seed: int | None = None
 
     @field_validator("institution", mode="before")
@@ -77,6 +83,11 @@ class SimulationConfig(BaseModel):
     @field_validator("stop_condition", mode="before")
     @classmethod
     def normalize_stop_condition(cls, v: str) -> str:
+        return v.lower()
+
+    @field_validator("relocation_update_order", mode="before")
+    @classmethod
+    def normalize_relocation_update_order(cls, v: str) -> str:
         return v.lower()
 
     @model_validator(mode="after")
@@ -108,5 +119,6 @@ class SimulationConfig(BaseModel):
             "alpha": self.alpha,
             "mu": self.mu,
             "initial_distribution": self.initial_distribution,
+            "relocation_update_order": self.relocation_update_order.value,
             **({"seed": self.seed} if self.seed is not None else {}),
         }

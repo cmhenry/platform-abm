@@ -47,13 +47,28 @@ def build_exp1_configs() -> list[ExperimentConfig]:
 
     configs = [
         # 1a-1c: Homogeneous institutions, N_p=9
-        ExperimentConfig(name="exp1_direct_np9", institution="direct", n_platforms=9, **_exp1_shared),
-        ExperimentConfig(name="exp1_coalition_np9", institution="coalition", n_platforms=9, **_exp1_shared),
-        ExperimentConfig(name="exp1_algorithmic_np9", institution="algorithmic", n_platforms=9, **_exp1_shared),
+        ExperimentConfig(
+            name="exp1_direct_np9", institution="direct", n_platforms=9, **_exp1_shared
+        ),
+        ExperimentConfig(
+            name="exp1_coalition_np9", institution="coalition", n_platforms=9, **_exp1_shared
+        ),
+        ExperimentConfig(
+            name="exp1_algorithmic_np9",
+            institution="algorithmic",
+            n_platforms=9,
+            **_exp1_shared,
+        ),
         # 1d-1f: Mixed institution, varying N_p
-        ExperimentConfig(name="exp1_mixed_np9", institution="mixed", n_platforms=9, **_exp1_shared),
-        ExperimentConfig(name="exp1_mixed_np3", institution="mixed", n_platforms=3, **_exp1_shared),
-        ExperimentConfig(name="exp1_mixed_np27", institution="mixed", n_platforms=27, **_exp1_shared),
+        ExperimentConfig(
+            name="exp1_mixed_np9", institution="mixed", n_platforms=9, **_exp1_shared
+        ),
+        ExperimentConfig(
+            name="exp1_mixed_np3", institution="mixed", n_platforms=3, **_exp1_shared
+        ),
+        ExperimentConfig(
+            name="exp1_mixed_np27", institution="mixed", n_platforms=27, **_exp1_shared
+        ),
     ]
 
     return configs
@@ -86,6 +101,42 @@ def build_exp2_configs() -> list[ExperimentConfig]:
                     rho_extremist=rho,
                     alpha=alpha,
                     tracking_enabled=True,
+                    **_COMMON_FIXED,
+                ))
+
+    return configs
+
+
+def build_staggered_relocation_configs() -> list[ExperimentConfig]:
+    """Robustness grid: Exp2 factorial with staggered relocation update order.
+
+    This mirrors the main emergent-raiding factorial so the comparison isolates
+    relocation timing: baseline simultaneous two-phase moves versus randomized
+    same-step sequential moves. Production runs remain HPC-gated; this builder
+    just defines the full run manifest.
+    """
+    configs = []
+    n_platforms_values = [3, 9, 27]
+    rho_values = [0.05, 0.10, 0.15]
+    alpha_values = [2.0, 5.0, 10.0]
+
+    for np_val in n_platforms_values:
+        for rho in rho_values:
+            for alpha in alpha_values:
+                rho_str = f"{rho:.2f}".replace(".", "")
+                name = f"staggered_np{np_val}_rho{rho_str}_alpha{int(alpha)}"
+                configs.append(ExperimentConfig(
+                    name=name,
+                    experiment="robustness_staggered",
+                    n_communities=900,
+                    n_platforms=np_val,
+                    p_space=10,
+                    t_max=100,
+                    institution="mixed",
+                    rho_extremist=rho,
+                    alpha=alpha,
+                    tracking_enabled=True,
+                    relocation_update_order="staggered",
                     **_COMMON_FIXED,
                 ))
 

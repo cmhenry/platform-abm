@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any
 
 
@@ -28,6 +28,7 @@ class ExperimentConfig:
     svd_groups: int = 10
     search_steps: int = 10
     initial_distribution: str = "equal"
+    relocation_update_order: str = "simultaneous"
     tracking_enabled: bool = False
     n_iterations: int = 200
     seed_base: int = 42
@@ -58,6 +59,7 @@ class ExperimentConfig:
             "frac_griefer": self.frac_griefer,
             "mu": self.mu,
             "initial_distribution": self.initial_distribution,
+            "relocation_update_order": self.relocation_update_order,
             "seed": self.seed_base + iteration,
             "log_platform_detail": self.log_platform_detail,
         }
@@ -83,6 +85,7 @@ class ExperimentConfig:
             "svd_groups": self.svd_groups,
             "search_steps": self.search_steps,
             "initial_distribution": self.initial_distribution,
+            "relocation_update_order": self.relocation_update_order,
             "tracking_enabled": self.tracking_enabled,
             "n_iterations": self.n_iterations,
             "seed_base": self.seed_base,

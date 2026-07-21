@@ -315,10 +315,25 @@ class MiniTiebout(ap.Model):
             community.set_strategy()
 
     def _step_relocation(self) -> None:
-        """Batch-relocate communities that want to move.
+        """Relocate communities according to the configured update order."""
+        update_order = getattr(self.p, "relocation_update_order", "simultaneous")
+        if update_order == "simultaneous":
+            moves = self._collect_simultaneous_relocations()
+            self._apply_relocations(moves)
+        elif update_order == "staggered":
+            moves = self._apply_staggered_relocations()
+        else:
+            raise ValueError(
+                "relocation_update_order must be 'simultaneous' or 'staggered'"
+            )
 
-        Two-phase approach: collect all moves first, then execute them.
-        This ensures processing order doesn't affect outcomes.
+        self._finalize_relocations(moves)
+
+    def _collect_simultaneous_relocations(self) -> list[tuple[Community, Platform, Platform]]:
+        """Collect the precomputed move set for two-phase batch relocation.
+
+        The simultaneous baseline computes every community's move decision before
+        applying any moves, so processing order cannot affect destination choice.
         """
         moves = []
         for community in self.communities:
@@ -326,13 +341,51 @@ class MiniTiebout(ap.Model):
                 community.find_new_platform()
                 new_platform = self.random.choice(community.candidates)
                 moves.append((community, community.platform, new_platform))
+        return moves
 
+    def _apply_relocations(
+        self, moves: list[tuple[Community, Platform, Platform]]
+    ) -> None:
+        """Apply already selected relocations."""
         for community, old_platform, new_platform in moves:
             old_platform.rm_community(community)
             community.join_platform(new_platform)
             community.last_move_step = self.t
             new_platform.add_community(community)
 
+    def _apply_staggered_relocations(self) -> list[tuple[Community, Platform, Platform]]:
+        """Randomly order agents, recomputing and applying each move immediately.
+
+        This robustness variant lets later communities observe the platform
+        composition produced by earlier same-step relocations. It therefore tests
+        whether emergent raiding is an artifact of the baseline simultaneous
+        relocation update order.
+        """
+        moves = []
+        communities = list(self.communities)
+        self.random.shuffle(communities)
+
+        for community in communities:
+            community.update_utility()
+            community.set_strategy()
+            if community.strategy != Strategy.MOVE.value:
+                continue
+
+            community.find_new_platform()
+            new_platform = self.random.choice(community.candidates)
+            old_platform = community.platform
+            old_platform.rm_community(community)
+            community.join_platform(new_platform)
+            community.last_move_step = self.t
+            new_platform.add_community(community)
+            moves.append((community, old_platform, new_platform))
+
+        return moves
+
+    def _finalize_relocations(
+        self, moves: list[tuple[Community, Platform, Platform]]
+    ) -> None:
+        """Update relocation counters and tracker after a step's moves."""
         self._last_n_relocations = len(moves)
 
         if self.p.extremists == "yes":

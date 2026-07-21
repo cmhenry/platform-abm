@@ -110,3 +110,16 @@ class TestSimulationConfig:
         config = SimulationConfig(**self._base_params(mu=0.10))
         params = config.to_agentpy_params()
         assert params["mu"] == 0.10
+
+    def test_relocation_update_order_in_agentpy_params(self):
+        config = SimulationConfig(
+            **self._base_params(relocation_update_order="staggered")
+        )
+        params = config.to_agentpy_params()
+        assert params["relocation_update_order"] == "staggered"
+
+    def test_invalid_relocation_update_order(self):
+        with pytest.raises(ValueError):
+            SimulationConfig(
+                **self._base_params(relocation_update_order="front-to-back")
+            )

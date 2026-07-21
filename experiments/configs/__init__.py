@@ -5,6 +5,7 @@ from experiments.configs.builders import (
     build_exp2_configs,
     build_interaction_configs,
     build_oat_configs,
+    build_staggered_relocation_configs,
 )
 from experiments.configs.experiment_config import ExperimentConfig
 
@@ -14,4 +15,5 @@ __all__ = [
     "build_exp2_configs",
     "build_interaction_configs",
     "build_oat_configs",
+    "build_staggered_relocation_configs",
 ]
